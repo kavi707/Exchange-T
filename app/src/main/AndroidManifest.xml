@@ -42,7 +42,6 @@
         <activity android:name=".activities.SignInActivity" />
         <activity
             android:name=".activities.LandingActivity"
-            android:label="@string/title_activity_landing"
             android:theme="@style/AppTheme" />
         <activity android:name=".activities.RegisterActivity"></activity>
     </application>
