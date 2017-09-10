@@ -101,10 +101,10 @@ public class SharedPreferenceManager {
     }
 
     public static void setIsUserDataCaptured(Context context, boolean value){
-        writeBooleanSharePreference(context, IS_USER_LOGGED_IN, value);
+        writeBooleanSharePreference(context, IS_USER_DATA_CAPTURED, value);
     }
 
     public static boolean isUserDataCaptured(Context context){
-        return readBooleanSharePreference(context, IS_USER_LOGGED_IN);
+        return readBooleanSharePreference(context, IS_USER_DATA_CAPTURED);
     }
 }
