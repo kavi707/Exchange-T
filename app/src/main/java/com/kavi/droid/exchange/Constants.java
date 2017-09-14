@@ -6,4 +6,6 @@ package com.kavi.droid.exchange;
  */
 
 public class Constants {
+
+    public static final String LOG_TAG = "EXCHANGE-T";
 }
