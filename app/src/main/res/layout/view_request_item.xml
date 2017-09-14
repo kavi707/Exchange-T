@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.kavi.droid.exchange.views.RequestItemView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="120dp">
+
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        app:srcCompat="@drawable/com_facebook_auth_dialog_cancel_background"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:id="@+id/userImageView" />
+
+    <TextView
+        android:text="COLOMBO - KANDY"
+        android:textStyle="bold"
+        android:textSize="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/reqStartEndTextView"
+        android:layout_alignBottom="@+id/userImageView"
+        android:layout_alignStart="@+id/reqTypeTextView" />
+
+    <TextView
+        android:text="I Need"
+        android:textSize="18dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginBottom="5dp"
+        android:id="@+id/reqTypeTextView"
+        android:layout_above="@+id/reqStartEndTextView"
+        android:layout_toEndOf="@+id/userImageView" />
+
+    <TextView
+        android:text="Request Description / Details"
+        android:textSize="14dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/userImageView"
+        android:layout_alignStart="@+id/userImageView"
+        android:layout_marginTop="12dp"
+        android:id="@+id/reqDescriptionTextView"
+        android:layout_alignEnd="@+id/reqStartEndTextView" />
+
+    <TextView
+        android:text="59 minutes ago"
+        android:textSize="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="10dp"
+        android:gravity="right"
+        android:id="@+id/timeAgoTextView"
+        android:layout_toEndOf="@+id/reqDescriptionTextView" />
+
+    <TextView
+        android:text="30 May 2017"
+        android:gravity="right"
+        android:textStyle="bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ticketDateTextView"
+        android:layout_alignTop="@+id/userImageView"
+        android:layout_alignEnd="@+id/timeAgoTextView"
+        android:layout_toEndOf="@+id/reqStartEndTextView" />
+
+    <TextView
+        android:text="Friday"
+        android:gravity="right"
+        android:textStyle="bold"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ticketDateTextView"
+        android:layout_alignEnd="@+id/ticketDateTextView"
+        android:id="@+id/ticketDayTextView" />
+
+    <TextView
+        android:text="5.20 pm"
+        android:gravity="right"
+        android:textStyle="bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ticketTimeTextView"
+        android:layout_below="@+id/ticketDayTextView"
+        android:layout_alignEnd="@+id/ticketDayTextView" />
+
+</com.kavi.droid.exchange.views.RequestItemView>
