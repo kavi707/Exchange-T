@@ -14,6 +14,17 @@ public class TicketRequest {
 
     public static final int COLOMBO_KANDY = 0;
     public static final int KANDY_COLOMBO = 1;
+    public static final int COLOMBO_BADULLA = 2;
+    public static final int BADULLA_COLOMBO = 3;
+
+    public static final int COLOMBO_KURUNEGALA = 4;
+    public static final int KURUNEGALA_COLOMBO = 5;
+    public static final int COLOMBO_ANURADHAPURA = 6;
+    public static final int ANURADHAPURA_COLOMBO = 7;
+    public static final int COLOMBO_JAFNA = 8;
+    public static final int JAFNA_COLOMBO = 9;
+    public static final int COLOMBO_VAUNIYA = 10;
+    public static final int VAUNIYA_COLOMBO = 11;
 
     private int reqType;
     private int startToEnd;
