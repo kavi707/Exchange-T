@@ -17,6 +17,10 @@ public class SharedPreferenceManager {
     private static final String FB_USER_TOKEN = "FB_USER_TOKEN";
     private static final String FB_USER_DATA = "FB_USER_DATA";
     private static final String IS_USER_DATA_CAPTURED = "IS_USER_DATA_CAPTURED";
+    private static final String LOGGED_USER_NAME = "LOGGED_USER_NAME";
+    private static final String LOGGED_USER_EMAIL = "LOGGED_USER_EMAIL";
+    private static final String LOGGED_USER_IMAGE_URL = "LOGGED_USER_IMAGE_URL";
+    private static final String LOGGED_USER_NUMBER = "LOGGED_USER_NUMBER";
 
     /**
      * Store boolean shared preference value
@@ -106,5 +110,37 @@ public class SharedPreferenceManager {
 
     public static boolean isUserDataCaptured(Context context){
         return readBooleanSharePreference(context, IS_USER_DATA_CAPTURED);
+    }
+
+    public static void setLoggedUserName(Context context, String value) {
+        writeStringSharePreference(context, LOGGED_USER_NAME, value);
+    }
+
+    public static String getLoggedUserName(Context context){
+        return readStringSharePreference(context, LOGGED_USER_NAME);
+    }
+
+    public static void setLoggedUserEmail(Context context, String value) {
+        writeStringSharePreference(context, LOGGED_USER_EMAIL, value);
+    }
+
+    public static String getLoggedUserEmail(Context context){
+        return readStringSharePreference(context, LOGGED_USER_EMAIL);
+    }
+
+    public static void setLoggedUserImageUrl(Context context, String value) {
+        writeStringSharePreference(context, LOGGED_USER_IMAGE_URL, value);
+    }
+
+    public static String getLoggedUserImageUrl(Context context){
+        return readStringSharePreference(context, LOGGED_USER_IMAGE_URL);
+    }
+
+    public static void setLoggedUserNumber(Context context, String value) {
+        writeStringSharePreference(context, LOGGED_USER_NUMBER, value);
+    }
+
+    public static String getLoggedUserNumber(Context context){
+        return readStringSharePreference(context, LOGGED_USER_NUMBER);
     }
 }

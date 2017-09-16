@@ -40,6 +40,7 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText numberEditText;
 
     private Context context = this;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +58,7 @@ public class RegisterActivity extends AppCompatActivity {
         numberEditText = (EditText) findViewById(R.id.numberEditText);
         saveDataBtn = (Button) findViewById(R.id.saveDataBtn);
 
-        User user = populateDataFromFB();
+        user = populateDataFromFB();
 
         firstNameEditText.setText(user.getFirstName());
         lastNameEditText.setText(user.getLastName());
@@ -67,6 +68,10 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 SharedPreferenceManager.setIsUserDataCaptured(context, true);
+                SharedPreferenceManager.setLoggedUserName(context, firstNameEditText.getText().toString());
+                SharedPreferenceManager.setLoggedUserEmail(context, emailEditText.getText().toString());
+                SharedPreferenceManager.setLoggedUserImageUrl(context, user.getProfilePicUrl());
+                SharedPreferenceManager.setLoggedUserNumber(context, numberEditText.getText().toString());
 
                 Intent landingIntent = new Intent(RegisterActivity.this, LandingActivity.class);
                 landingIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
