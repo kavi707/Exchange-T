@@ -1,6 +1,146 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-</LinearLayout>
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        app:srcCompat="@drawable/com_facebook_auth_dialog_cancel_background"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="30dp"
+        android:id="@+id/profilePicImageView" />
+
+    <TextView
+        android:text="Me"
+        android:textStyle="bold"
+        android:textSize="22dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/profilePicImageView"
+        android:layout_toEndOf="@+id/profilePicImageView"
+        android:layout_marginStart="20dp"
+        android:id="@+id/meTextView" />
+
+    <TextView
+        android:text="Name"
+        android:textSize="18dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/profilePicImageView"
+        android:layout_alignStart="@+id/meTextView"
+        android:id="@+id/nameTextView" />
+
+    <RelativeLayout
+        android:id="@+id/contactInfoRelativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/profilePicImageView"
+        android:layout_alignStart="@+id/profilePicImageView"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp">
+
+        <TextView
+            android:text="Contact info:"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/contactInfoTextView" />
+
+        <EditText
+            android:hint="Phone Number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="phone"
+            android:layout_below="@+id/contactInfoTextView"
+            android:layout_alignParentStart="true"
+            android:id="@+id/phoneNumEditText"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"/>
+
+        <EditText
+            android:hint="Email Address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:id="@+id/emailEditText"
+            android:layout_below="@+id/phoneNumEditText"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="3dp"
+            android:layout_marginLeft="20dp"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/contactInfoRelativeLayout"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="20dp"
+        android:layout_alignEnd="@+id/contactInfoRelativeLayout">
+
+        <TextView
+            android:text="Ticket info:"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ticketsInfoTextView" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ticketsInfoTextView"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_alignParentEnd="true">
+
+            <TextView
+                android:hint="Date: "
+                android:textSize="16dp"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/dateTextView"/>
+
+            <TextView
+                android:hint="Ticket Date"
+                android:textSize="16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/ticketDateTextView"
+                android:layout_alignParentTop="true"
+                android:layout_toEndOf="@+id/dateTextView" />
+
+            <TextView
+                android:hint="Ticket Time"
+                android:textSize="16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:id="@+id/ticketTimeTextView"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true" />
+
+            <TextView
+                android:hint="Time: "
+                android:textSize="16dp"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:id="@+id/timeTextView"
+                android:layout_alignParentTop="true"
+                android:layout_toStartOf="@+id/ticketTimeTextView" />
+
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+</RelativeLayout>
