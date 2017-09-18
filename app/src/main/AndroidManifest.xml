@@ -43,7 +43,8 @@
         <activity
             android:name=".activities.LandingActivity"
             android:theme="@style/AppTheme" />
-        <activity android:name=".activities.RegisterActivity"></activity>
+        <activity android:name=".activities.RegisterActivity"/>
+        <activity android:name=".activities.AddRequestActivity" />
     </application>
 
 </manifest>
