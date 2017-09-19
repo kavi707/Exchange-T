@@ -6,20 +6,25 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.kavi.droid.exchange.R;
+import com.kavi.droid.exchange.models.Destination;
 import com.kavi.droid.exchange.services.imageLoader.ImageLoadingManager;
 import com.kavi.droid.exchange.services.sharedPreferences.SharedPreferenceManager;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by kwijewardana on 9/15/17.
@@ -37,19 +42,25 @@ public class AddRequestActivity extends Activity {
     private EditText phoneNumEditText;
     private EditText emailEditText;
 
+    private Spinner destinationSpinner;
+
     private Context context = this;
     private int selectedYear, selectedMonth, selectedDay;
     private int selectedHour, selectedMinute;
 
     private ImageLoadingManager imageLoadingManager;
+    private List<Destination> destinationList;
+    private List<String> destinationNameList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_request);
 
-        setUpViews();
+        initDestinationList();
         setCurrentDateTime();
+
+        setUpViews();
     }
 
     private void setUpViews() {
@@ -60,6 +71,7 @@ public class AddRequestActivity extends Activity {
         nameTextView = (TextView) findViewById(R.id.nameTextView);
         phoneNumEditText = (EditText) findViewById(R.id.phoneNumEditText);
         emailEditText = (EditText) findViewById(R.id.emailEditText);
+        destinationSpinner = (Spinner) findViewById(R.id.destinationSpinner);
 
         if(SharedPreferenceManager.isUserLogIn(context)) {
             imageLoadingManager.loadImageToImageView(SharedPreferenceManager.getLoggedUserImageUrl(context),
@@ -71,6 +83,10 @@ public class AddRequestActivity extends Activity {
             if (SharedPreferenceManager.getLoggedUserEmail(context) != null)
                 emailEditText.setText(SharedPreferenceManager.getLoggedUserEmail(context));
         }
+
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, destinationNameList);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        destinationSpinner.setAdapter(dataAdapter);
 
         ticketDateTextView = (TextView) findViewById(R.id.ticketDateTextView);
         ticketDateTextView.setKeyListener(null);
@@ -149,5 +165,35 @@ public class AddRequestActivity extends Activity {
         }
 
         return dateString;
+    }
+
+    private void initDestinationList() {
+        destinationList = new ArrayList<>();
+        destinationList.add(new Destination(0, "COLOMBO - KANDY"));
+        destinationList.add(new Destination(1, "KANDY - COLOMBO"));
+        destinationList.add(new Destination(2, "COLOMBO - BADULLA"));
+        destinationList.add(new Destination(3, "BADULLA - COLOMBO"));
+        destinationList.add(new Destination(4, "COLOMBO - KURUNEGALA"));
+        destinationList.add(new Destination(5, "KURUNEGALA - COLOMBO"));
+        destinationList.add(new Destination(6, "COLOMBO - ANURADHAPURA"));
+        destinationList.add(new Destination(7, "ANURADHAPURA - COLOMBO"));
+        destinationList.add(new Destination(8, "COLOMBO - JAFNA"));
+        destinationList.add(new Destination(9, "JAFNA - COLOMBO"));
+        destinationList.add(new Destination(10, "COLOMBO - VAUNIYA"));
+        destinationList.add(new Destination(11, "VAUNIYA - COLOMBO"));
+
+        destinationNameList = new ArrayList<>();
+        destinationNameList.add("COLOMBO - KANDY");
+        destinationNameList.add("KANDY - COLOMBO");
+        destinationNameList.add("COLOMBO - BADULLA");
+        destinationNameList.add("BADULLA - COLOMBO");
+        destinationNameList.add("COLOMBO - KURUNEGALA");
+        destinationNameList.add("KURUNEGALA - COLOMBO");
+        destinationNameList.add("COLOMBO - ANURADHAPURA");
+        destinationNameList.add("ANURADHAPURA - COLOMBO");
+        destinationNameList.add("COLOMBO - JAFNA");
+        destinationNameList.add("JAFNA - COLOMBO");
+        destinationNameList.add("COLOMBO - VAUNIYA");
+        destinationNameList.add("VAUNIYA - COLOMBO");
     }
 }

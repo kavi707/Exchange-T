@@ -10,4 +10,24 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+
+    <string-array name="request_type">
+        <item>Select Type</item>
+        <item>I Need</item>
+        <item>I Have</item>
+    </string-array>
+
+    <string-array name="tickets_qty_array">
+        <item>Select Qty</item>
+        <item>1 Ticket</item>
+        <item>2 Tickets</item>
+        <item>3 Tickets</item>
+        <item>4 Tickets</item>
+        <item>5 Tickets</item>
+        <item>6 Tickets</item>
+        <item>7 Tickets</item>
+        <item>8 Tickets</item>
+        <item>9 Tickets</item>
+        <item>10 Tickets</item>
+    </string-array>
 </resources>
