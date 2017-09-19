@@ -8,10 +8,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.kavi.droid.exchange.R;
+import com.kavi.droid.exchange.services.imageLoader.ImageLoadingManager;
+import com.kavi.droid.exchange.services.sharedPreferences.SharedPreferenceManager;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -25,12 +28,20 @@ import java.util.Date;
 
 public class AddRequestActivity extends Activity {
 
+    private ImageView profilePicImageView;
+
+    private TextView nameTextView;
     private TextView ticketDateTextView;
     private TextView ticketTimeTextView;
+
+    private EditText phoneNumEditText;
+    private EditText emailEditText;
 
     private Context context = this;
     private int selectedYear, selectedMonth, selectedDay;
     private int selectedHour, selectedMinute;
+
+    private ImageLoadingManager imageLoadingManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +53,24 @@ public class AddRequestActivity extends Activity {
     }
 
     private void setUpViews() {
+
+        imageLoadingManager = new ImageLoadingManager(context);
+
+        profilePicImageView = (ImageView) findViewById(R.id.profilePicImageView);
+        nameTextView = (TextView) findViewById(R.id.nameTextView);
+        phoneNumEditText = (EditText) findViewById(R.id.phoneNumEditText);
+        emailEditText = (EditText) findViewById(R.id.emailEditText);
+
+        if(SharedPreferenceManager.isUserLogIn(context)) {
+            imageLoadingManager.loadImageToImageView(SharedPreferenceManager.getLoggedUserImageUrl(context),
+                    profilePicImageView, true);
+            if (SharedPreferenceManager.getLoggedUserName(context) != null)
+                nameTextView.setText(SharedPreferenceManager.getLoggedUserName(context));
+            if (SharedPreferenceManager.getLoggedUserNumber(context) != null)
+                phoneNumEditText.setText(SharedPreferenceManager.getLoggedUserNumber(context));
+            if (SharedPreferenceManager.getLoggedUserEmail(context) != null)
+                emailEditText.setText(SharedPreferenceManager.getLoggedUserEmail(context));
+        }
 
         ticketDateTextView = (TextView) findViewById(R.id.ticketDateTextView);
         ticketDateTextView.setKeyListener(null);
