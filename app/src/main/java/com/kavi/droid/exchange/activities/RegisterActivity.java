@@ -10,13 +10,16 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
+import com.kavi.droid.exchange.Constants;
 import com.kavi.droid.exchange.R;
 import com.kavi.droid.exchange.dialogs.LoadingProgressBarDialog;
 import com.kavi.droid.exchange.models.User;
+import com.kavi.droid.exchange.services.apiConnection.ApiClient;
 import com.kavi.droid.exchange.services.loginManagers.FBManager;
 import com.kavi.droid.exchange.services.sharedPreferences.SharedPreferenceManager;
 import com.kavi.droid.exchange.utils.CommonUtils;
@@ -41,6 +44,10 @@ public class RegisterActivity extends AppCompatActivity {
 
     private Context context = this;
     private User user;
+    private ProgressDialog progress;
+
+    private CommonUtils commonUtils = new CommonUtils();
+    private ApiClient apiClient = new ApiClient();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,17 +74,50 @@ public class RegisterActivity extends AppCompatActivity {
         saveDataBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SharedPreferenceManager.setIsUserDataCaptured(context, true);
-                SharedPreferenceManager.setLoggedUserName(context, firstNameEditText.getText().toString());
-                SharedPreferenceManager.setLoggedUserEmail(context, emailEditText.getText().toString());
-                SharedPreferenceManager.setLoggedUserImageUrl(context, user.getProfilePicUrl());
-                SharedPreferenceManager.setLoggedUserNumber(context, numberEditText.getText().toString());
+                if (commonUtils.isOnline(context)) {
+                    if (progress == null) {
+                        progress = LoadingProgressBarDialog.createProgressDialog(context);
+                    }
+                    progress.show();
 
-                Intent landingIntent = new Intent(RegisterActivity.this, LandingActivity.class);
-                landingIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(landingIntent);
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
 
-                finish();
+                            String response = apiClient.addNewUser(Constants.SYNC_METHOD, user);
+                            if (response != null) {
+
+                                SharedPreferenceManager.setIsUserDataCaptured(context, true);
+                                SharedPreferenceManager.setLoggedUserName(context, firstNameEditText.getText().toString());
+                                SharedPreferenceManager.setLoggedUserEmail(context, emailEditText.getText().toString());
+                                SharedPreferenceManager.setLoggedUserImageUrl(context, user.getProfilePicUrl());
+                                SharedPreferenceManager.setLoggedUserNumber(context, numberEditText.getText().toString());
+
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        progress.dismiss();
+                                        Intent landingIntent = new Intent(RegisterActivity.this, LandingActivity.class);
+                                        landingIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                        startActivity(landingIntent);
+
+                                        finish();
+                                    }
+                                });
+                            } else {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(context, "Issue in user registration. Please try again from while", Toast.LENGTH_LONG).show();
+                                        progress.dismiss();
+                                    }
+                                });
+                            }
+                        }
+                    }).start();
+                } else {
+                    Toast.makeText(context, "Please check device Internet connection.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
