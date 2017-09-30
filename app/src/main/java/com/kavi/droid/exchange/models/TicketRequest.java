@@ -26,14 +26,42 @@ public class TicketRequest {
     public static final int COLOMBO_VAUNIYA = 10;
     public static final int VAUNIYA_COLOMBO = 11;
 
+    private String name;
+    private String phoneNo;
+    private String email;
     private int reqType;
     private int startToEnd;
+    private int qty;
     private String reqDescription;
     private long reqDate;
     private String ticketDate;
     private String ticketTime;
     private String ticketDay;
     private String userPicUrl;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPhoneNo() {
+        return phoneNo;
+    }
+
+    public void setPhoneNo(String phoneNo) {
+        this.phoneNo = phoneNo;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     public int getReqType() {
         return reqType;
@@ -49,6 +77,14 @@ public class TicketRequest {
 
     public void setStartToEnd(int startToEnd) {
         this.startToEnd = startToEnd;
+    }
+
+    public int getQty() {
+        return qty;
+    }
+
+    public void setQty(int qty) {
+        this.qty = qty;
     }
 
     public String getReqDescription() {

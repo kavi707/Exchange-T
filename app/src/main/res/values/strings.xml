@@ -19,15 +19,15 @@
 
     <string-array name="tickets_qty_array">
         <item>Select Qty</item>
-        <item>1 Ticket</item>
-        <item>2 Tickets</item>
-        <item>3 Tickets</item>
-        <item>4 Tickets</item>
-        <item>5 Tickets</item>
-        <item>6 Tickets</item>
-        <item>7 Tickets</item>
-        <item>8 Tickets</item>
-        <item>9 Tickets</item>
-        <item>10 Tickets</item>
+        <item>01</item>
+        <item>02</item>
+        <item>03</item>
+        <item>04</item>
+        <item>05</item>
+        <item>06</item>
+        <item>07</item>
+        <item>08</item>
+        <item>09</item>
+        <item>10</item>
     </string-array>
 </resources>

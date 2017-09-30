@@ -1,210 +1,277 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <ImageView
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        app:srcCompat="@drawable/com_facebook_auth_dialog_cancel_background"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="30dp"
-        android:id="@+id/profilePicImageView" />
-
-    <TextView
-        android:text="Me"
-        android:textStyle="bold"
-        android:textSize="22dp"
+    <ScrollView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/profilePicImageView"
-        android:layout_toEndOf="@+id/profilePicImageView"
-        android:layout_marginStart="20dp"
-        android:id="@+id/meTextView" />
-
-    <TextView
-        android:text="Name"
-        android:textSize="18dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/profilePicImageView"
-        android:layout_alignStart="@+id/meTextView"
-        android:id="@+id/nameTextView" />
-
-    <RelativeLayout
-        android:id="@+id/contactInfoRelativeLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/profilePicImageView"
-        android:layout_alignStart="@+id/profilePicImageView"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="20dp">
-
-        <TextView
-            android:text="Contact info:"
-            android:textSize="18dp"
-            android:textStyle="bold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/contactInfoTextView" />
-
-        <EditText
-            android:hint="Phone Number"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:inputType="phone"
-            android:layout_below="@+id/contactInfoTextView"
-            android:layout_alignParentStart="true"
-            android:id="@+id/phoneNumEditText"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="20dp"/>
-
-        <EditText
-            android:hint="Email Address"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:inputType="textEmailAddress"
-            android:id="@+id/emailEditText"
-            android:layout_below="@+id/phoneNumEditText"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="3dp"
-            android:layout_marginLeft="20dp"/>
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/ticketInfoRelativeLayout"
-        android:layout_below="@+id/contactInfoRelativeLayout"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="20dp"
-        android:layout_alignEnd="@+id/contactInfoRelativeLayout">
-
-        <TextView
-            android:text="Ticket info:"
-            android:textSize="18dp"
-            android:textStyle="bold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/ticketsInfoTextView" />
+        android:layout_height="wrap_content">
 
         <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:background="@color/light_grey"
-            android:id="@+id/spinnerRelativeLayout"
-            android:layout_below="@+id/ticketsInfoTextView"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="25dp"
-            android:layout_alignParentEnd="true">
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
-            <Spinner
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:id="@+id/typeSelectSpinner"
-                android:entries="@array/request_type"
-                android:layout_marginLeft="10dp"
-                android:layout_toStartOf="@+id/midTexView" />
+            <ImageView
+                android:id="@+id/profilePicImageView"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="30dp"
+                app:srcCompat="@drawable/com_facebook_auth_dialog_cancel_background" />
 
             <TextView
-                android:layout_width="40dp"
+                android:id="@+id/meTextView"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:id="@+id/midTexView" />
+                android:layout_alignTop="@+id/profilePicImageView"
+                android:layout_marginStart="20dp"
+                android:layout_toEndOf="@+id/profilePicImageView"
+                android:text="Me"
+                android:textSize="22dp"
+                android:textStyle="bold" />
 
-            <Spinner
+            <TextView
+                android:id="@+id/nameTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/profilePicImageView"
+                android:layout_alignStart="@+id/meTextView"
+                android:text="Name"
+                android:textSize="18dp" />
+
+            <RelativeLayout
+                android:id="@+id/contactInfoRelativeLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
-                android:layout_centerVertical="true"
-                android:id="@+id/ticketCountSpinner"
+                android:layout_alignStart="@+id/profilePicImageView"
+                android:layout_below="@+id/profilePicImageView"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="20dp">
+
+                <TextView
+                    android:id="@+id/contactInfoTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Contact info:"
+                    android:textSize="18dp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/phoneNumEditText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/contactInfoTextView"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:hint="Phone Number"
+                    android:inputType="phone" />
+
+                <EditText
+                    android:id="@+id/emailEditText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/phoneNumEditText"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="3dp"
+                    android:hint="Email Address"
+                    android:inputType="textEmailAddress" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/ticketInfoRelativeLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignEnd="@+id/contactInfoRelativeLayout"
+                android:layout_below="@+id/contactInfoRelativeLayout"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="20dp">
+
+                <TextView
+                    android:id="@+id/ticketsInfoTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Ticket info:"
+                    android:textSize="18dp"
+                    android:textStyle="bold" />
+
+                <RelativeLayout
+                    android:id="@+id/spinnerRelativeLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/ticketsInfoTextView"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="25dp"
+                    android:background="@color/light_grey">
+
+                    <Spinner
+                        android:id="@+id/typeSelectSpinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:layout_toStartOf="@+id/midTexView"
+                        android:entries="@array/request_type" />
+
+                    <TextView
+                        android:id="@+id/midTexView"
+                        android:layout_width="40dp"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true" />
+
+                    <Spinner
+                        android:id="@+id/ticketCountSpinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="10dp"
+                        android:layout_toEndOf="@+id/midTexView"
+                        android:entries="@array/tickets_qty_array" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/dateTimeRelativeLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/spinnerRelativeLayout"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@color/light_grey">
+
+                    <TextView
+                        android:id="@+id/dateTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:hint="Date: "
+                        android:textSize="16dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/ticketDateTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@+id/dateTextView"
+                        android:hint="Ticket Date"
+                        android:textSize="16dp" />
+
+                    <TextView
+                        android:id="@+id/ticketTimeTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="10dp"
+                        android:hint="Ticket Time"
+                        android:inputType="textPersonName"
+                        android:textSize="16dp" />
+
+                    <TextView
+                        android:id="@+id/timeTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toStartOf="@+id/ticketTimeTextView"
+                        android:hint="Time: "
+                        android:inputType="textPersonName"
+                        android:textSize="16dp"
+                        android:textStyle="bold" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/destinationsRelativeLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/dateTimeRelativeLayout"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@color/light_grey">
+
+                    <Spinner
+                        android:id="@+id/destinationSpinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp" />
+
+                </RelativeLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/noteRelativeLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignEnd="@+id/ticketInfoRelativeLayout"
+                android:layout_below="@+id/ticketInfoRelativeLayout"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="20dp">
+
+                <TextView
+                    android:id="@+id/noteTitleTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Note:"
+                    android:textSize="18dp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/reqNoteEditText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/noteTitleTextView"
+                    android:layout_marginStart="20dp"
+                    android:lines="2"
+                    android:inputType="textMultiLine" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_margin="10dp"
+                android:layout_alignParentBottom="true"
+                android:layout_below="@+id/noteRelativeLayout"
                 android:layout_alignParentEnd="true"
-                android:entries="@array/tickets_qty_array"
-                android:layout_toEndOf="@+id/midTexView" />
+                android:weightSum="1">
+
+                <Button
+                    android:id="@+id/submitReqBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Submit"
+                    android:layout_alignParentStart="true"
+                    android:layout_weight="0.45" />
+
+                <Button
+                    android:id="@+id/cancelReqBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cancel"
+                    android:layout_alignParentEnd="true"
+                    android:layout_weight="0.45" />
+            </LinearLayout>
         </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:background="@color/light_grey"
-            android:id="@+id/dateTimeRelativeLayout"
-            android:layout_below="@+id/spinnerRelativeLayout"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_alignParentEnd="true">
-
-            <TextView
-                android:hint="Date: "
-                android:textSize="16dp"
-                android:textStyle="bold"
-                android:layout_marginLeft="10dp"
-                android:layout_centerVertical="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/dateTextView"/>
-
-            <TextView
-                android:hint="Ticket Date"
-                android:textSize="16dp"
-                android:layout_centerVertical="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/ticketDateTextView"
-                android:layout_toEndOf="@+id/dateTextView" />
-
-            <TextView
-                android:hint="Ticket Time"
-                android:textSize="16dp"
-                android:layout_centerVertical="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="textPersonName"
-                android:id="@+id/ticketTimeTextView"
-                android:layout_marginRight="10dp"
-                android:layout_alignParentEnd="true" />
-
-            <TextView
-                android:hint="Time: "
-                android:textSize="16dp"
-                android:textStyle="bold"
-                android:layout_centerVertical="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="textPersonName"
-                android:id="@+id/timeTextView"
-                android:layout_toStartOf="@+id/ticketTimeTextView" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:background="@color/light_grey"
-            android:id="@+id/destinationsRelativeLayout"
-            android:layout_below="@+id/dateTimeRelativeLayout"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_alignParentEnd="true">
-
-            <Spinner
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:id="@+id/destinationSpinner" />
-
-        </RelativeLayout>
-
-
-    </RelativeLayout>
+    </ScrollView>
 </RelativeLayout>

@@ -7,6 +7,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -16,8 +17,10 @@ import android.widget.TimePicker;
 
 import com.kavi.droid.exchange.R;
 import com.kavi.droid.exchange.models.Destination;
+import com.kavi.droid.exchange.models.TicketRequest;
 import com.kavi.droid.exchange.services.imageLoader.ImageLoadingManager;
 import com.kavi.droid.exchange.services.sharedPreferences.SharedPreferenceManager;
+import com.kavi.droid.exchange.utils.CommonUtils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -41,16 +44,23 @@ public class AddRequestActivity extends Activity {
 
     private EditText phoneNumEditText;
     private EditText emailEditText;
+    private EditText reqNoteEditText;
 
+    private Spinner typeSelectSpinner;
+    private Spinner ticketCountSpinner;
     private Spinner destinationSpinner;
+
+    private Button submitReqBtn;
+    private Button cancelReqBtn;
 
     private Context context = this;
     private int selectedYear, selectedMonth, selectedDay;
     private int selectedHour, selectedMinute;
 
     private ImageLoadingManager imageLoadingManager;
-    private List<Destination> destinationList;
     private List<String> destinationNameList;
+
+    private CommonUtils commonUtils = new CommonUtils();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,9 +79,17 @@ public class AddRequestActivity extends Activity {
 
         profilePicImageView = (ImageView) findViewById(R.id.profilePicImageView);
         nameTextView = (TextView) findViewById(R.id.nameTextView);
+
         phoneNumEditText = (EditText) findViewById(R.id.phoneNumEditText);
         emailEditText = (EditText) findViewById(R.id.emailEditText);
+        reqNoteEditText = (EditText) findViewById(R.id.reqNoteEditText);
+
+        typeSelectSpinner = (Spinner) findViewById(R.id.typeSelectSpinner);
+        ticketCountSpinner = (Spinner) findViewById(R.id.ticketCountSpinner);
         destinationSpinner = (Spinner) findViewById(R.id.destinationSpinner);
+
+        submitReqBtn = (Button) findViewById(R.id.submitReqBtn);
+        cancelReqBtn = (Button) findViewById(R.id.cancelReqBtn);
 
         if(SharedPreferenceManager.isUserLogIn(context)) {
             imageLoadingManager.loadImageToImageView(SharedPreferenceManager.getLoggedUserImageUrl(context),
@@ -136,6 +154,46 @@ public class AddRequestActivity extends Activity {
                 }, selectedHour, selectedMinute, true).show();
             }
         });
+
+        cancelReqBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        submitReqBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String name = nameTextView.getText().toString();
+                String contactNum = phoneNumEditText.getText().toString();
+                String email = emailEditText.getText().toString();
+                String type = typeSelectSpinner.getSelectedItem().toString();
+                String qty = ticketCountSpinner.getSelectedItem().toString();
+                String selectedDestination = destinationSpinner.getSelectedItem().toString();
+                String ticketDate = ticketDateTextView.getText().toString();
+                String ticketTime = ticketTimeTextView.getText().toString();
+                String reqNote = reqNoteEditText.getText().toString();
+
+                TicketRequest ticketRequest = new TicketRequest();
+                ticketRequest.setName(name);
+                ticketRequest.setUserPicUrl(SharedPreferenceManager.getLoggedUserImageUrl(context));
+                ticketRequest.setReqDescription(reqNote);
+                ticketRequest.setTicketDate(ticketDate);
+                ticketRequest.setTicketTime(ticketTime);
+                ticketRequest.setPhoneNo(contactNum);
+                ticketRequest.setEmail(email);
+
+                if (!qty.equals("Select Qty")) {
+                    int ticketQty = Integer.parseInt(qty);
+                    ticketRequest.setQty(ticketQty);
+                }
+
+                ticketRequest.setReqType(commonUtils.getTypeFromName(type));
+                ticketRequest.setStartToEnd(commonUtils.getDestinationFromName(selectedDestination));
+            }
+        });
     }
 
     private void setCurrentDateTime() {
@@ -168,20 +226,6 @@ public class AddRequestActivity extends Activity {
     }
 
     private void initDestinationList() {
-        destinationList = new ArrayList<>();
-        destinationList.add(new Destination(0, "COLOMBO - KANDY"));
-        destinationList.add(new Destination(1, "KANDY - COLOMBO"));
-        destinationList.add(new Destination(2, "COLOMBO - BADULLA"));
-        destinationList.add(new Destination(3, "BADULLA - COLOMBO"));
-        destinationList.add(new Destination(4, "COLOMBO - KURUNEGALA"));
-        destinationList.add(new Destination(5, "KURUNEGALA - COLOMBO"));
-        destinationList.add(new Destination(6, "COLOMBO - ANURADHAPURA"));
-        destinationList.add(new Destination(7, "ANURADHAPURA - COLOMBO"));
-        destinationList.add(new Destination(8, "COLOMBO - JAFNA"));
-        destinationList.add(new Destination(9, "JAFNA - COLOMBO"));
-        destinationList.add(new Destination(10, "COLOMBO - VAUNIYA"));
-        destinationList.add(new Destination(11, "VAUNIYA - COLOMBO"));
-
         destinationNameList = new ArrayList<>();
         destinationNameList.add("COLOMBO - KANDY");
         destinationNameList.add("KANDY - COLOMBO");

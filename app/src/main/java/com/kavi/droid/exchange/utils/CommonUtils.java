@@ -5,6 +5,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
 import com.kavi.droid.exchange.models.ApiClientResponse;
+import com.kavi.droid.exchange.models.TicketRequest;
 import com.kavi.droid.exchange.models.User;
 import com.kavi.droid.exchange.services.loginManagers.FBManager;
 import com.kavi.droid.exchange.services.sharedPreferences.SharedPreferenceManager;
@@ -105,5 +106,46 @@ public class CommonUtils {
         }
 
         return appUser;
+    }
+
+    public int getTypeFromName(String type) {
+        if (type.equals("I Need")) {
+            return TicketRequest.I_NEED;
+        } else if (type.equals("I Have")) {
+            return TicketRequest.I_HAVE;
+        } else {
+            return -1;
+        }
+    }
+
+    public int getDestinationFromName(String destination) {
+
+        if (destination.equals("COLOMBO - KANDY")) {
+            return TicketRequest.COLOMBO_KANDY;
+        } else if (destination.equals("KANDY - COLOMBO")) {
+            return TicketRequest.KANDY_COLOMBO;
+        } else if (destination.equals("COLOMBO - BADULLA")) {
+            return TicketRequest.COLOMBO_BADULLA;
+        } else if (destination.equals("BADULLA - COLOMBO")) {
+            return TicketRequest.BADULLA_COLOMBO;
+        } else if (destination.equals("COLOMBO - KURUNEGALA")) {
+            return TicketRequest.COLOMBO_KURUNEGALA;
+        } else if (destination.equals("KURUNEGALA - COLOMBO")) {
+            return TicketRequest.KURUNEGALA_COLOMBO;
+        } else if (destination.equals("COLOMBO - ANURADHAPURA")) {
+            return TicketRequest.COLOMBO_ANURADHAPURA;
+        } else if (destination.equals("ANURADHAPURA - COLOMBO")) {
+            return TicketRequest.ANURADHAPURA_COLOMBO;
+        } else if (destination.equals("COLOMBO - JAFNA")) {
+            return TicketRequest.COLOMBO_JAFNA;
+        } else if (destination.equals("JAFNA - COLOMBO")) {
+            return TicketRequest.JAFNA_COLOMBO;
+        } else if (destination.equals("COLOMBO - VAUNIYA")) {
+            return TicketRequest.COLOMBO_VAUNIYA;
+        } else if (destination.equals("VAUNIYA - COLOMBO")) {
+            return TicketRequest.VAUNIYA_COLOMBO;
+        } else {
+            return -1;
+        }
     }
 }
