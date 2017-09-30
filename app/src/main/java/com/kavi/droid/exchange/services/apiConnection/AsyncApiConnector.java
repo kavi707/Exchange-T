@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.kavi.droid.exchange.Constants;
+import com.kavi.droid.exchange.models.ApiClientResponse;
 
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.conn.ConnectTimeoutException;
@@ -33,7 +34,7 @@ public class AsyncApiConnector implements IApiConnector {
     private String postOrPutRequestUrl;
     private Map<String, String> getAdditionalHeaders;
     private JSONObject reqParams;
-    private String httpCommonResponse  = "NULL";
+    private ApiClientResponse httpCommonResponse  = null;
 
     /**
      * Method for sending HTTP GET, PUT or DELETE requests to api
@@ -43,7 +44,7 @@ public class AsyncApiConnector implements IApiConnector {
      * @return String object
      */
     @Override
-    public String sendHttpGetOrDeleteRequest(String url, String requestMethod, Map<String, String> additionalHeaders) {
+    public ApiClientResponse sendHttpGetOrDeleteRequest(String url, String requestMethod, Map<String, String> additionalHeaders) {
 
         Log.d("AsyncApiConnector", "AsyncApiConnector:sendHttpGetOrDeleteRequest");
         this.requestUrl = url;
@@ -63,13 +64,15 @@ public class AsyncApiConnector implements IApiConnector {
     /**
      * Background Task for send HTTP GET, PUT, or DELETE Request
      */
-    private class sendHttpRequestTask extends AsyncTask<Void, Void, String> {
+    private class sendHttpRequestTask extends AsyncTask<Void, Void, ApiClientResponse> {
 
         @Override
-        protected String doInBackground(Void... params) {
+        protected ApiClientResponse doInBackground(Void... params) {
 
             Log.d("AsyncApiConnector", "AsyncApiConnector:sendHttpRequestTask");
+            ApiClientResponse apiClientResponse = new ApiClientResponse();
             String responseResult = null;
+            int statusCode = -1000;
             InputStream inputStream = null;
 
             Log.d("AsyncApiConnector", "AsyncApiConnector:sendHttpRequestTask / Req Url : " + requestUrl);
@@ -92,6 +95,7 @@ public class AsyncApiConnector implements IApiConnector {
                     // If request is HTTP DELETE, creating the response object
                     // In HTTP DELETE ignore the response object java httpClient
                     int deleteStatusCode = connection.getResponseCode();
+                    statusCode = deleteStatusCode;
                     if (deleteStatusCode == 200) {
                         responseResult = "{\"status\":\"SUCCESS\", \"msg\":\"Data deleted successfully\"}";
                     } else if (deleteStatusCode == 204) {
@@ -102,6 +106,7 @@ public class AsyncApiConnector implements IApiConnector {
                 } else {
                     // If request is not and HTTP DELETE, then read the input stream and extract json string
                     inputStream = connection.getInputStream();
+                    statusCode = connection.getResponseCode();
                     if (inputStream != null) {
                         responseResult = convertInputStreamToString(inputStream);
                     } else {
@@ -117,11 +122,14 @@ public class AsyncApiConnector implements IApiConnector {
                 e.printStackTrace();
             }
 
-            return responseResult;
+            apiClientResponse.setHttpStatusCode(statusCode);
+            apiClientResponse.setResponseObj(responseResult);
+
+            return apiClientResponse;
         }
 
         @Override
-        protected void onPostExecute(String result) {
+        protected void onPostExecute(ApiClientResponse result) {
             super.onPostExecute(result);
 
             Log.d("AsyncApiConnector", "AsyncApiConnector:sendHttpRequestTask - onPostExecute / Result: " + result);
@@ -155,7 +163,7 @@ public class AsyncApiConnector implements IApiConnector {
      * @return String object
      */
     @Override
-    public String sendHttpJsonPostOrPutRequest(String url, String requestMethod, Map<String, String> additionalHeader, JSONObject reqParams) {
+    public ApiClientResponse sendHttpJsonPostOrPutRequest(String url, String requestMethod, Map<String, String> additionalHeader, JSONObject reqParams) {
         Log.d("AsyncApiConnector", "AsyncApiConnector:sendHttpJsonPostOrPutRequest");
         this.postOrPutRequestUrl = url;
         this.requestMethod = requestMethod;
@@ -175,7 +183,7 @@ public class AsyncApiConnector implements IApiConnector {
     /**
      * Background Task for send HTTP POST with JSON data
      */
-    private class SendHttpJsonPostTask extends AsyncTask<Void, Void, String> {
+    private class SendHttpJsonPostTask extends AsyncTask<Void, Void, ApiClientResponse> {
 
         /**
          * Override this method to perform a computation on a background thread. The
@@ -192,9 +200,11 @@ public class AsyncApiConnector implements IApiConnector {
          * @see #publishProgress
          */
         @Override
-        protected String doInBackground(Void... params) {
+        protected ApiClientResponse doInBackground(Void... params) {
 
+            ApiClientResponse apiClientResponse = new ApiClientResponse();
             String responseResult = null;
+            int statusCode = -1000;
             Log.d("AsyncApiConnector", "AsyncApiConnector:SendHttpJSONPostTask");
 
             try {
@@ -227,7 +237,7 @@ public class AsyncApiConnector implements IApiConnector {
                 post.close();
                 in.close();
 
-                int statusCode = connection.getResponseCode();
+                statusCode = connection.getResponseCode();
 
                 if (statusCode == 200) {
                     if (responseResult == null || responseResult.equals("")) {
@@ -258,11 +268,14 @@ public class AsyncApiConnector implements IApiConnector {
                 Log.d("AsyncApiConnector", "AsyncApiConnector:SendHttpJSONPostTask / Exception: " + ex.toString());
             }
 
-            return responseResult;
+            apiClientResponse.setHttpStatusCode(statusCode);
+            apiClientResponse.setResponseObj(responseResult);
+
+            return apiClientResponse;
         }
 
         @Override
-        protected void onPostExecute(String result) {
+        protected void onPostExecute(ApiClientResponse result) {
             super.onPostExecute(result);
             Log.d("AsyncApiConnector", "AsyncApiConnector:SendHttpJSONPostTask - onPostExecute / Result: " + result);
         }

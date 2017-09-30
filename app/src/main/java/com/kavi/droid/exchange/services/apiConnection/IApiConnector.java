@@ -1,5 +1,7 @@
 package com.kavi.droid.exchange.services.apiConnection;
 
+import com.kavi.droid.exchange.models.ApiClientResponse;
+
 import org.json.JSONObject;
 
 import java.util.Map;
@@ -11,7 +13,7 @@ import java.util.Map;
  */
 public interface IApiConnector {
 
-    String sendHttpGetOrDeleteRequest(String url, String requestMethod, Map<String, String> additionalHeaders);
+    ApiClientResponse sendHttpGetOrDeleteRequest(String url, String requestMethod, Map<String, String> additionalHeaders);
 
-    String sendHttpJsonPostOrPutRequest(String url, String requestMethod, Map<String, String> additionalHeaders, JSONObject reqParams);
+    ApiClientResponse sendHttpJsonPostOrPutRequest(String url, String requestMethod, Map<String, String> additionalHeaders, JSONObject reqParams);
 }

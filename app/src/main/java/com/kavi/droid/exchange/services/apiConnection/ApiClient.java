@@ -1,6 +1,7 @@
 package com.kavi.droid.exchange.services.apiConnection;
 
 import com.kavi.droid.exchange.Constants;
+import com.kavi.droid.exchange.models.ApiClientResponse;
 import com.kavi.droid.exchange.models.User;
 
 import org.json.JSONException;
@@ -58,9 +59,9 @@ public class ApiClient {
         return response;
     }*/
 
-    public String addNewUser(String taskMethod, User user) {
+    public ApiClientResponse addNewUser(String taskMethod, User user) {
 
-        String response = null;
+        ApiClientResponse apiClientResponse = null;
         JSONObject reqObj = new JSONObject();
         JSONObject additionalData = new JSONObject();
         IApiConnector apiConnector;
@@ -69,19 +70,43 @@ public class ApiClient {
             reqObj.put("username", user.getEmail());
             reqObj.put("password", user.getUserId());
 
+            additionalData.put("phoneNumber", user.getPhoneNumber());
+            additionalData.put("fbUserId", user.getUserId());
+            additionalData.put("profilePicUrl", user.getProfilePicUrl());
+
+            reqObj.put("additional", additionalData);
+
             if (taskMethod.equals(Constants.ASYNC_METHOD)) {
                 apiConnector = new AsyncApiConnector();
-                response = apiConnector.sendHttpJsonPostOrPutRequest(Constants.BASE_URL + Constants.ADD_USER,
+                apiClientResponse = apiConnector.sendHttpJsonPostOrPutRequest(Constants.BASE_URL + Constants.ADD_USER,
                         Constants.HTTP_POST, null, reqObj);
             } else if (taskMethod.equals(Constants.SYNC_METHOD)) {
                 apiConnector = new SyncApiConnector();
-                response = apiConnector.sendHttpJsonPostOrPutRequest(Constants.BASE_URL + Constants.ADD_USER,
+                apiClientResponse = apiConnector.sendHttpJsonPostOrPutRequest(Constants.BASE_URL + Constants.ADD_USER,
                         Constants.HTTP_POST, null, reqObj);
             }
         } catch (JSONException ex) {
             ex.printStackTrace();
         }
 
-        return response;
+        return apiClientResponse;
+    }
+
+    public ApiClientResponse getUserFromFBId(String taskMethod, String fbUserId) {
+
+        ApiClientResponse apiClientResponse = null;
+        IApiConnector apiConnector;
+
+        if (taskMethod.equals(Constants.ASYNC_METHOD)) {
+            apiConnector = new AsyncApiConnector();
+            apiClientResponse = apiConnector.sendHttpGetOrDeleteRequest(Constants.BASE_URL + Constants.GET_FB_USER
+                    + fbUserId, Constants.HTTP_GET, null);
+        } else if (taskMethod.equals(Constants.SYNC_METHOD)) {
+            apiConnector = new SyncApiConnector();
+            apiClientResponse = apiConnector.sendHttpGetOrDeleteRequest(Constants.BASE_URL + Constants.GET_FB_USER
+                    + fbUserId, Constants.HTTP_GET, null);
+        }
+
+        return apiClientResponse;
     }
 }

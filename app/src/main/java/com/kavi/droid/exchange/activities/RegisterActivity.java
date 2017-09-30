@@ -18,6 +18,7 @@ import com.facebook.GraphResponse;
 import com.kavi.droid.exchange.Constants;
 import com.kavi.droid.exchange.R;
 import com.kavi.droid.exchange.dialogs.LoadingProgressBarDialog;
+import com.kavi.droid.exchange.models.ApiClientResponse;
 import com.kavi.droid.exchange.models.User;
 import com.kavi.droid.exchange.services.apiConnection.ApiClient;
 import com.kavi.droid.exchange.services.loginManagers.FBManager;
@@ -65,7 +66,7 @@ public class RegisterActivity extends AppCompatActivity {
         numberEditText = (EditText) findViewById(R.id.numberEditText);
         saveDataBtn = (Button) findViewById(R.id.saveDataBtn);
 
-        user = populateDataFromFB();
+        user = commonUtils.populateDataFromFB(SharedPreferenceManager.getFBUserData(context));
 
         firstNameEditText.setText(user.getFirstName());
         lastNameEditText.setText(user.getLastName());
@@ -80,11 +81,13 @@ public class RegisterActivity extends AppCompatActivity {
                     }
                     progress.show();
 
+                    user.setPhoneNumber(numberEditText.getText().toString());
+
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
 
-                            String response = apiClient.addNewUser(Constants.SYNC_METHOD, user);
+                            ApiClientResponse response = apiClient.addNewUser(Constants.SYNC_METHOD, user);
                             if (response != null) {
 
                                 SharedPreferenceManager.setIsUserDataCaptured(context, true);
@@ -120,62 +123,5 @@ public class RegisterActivity extends AppCompatActivity {
                 }
             }
         });
-    }
-
-    private User populateDataFromFB() {
-
-        User appUser = null;
-        String jsonString = SharedPreferenceManager.getFBUserData(context);
-
-        if (jsonString != null) {
-            try {
-                JSONObject jsonData = new JSONObject(jsonString);
-
-                appUser = new User();
-
-                // User Id
-                String id = jsonData.getString("id");
-                appUser.setUserId(id);
-
-                // User first name
-                if (!jsonData.isNull("first_name")) {
-                    String firstName = jsonData.getString("first_name");
-                    appUser.setFirstName(firstName);
-                } else {
-                    appUser.setFirstName("");
-                }
-
-                // User last name
-                if (!jsonData.isNull("last_name")) {
-                    String lastName = jsonData.getString("last_name");
-                    appUser.setLastName(lastName);
-                } else {
-                    appUser.setLastName("");
-                }
-
-                // Email
-                if (!jsonData.isNull("email")) {
-                    String email = jsonData.getString("email");
-                    appUser.setEmail(email);
-                } else {
-                    appUser.setEmail("");
-                }
-
-                // Profile pic
-                URL profilePic = null;
-                try {
-                    profilePic = new URL("https://graph.facebook.com/" + id + "/picture?width=" +
-                            FBManager.PROFILE_PIC_WIDTH + "&height=" + FBManager.PROFILE_PIC_HEIGHT);
-                    appUser.setProfilePicUrl(profilePic.toString());
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                }
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-
-        return appUser;
     }
 }

@@ -3,6 +3,7 @@ package com.kavi.droid.exchange.services.apiConnection;
 import android.util.Log;
 
 import com.kavi.droid.exchange.Constants;
+import com.kavi.droid.exchange.models.ApiClientResponse;
 
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.conn.ConnectTimeoutException;
@@ -34,7 +35,7 @@ public class SyncApiConnector implements IApiConnector {
     private String postOrPutRequestUrl;
     private Map<String, String> getAdditionalHeaders;
     private JSONObject reqParams;
-    private String httpCommonResponse  = "NULL";
+    private ApiClientResponse httpCommonResponse  = null;
 
     /**
      * Method for sending HTTP GET or DELETE requests to api
@@ -44,7 +45,7 @@ public class SyncApiConnector implements IApiConnector {
      * @return NodeGridResponse object
      */
     @Override
-    public String sendHttpGetOrDeleteRequest(String url, String requestMethod, Map<String, String> additionalHeaders) {
+    public ApiClientResponse sendHttpGetOrDeleteRequest(String url, String requestMethod, Map<String, String> additionalHeaders) {
 
         Log.d("SyncApiConnector", "SyncApiConnector:sendHttpGetOrDeleteRequest");
         this.requestUrl = url;
@@ -59,8 +60,10 @@ public class SyncApiConnector implements IApiConnector {
     /**
      * Background Task for send HTTP GET or DELETE Request
      */
-    private String sendHttpRequest() {
+    private ApiClientResponse sendHttpRequest() {
+        ApiClientResponse apiClientResponse = new ApiClientResponse();
         String responseResult = null;
+        int statusCode = -1000;
         InputStream inputStream = null;
 
         try {
@@ -84,6 +87,7 @@ public class SyncApiConnector implements IApiConnector {
                 // If request is HTTP DELETE, creating the response object
                 // In HTTP DELETE ignore the response object java httpClient
                 int deleteStatusCode = connection.getResponseCode();
+                statusCode = deleteStatusCode;
                 if (deleteStatusCode == 200) {
                     responseResult = "{\"status\":\"SUCCESS\", \"msg\":\"Data deleted successfully\"}";
                 } else if (deleteStatusCode == 204) {
@@ -94,6 +98,7 @@ public class SyncApiConnector implements IApiConnector {
             } else {
                 // If request is not and HTTP DELETE, then read the input stream and extract json string
                 inputStream = connection.getInputStream();
+                statusCode = connection.getResponseCode();
 
                 if (inputStream != null) {
                     responseResult = convertInputStreamToString(inputStream);
@@ -113,7 +118,10 @@ public class SyncApiConnector implements IApiConnector {
             e.printStackTrace();
         }
 
-        return responseResult;
+        apiClientResponse.setHttpStatusCode(statusCode);
+        apiClientResponse.setResponseObj(responseResult);
+
+        return apiClientResponse;
     }
 
     /**
@@ -142,7 +150,7 @@ public class SyncApiConnector implements IApiConnector {
      * @return NodeGridResponse object
      */
     @Override
-    public String sendHttpJsonPostOrPutRequest(String url, String requestMethod, Map<String, String> additionalHeader, JSONObject reqParams) {
+    public ApiClientResponse sendHttpJsonPostOrPutRequest(String url, String requestMethod, Map<String, String> additionalHeader, JSONObject reqParams) {
         Log.d("SyncApiConnector", "SyncApiConnector:sendHttpJsonPostOrPutRequest");
         this.postOrPutRequestUrl = url;
         this.requestMethod = requestMethod;
@@ -157,8 +165,10 @@ public class SyncApiConnector implements IApiConnector {
     /**
      * Background Task for send HTTP POST or PUT with JSON data
      */
-    private String sendHttpJsonPost() {
+    private ApiClientResponse sendHttpJsonPost() {
+        ApiClientResponse apiClientResponse = new ApiClientResponse();
         String responseResult = "";
+        int statusCode = -1000;
 
         try {
             Log.d("SyncApiConnector", "SyncApiConnector:sendHttpJsonPost / Req Url : " + postOrPutRequestUrl);
@@ -189,7 +199,7 @@ public class SyncApiConnector implements IApiConnector {
             post.close();
             in.close();
 
-            int statusCode = connection.getResponseCode();
+            statusCode = connection.getResponseCode();
 
             if (statusCode == 200) {
                 if (responseResult.equals("")) {
@@ -220,6 +230,9 @@ public class SyncApiConnector implements IApiConnector {
             Log.d("SyncApiConnector", "SyncApiConnector:sendHttpJsonPost / Exception: " + ex.toString());
         }
 
-        return responseResult;
+        apiClientResponse.setHttpStatusCode(statusCode);
+        apiClientResponse.setResponseObj(responseResult);
+
+        return apiClientResponse;
     }
 }
