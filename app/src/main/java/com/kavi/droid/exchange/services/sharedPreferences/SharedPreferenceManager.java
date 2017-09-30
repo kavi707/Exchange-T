@@ -15,6 +15,7 @@ public class SharedPreferenceManager {
     //Shared Preference constants
     private static final String IS_USER_LOGGED_IN = "IS_USER_LOGGED_IN";
     private static final String FB_USER_TOKEN = "FB_USER_TOKEN";
+    private static final String NODEGRID_AUTH_TOKEN = "NODEGRID_AUTH_TOKEN";
     private static final String FB_USER_DATA = "FB_USER_DATA";
     private static final String IS_USER_DATA_CAPTURED = "IS_USER_DATA_CAPTURED";
     private static final String LOGGED_USER_NAME = "LOGGED_USER_NAME";
@@ -94,6 +95,14 @@ public class SharedPreferenceManager {
 
     public static String getFBUserToken(Context context){
         return readStringSharePreference(context, FB_USER_TOKEN);
+    }
+
+    public static void setNodegridAuthToken(Context context, String value) {
+        writeStringSharePreference(context, NODEGRID_AUTH_TOKEN, value);
+    }
+
+    public static String getNodegridAuthToken(Context context){
+        return readStringSharePreference(context, NODEGRID_AUTH_TOKEN);
     }
 
     public static void setFBUserData(Context context, String value) {

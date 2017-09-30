@@ -3,33 +3,24 @@ package com.kavi.droid.exchange.activities;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.facebook.AccessToken;
-import com.facebook.GraphRequest;
-import com.facebook.GraphResponse;
 import com.kavi.droid.exchange.Constants;
 import com.kavi.droid.exchange.R;
 import com.kavi.droid.exchange.dialogs.LoadingProgressBarDialog;
 import com.kavi.droid.exchange.models.ApiClientResponse;
 import com.kavi.droid.exchange.models.User;
 import com.kavi.droid.exchange.services.apiConnection.ApiClient;
-import com.kavi.droid.exchange.services.loginManagers.FBManager;
 import com.kavi.droid.exchange.services.sharedPreferences.SharedPreferenceManager;
 import com.kavi.droid.exchange.utils.CommonUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.net.MalformedURLException;
-import java.net.URL;
 
 /**
  * Created by kavi707 on 9/9/17.
@@ -96,6 +87,8 @@ public class RegisterActivity extends AppCompatActivity {
                                 SharedPreferenceManager.setLoggedUserImageUrl(context, user.getProfilePicUrl());
                                 SharedPreferenceManager.setLoggedUserNumber(context, numberEditText.getText().toString());
 
+                                generateAuthToken(user.getEmail(), user.getFbUserId());
+
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
@@ -123,5 +116,33 @@ public class RegisterActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private boolean generateAuthToken(String username, String password) {
+
+        boolean isTokenGenerated = false;
+        ApiClientResponse apiClientResponse = apiClient.generateAuthToken(Constants.SYNC_METHOD, username, password);
+        if (apiClientResponse != null) {
+
+            int statusCode = apiClientResponse.getHttpStatusCode();
+            String jsonString = apiClientResponse.getResponseObj();
+
+            if (statusCode == 200) {
+                try {
+                    JSONObject jsonData = new JSONObject(jsonString);
+                    JSONObject resData = jsonData.getJSONObject("res").getJSONObject("data");
+
+                    String authToken = resData.getString("accessToken");
+                    SharedPreferenceManager.setNodegridAuthToken(context, authToken);
+
+                    isTokenGenerated = true;
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return isTokenGenerated;
     }
 }

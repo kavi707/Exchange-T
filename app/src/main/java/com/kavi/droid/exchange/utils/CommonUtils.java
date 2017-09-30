@@ -8,7 +8,6 @@ import com.kavi.droid.exchange.models.ApiClientResponse;
 import com.kavi.droid.exchange.models.TicketRequest;
 import com.kavi.droid.exchange.models.User;
 import com.kavi.droid.exchange.services.loginManagers.FBManager;
-import com.kavi.droid.exchange.services.sharedPreferences.SharedPreferenceManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -64,7 +63,7 @@ public class CommonUtils {
 
                 // User Id
                 String id = jsonData.getString("id");
-                appUser.setUserId(id);
+                appUser.setFbUserId(id);
 
                 // User first name
                 if (!jsonData.isNull("first_name")) {

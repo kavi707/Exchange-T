@@ -7,19 +7,19 @@ package com.kavi.droid.exchange.models;
 
 public class User {
 
-    private String userId;
+    private String fbUserId;
     private String firstName;
     private String lastName;
     private String email;
     private String phoneNumber;
     private String profilePicUrl;
 
-    public String getUserId() {
-        return userId;
+    public String getFbUserId() {
+        return fbUserId;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setFbUserId(String fbUserId) {
+        this.fbUserId = fbUserId;
     }
 
     public String getFirstName() {

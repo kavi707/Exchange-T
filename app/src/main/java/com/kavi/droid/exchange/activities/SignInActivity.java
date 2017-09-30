@@ -112,8 +112,13 @@ public class SignInActivity extends AppCompatActivity {
                 @Override
                 public void run() {
 
-                    final ApiClientResponse response = apiClient.getUserFromFBId(Constants.SYNC_METHOD, appUser.getUserId());
+                    final ApiClientResponse response = apiClient.getUserFromFBId(Constants.SYNC_METHOD, appUser.getFbUserId());
                     if (response != null) {
+
+                        if (response.getHttpStatusCode() == 200) {
+                            String jsonString = response.getResponseObj();
+                            persistUser(jsonString);
+                        }
 
                         runOnUiThread(new Runnable() {
                             @Override
@@ -122,10 +127,6 @@ public class SignInActivity extends AppCompatActivity {
 
                                 Intent landingIntent;
                                 if (response.getHttpStatusCode() == 200) {
-
-                                    String jsonString = response.getResponseObj();
-                                    persistUser(jsonString);
-
                                     landingIntent = new Intent(SignInActivity.this, LandingActivity.class);
                                 } else {
                                     landingIntent = new Intent(SignInActivity.this, RegisterActivity.class);
@@ -153,7 +154,9 @@ public class SignInActivity extends AppCompatActivity {
         }
     }
 
-    private void persistUser(String jsonString) {
+    private boolean persistUser(String jsonString) {
+
+        boolean isTokenPersist = false;
 
         try {
             JSONObject jsonData = new JSONObject(jsonString);
@@ -169,8 +172,41 @@ public class SignInActivity extends AppCompatActivity {
                     .getString("profilePicUrl"));
             SharedPreferenceManager.setLoggedUserNumber(context, jsonUserObj.getJSONObject("additionalData")
                     .getString("phoneNumber"));
+
+            isTokenPersist = generateAuthToken(jsonUserObj.getString("username"), jsonUserObj.getJSONObject("additionalData")
+                    .getString("fbUserId"));
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+        return isTokenPersist;
+    }
+
+    private boolean generateAuthToken(String username, String password) {
+
+        boolean isTokenGenerated = false;
+        ApiClientResponse apiClientResponse = apiClient.generateAuthToken(Constants.SYNC_METHOD, username, password);
+        if (apiClientResponse != null) {
+
+            int statusCode = apiClientResponse.getHttpStatusCode();
+            String jsonString = apiClientResponse.getResponseObj();
+
+            if (statusCode == 200) {
+                try {
+                    JSONObject jsonData = new JSONObject(jsonString);
+                    JSONObject resData = jsonData.getJSONObject("res").getJSONObject("data");
+
+                    String authToken = resData.getString("accessToken");
+                    SharedPreferenceManager.setNodegridAuthToken(context, authToken);
+
+                    isTokenGenerated = true;
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return isTokenGenerated;
     }
 }

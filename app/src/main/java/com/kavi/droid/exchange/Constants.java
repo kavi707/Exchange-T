@@ -21,4 +21,5 @@ public class Constants {
     public static final String BASE_URL = "http://13.59.85.152:8000";
     public static final String ADD_USER = "/system/user/";
     public static final String GET_FB_USER = "/system/user/fb/";
+    public static final String GENERATE_AUTH_TOKEN = "/system/security/generateToken";
 }
