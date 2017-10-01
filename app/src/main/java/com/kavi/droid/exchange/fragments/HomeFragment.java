@@ -53,11 +53,16 @@ public class HomeFragment extends Fragment {
         return rootView;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        ticketRequestList.clear();
+        getAllTicketRequest();
+    }
+
     public void setUpView(View upView) {
 
         ticketRequestListView = (ListView) upView.findViewById(R.id.ticketRequestListView);
-
-        getAllTicketRequest();
     }
 
     private void getAllTicketRequest() {
