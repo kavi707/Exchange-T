@@ -161,7 +161,7 @@ public class SignInActivity extends AppCompatActivity {
         try {
             JSONObject jsonData = new JSONObject(jsonString);
 
-            JSONArray resDataArr = jsonData.getJSONArray("data");
+            JSONArray resDataArr = jsonData.getJSONArray("res");
 
             JSONObject jsonUserObj = resDataArr.getJSONObject(0).getJSONObject("data");
 
@@ -196,10 +196,17 @@ public class SignInActivity extends AppCompatActivity {
             if (statusCode == 200) {
                 try {
                     JSONObject jsonData = new JSONObject(jsonString);
-                    JSONObject resData = jsonData.getJSONObject("res").getJSONObject("data");
+                    JSONObject resData;
+                    if (jsonData.get("res") instanceof JSONObject) {
+                        resData = jsonData.getJSONObject("res").getJSONObject("data");
+                    } else {
+                        resData = jsonData.getJSONArray("res").getJSONObject(0).getJSONObject("data");
+                    }
 
                     String authToken = resData.getString("accessToken");
                     SharedPreferenceManager.setNodegridAuthToken(context, authToken);
+
+                    Log.d("===================", SharedPreferenceManager.getNodegridAuthToken(context));
 
                     isTokenGenerated = true;
 

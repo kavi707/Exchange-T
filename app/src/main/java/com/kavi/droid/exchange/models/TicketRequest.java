@@ -37,6 +37,7 @@ public class TicketRequest {
     private String ticketDate;
     private String ticketTime;
     private String ticketDay;
+    private String fbId;
     private String userPicUrl;
 
     public String getName() {
@@ -125,6 +126,14 @@ public class TicketRequest {
 
     public void setTicketDay(String ticketDay) {
         this.ticketDay = ticketDay;
+    }
+
+    public String getFbId() {
+        return fbId;
+    }
+
+    public void setFbId(String fbId) {
+        this.fbId = fbId;
     }
 
     public String getUserPicUrl() {

@@ -1,17 +1,23 @@
 package com.kavi.droid.exchange.fragments;
 
 import android.app.Fragment;
-import android.content.Context;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import com.kavi.droid.exchange.Constants;
 import com.kavi.droid.exchange.R;
 import com.kavi.droid.exchange.adapters.RequestItemAdapter;
+import com.kavi.droid.exchange.dialogs.LoadingProgressBarDialog;
+import com.kavi.droid.exchange.models.ApiClientResponse;
 import com.kavi.droid.exchange.models.TicketRequest;
+import com.kavi.droid.exchange.services.apiConnection.ApiClient;
+import com.kavi.droid.exchange.utils.CommonUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,8 +32,13 @@ public class HomeFragment extends Fragment {
     private View rootView;
     private ListView ticketRequestListView;
 
+    private ProgressDialog progress;
+
     private RequestItemAdapter requestItemAdapter;
     private List<TicketRequest> ticketRequestList = new ArrayList<>();
+
+    private CommonUtils commonUtils = new CommonUtils();
+    private ApiClient apiClient;
 
     public HomeFragment() {
     }
@@ -36,6 +47,7 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_home, container, false);
+        apiClient = new ApiClient(getActivity());
         setUpView(rootView);
 
         return rootView;
@@ -45,28 +57,43 @@ public class HomeFragment extends Fragment {
 
         ticketRequestListView = (ListView) upView.findViewById(R.id.ticketRequestListView);
 
-        TicketRequest ticketRequest  = new TicketRequest();
-        ticketRequest.setReqType(TicketRequest.I_HAVE);
-        ticketRequest.setStartToEnd(TicketRequest.COLOMBO_KANDY);
-        ticketRequest.setReqDate(1505391126);
-        ticketRequest.setTicketDate("15 Sep 2017");
-        ticketRequest.setTicketTime("4.50 pm");
-        ticketRequest.setTicketDay("Friday");
-        ticketRequest.setReqDescription("I have 2 tickets for 15th Sep 2017 4.50 pm Colombo - Kandy train tickets");
+        getAllTicketRequest();
+    }
 
-        TicketRequest ticketRequest1  = new TicketRequest();
-        ticketRequest1.setReqType(TicketRequest.I_NEED);
-        ticketRequest1.setStartToEnd(TicketRequest.COLOMBO_KANDY);
-        ticketRequest1.setReqDate(1505394200);
-        ticketRequest1.setTicketDate("15 Sep 2017");
-        ticketRequest1.setTicketTime("5.10 pm");
-        ticketRequest1.setTicketDay("Friday");
-        ticketRequest1.setReqDescription("I need 1 ticket for 15th Sep 2017 5.10 pm Colombo - Kandy train tickets");
+    private void getAllTicketRequest() {
 
-        ticketRequestList.add(ticketRequest);
-        ticketRequestList.add(ticketRequest1);
+        if (commonUtils.isOnline(getActivity())) {
+            if (progress == null) {
+                progress = LoadingProgressBarDialog.createProgressDialog(getActivity());
+            }
+            progress.show();
 
-        requestItemAdapter = new RequestItemAdapter(ticketRequestList, getActivity());
-        ticketRequestListView.setAdapter(requestItemAdapter);
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    ApiClientResponse response = apiClient.getTicketRequest(Constants.SYNC_METHOD);
+                    if (response != null) {
+
+                        if (response.getHttpStatusCode() == 200) {
+                            ticketRequestList = commonUtils.getTicketRequestList(response.getResponseObj());
+                        } else {
+                            Toast.makeText(getActivity(), "There was an error while making your request. Please try again from while.",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                progress.dismiss();
+                                requestItemAdapter = new RequestItemAdapter(ticketRequestList, getActivity());
+                                ticketRequestListView.setAdapter(requestItemAdapter);
+                            }
+                        });
+                    }
+                }
+            }).start();
+        } else {
+            Toast.makeText(getActivity(), "Please check device Internet connection.", Toast.LENGTH_SHORT).show();
+        }
     }
 }

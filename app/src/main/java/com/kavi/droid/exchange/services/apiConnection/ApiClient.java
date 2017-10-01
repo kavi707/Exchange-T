@@ -123,6 +123,7 @@ public class ApiClient {
             reqObj.put("qty", ticketRequest.getQty());
             reqObj.put("ticketDate", ticketRequest.getTicketDate());
             reqObj.put("ticketTime", ticketRequest.getTicketTime());
+            reqObj.put("ticketDay", ticketRequest.getTicketDay());
             reqObj.put("reqNote", ticketRequest.getReqDescription());
 
             headers.put("Authorization", authToken);

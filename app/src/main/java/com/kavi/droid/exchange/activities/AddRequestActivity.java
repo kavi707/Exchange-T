@@ -186,12 +186,23 @@ public class AddRequestActivity extends Activity {
                 String ticketTime = ticketTimeTextView.getText().toString();
                 String reqNote = reqNoteEditText.getText().toString();
 
+                String reqDay = null;
+                try {
+                    SimpleDateFormat simpleDateformat = new SimpleDateFormat("MMM-dd-yyyy");
+                    Date dt = simpleDateformat.parse(ticketDate);
+                    simpleDateformat = new SimpleDateFormat("EEEE");
+                    reqDay = simpleDateformat.format(dt);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
                 final TicketRequest ticketRequest = new TicketRequest();
                 ticketRequest.setName(name);
                 ticketRequest.setUserPicUrl(SharedPreferenceManager.getLoggedUserImageUrl(context));
                 ticketRequest.setReqDescription(reqNote);
                 ticketRequest.setTicketDate(ticketDate);
                 ticketRequest.setTicketTime(ticketTime);
+                ticketRequest.setTicketDay(reqDay);
                 ticketRequest.setPhoneNo(contactNum);
                 ticketRequest.setEmail(email);
 

@@ -9,11 +9,14 @@ import com.kavi.droid.exchange.models.TicketRequest;
 import com.kavi.droid.exchange.models.User;
 import com.kavi.droid.exchange.services.loginManagers.FBManager;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by kavi707 on 9/9/17.
@@ -146,5 +149,44 @@ public class CommonUtils {
         } else {
             return -1;
         }
+    }
+
+    public List<TicketRequest> getTicketRequestList(String jsonString) {
+
+        List<TicketRequest> ticketRequestList = null;
+
+        try {
+            ticketRequestList = new ArrayList<>();
+
+            JSONObject jsonData = new JSONObject(jsonString);
+            JSONArray jsonResArray = jsonData.getJSONArray("res");
+            JSONObject resObj, entityObj;
+            TicketRequest ticketRequest;
+            for (int i = 0; i < jsonResArray.length(); i++) {
+                resObj = jsonResArray.getJSONObject(i).getJSONObject("data");
+                entityObj = resObj.getJSONObject("entity");
+
+                ticketRequest = new TicketRequest();
+                ticketRequest.setReqDate(resObj.getLong("createdTime"));
+                ticketRequest.setFbId(entityObj.getString("fbUserId"));
+                ticketRequest.setName(entityObj.getString("name"));
+                ticketRequest.setUserPicUrl(entityObj.getString("profilePicUrl"));
+                ticketRequest.setPhoneNo(entityObj.getString("phoneNo"));
+                ticketRequest.setEmail(entityObj.getString("email"));
+                ticketRequest.setReqType(entityObj.getInt("type"));
+                ticketRequest.setStartToEnd(entityObj.getInt("startToEnd"));
+                ticketRequest.setQty(entityObj.getInt("qty"));
+                ticketRequest.setTicketDate(entityObj.getString("ticketDate"));
+                ticketRequest.setTicketTime(entityObj.getString("ticketTime"));
+                ticketRequest.setTicketDay(entityObj.getString("ticketDay"));
+                ticketRequest.setReqDescription(entityObj.getString("reqNote"));
+
+                ticketRequestList.add(ticketRequest);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return ticketRequestList;
     }
 }
