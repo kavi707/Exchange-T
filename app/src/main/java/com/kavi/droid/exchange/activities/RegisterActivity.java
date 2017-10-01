@@ -39,7 +39,7 @@ public class RegisterActivity extends AppCompatActivity {
     private ProgressDialog progress;
 
     private CommonUtils commonUtils = new CommonUtils();
-    private ApiClient apiClient = new ApiClient();
+    private ApiClient apiClient = new ApiClient(context);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

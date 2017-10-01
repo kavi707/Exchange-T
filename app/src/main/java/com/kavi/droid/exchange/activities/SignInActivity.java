@@ -43,7 +43,7 @@ public class SignInActivity extends AppCompatActivity {
 
     private FBManager fbManager = new FBManager();
     private CommonUtils commonUtils = new CommonUtils();
-    private ApiClient apiClient = new ApiClient();
+    private ApiClient apiClient = new ApiClient(context);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

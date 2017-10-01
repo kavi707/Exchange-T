@@ -2,8 +2,10 @@ package com.kavi.droid.exchange.activities;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -14,10 +16,15 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
+import com.kavi.droid.exchange.Constants;
 import com.kavi.droid.exchange.R;
+import com.kavi.droid.exchange.dialogs.LoadingProgressBarDialog;
+import com.kavi.droid.exchange.models.ApiClientResponse;
 import com.kavi.droid.exchange.models.Destination;
 import com.kavi.droid.exchange.models.TicketRequest;
+import com.kavi.droid.exchange.services.apiConnection.ApiClient;
 import com.kavi.droid.exchange.services.imageLoader.ImageLoadingManager;
 import com.kavi.droid.exchange.services.sharedPreferences.SharedPreferenceManager;
 import com.kavi.droid.exchange.utils.CommonUtils;
@@ -53,6 +60,8 @@ public class AddRequestActivity extends Activity {
     private Button submitReqBtn;
     private Button cancelReqBtn;
 
+    private ProgressDialog progress;
+
     private Context context = this;
     private int selectedYear, selectedMonth, selectedDay;
     private int selectedHour, selectedMinute;
@@ -61,6 +70,7 @@ public class AddRequestActivity extends Activity {
     private List<String> destinationNameList;
 
     private CommonUtils commonUtils = new CommonUtils();
+    private ApiClient apiClient = new ApiClient(context);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -176,7 +186,7 @@ public class AddRequestActivity extends Activity {
                 String ticketTime = ticketTimeTextView.getText().toString();
                 String reqNote = reqNoteEditText.getText().toString();
 
-                TicketRequest ticketRequest = new TicketRequest();
+                final TicketRequest ticketRequest = new TicketRequest();
                 ticketRequest.setName(name);
                 ticketRequest.setUserPicUrl(SharedPreferenceManager.getLoggedUserImageUrl(context));
                 ticketRequest.setReqDescription(reqNote);
@@ -192,6 +202,41 @@ public class AddRequestActivity extends Activity {
 
                 ticketRequest.setReqType(commonUtils.getTypeFromName(type));
                 ticketRequest.setStartToEnd(commonUtils.getDestinationFromName(selectedDestination));
+
+                if (commonUtils.isOnline(context)) {
+                    if (progress == null) {
+                        progress = LoadingProgressBarDialog.createProgressDialog(context);
+                    }
+                    progress.show();
+
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            final ApiClientResponse apiClientResponse = apiClient.createTicketRequest(Constants.SYNC_METHOD,
+                                    ticketRequest);
+                            if (apiClientResponse != null) {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        progress.dismiss();
+
+                                        if (apiClientResponse.getHttpStatusCode() == 200) {
+                                            Toast.makeText(context, "Successfully submitted your Exchange Ticket request.",
+                                                    Toast.LENGTH_SHORT).show();
+                                            finish();
+                                        } else {
+                                            Toast.makeText(context, "There was an error while submitting your request. Please try again from while.",
+                                                    Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                    }).start();
+                } else {
+                    Toast.makeText(context, "Please check device Internet connection.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
