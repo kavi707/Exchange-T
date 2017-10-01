@@ -25,4 +25,5 @@ public class Constants {
     public static final String GENERATE_AUTH_TOKEN = "/system/security/generateToken";
 
     public static final String ADD_TICKET_REQUEST = "/app/ticket_requests";
+    public static final String GET_TICKET_REQUEST = "/app/ticket_requests";
 }

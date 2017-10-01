@@ -113,6 +113,7 @@ public class ApiClient {
         String authToken = SharedPreferenceManager.getNodegridAuthToken(context);
 
         try {
+            reqObj.put("fbUserId", SharedPreferenceManager.getFBUserId(context));
             reqObj.put("name", ticketRequest.getName());
             reqObj.put("profilePicUrl", ticketRequest.getUserPicUrl());
             reqObj.put("phoneNo", ticketRequest.getPhoneNo());
@@ -137,6 +138,28 @@ public class ApiClient {
             }
         } catch (JSONException ex) {
             ex.printStackTrace();
+        }
+
+        return apiClientResponse;
+    }
+
+    public ApiClientResponse getTicketRequest(String taskMethod) {
+
+        ApiClientResponse apiClientResponse = null;
+        IApiConnector apiConnector;
+
+        Map<String, String> headers = new HashMap<>();
+        String authToken = SharedPreferenceManager.getNodegridAuthToken(context);
+        headers.put("Authorization", authToken);
+
+        if (taskMethod.equals(Constants.ASYNC_METHOD)) {
+            apiConnector = new AsyncApiConnector();
+            apiClientResponse = apiConnector.sendHttpGetOrDeleteRequest(Constants.BASE_URL + Constants.GET_TICKET_REQUEST,
+                    Constants.HTTP_GET, headers);
+        } else if (taskMethod.equals(Constants.SYNC_METHOD)) {
+            apiConnector = new SyncApiConnector();
+            apiClientResponse = apiConnector.sendHttpGetOrDeleteRequest(Constants.BASE_URL + Constants.GET_TICKET_REQUEST,
+                    Constants.HTTP_GET, headers);
         }
 
         return apiClientResponse;

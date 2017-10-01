@@ -172,6 +172,8 @@ public class SignInActivity extends AppCompatActivity {
                     .getString("profilePicUrl"));
             SharedPreferenceManager.setLoggedUserNumber(context, jsonUserObj.getJSONObject("additionalData")
                     .getString("phoneNumber"));
+            SharedPreferenceManager.setFBUserId(context, jsonUserObj.getJSONObject("additionalData")
+                    .getString("fbUserId"));
 
             isTokenPersist = generateAuthToken(jsonUserObj.getString("username"), jsonUserObj.getJSONObject("additionalData")
                     .getString("fbUserId"));

@@ -86,6 +86,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 SharedPreferenceManager.setLoggedUserEmail(context, emailEditText.getText().toString());
                                 SharedPreferenceManager.setLoggedUserImageUrl(context, user.getProfilePicUrl());
                                 SharedPreferenceManager.setLoggedUserNumber(context, numberEditText.getText().toString());
+                                SharedPreferenceManager.setFBUserId(context, user.getFbUserId());
 
                                 generateAuthToken(user.getEmail(), user.getFbUserId());
 
