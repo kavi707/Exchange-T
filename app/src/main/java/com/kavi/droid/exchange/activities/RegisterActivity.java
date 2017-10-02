@@ -16,11 +16,15 @@ import com.kavi.droid.exchange.dialogs.LoadingProgressBarDialog;
 import com.kavi.droid.exchange.models.ApiClientResponse;
 import com.kavi.droid.exchange.models.User;
 import com.kavi.droid.exchange.services.apiConnection.ApiClient;
+import com.kavi.droid.exchange.services.connections.ApiCalls;
 import com.kavi.droid.exchange.services.sharedPreferences.SharedPreferenceManager;
 import com.kavi.droid.exchange.utils.CommonUtils;
+import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import cz.msebera.android.httpclient.Header;
 
 /**
  * Created by kavi707 on 9/9/17.
@@ -78,38 +82,40 @@ public class RegisterActivity extends AppCompatActivity {
                         @Override
                         public void run() {
 
-                            ApiClientResponse response = apiClient.addNewUser(Constants.SYNC_METHOD, user);
-                            if (response != null) {
+                            new ApiCalls().addNewUser(Constants.SYNC_METHOD, user, new JsonHttpResponseHandler() {
+                                @Override
+                                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
 
-                                SharedPreferenceManager.setIsUserDataCaptured(context, true);
-                                SharedPreferenceManager.setLoggedUserName(context, firstNameEditText.getText().toString());
-                                SharedPreferenceManager.setLoggedUserEmail(context, emailEditText.getText().toString());
-                                SharedPreferenceManager.setLoggedUserImageUrl(context, user.getProfilePicUrl());
-                                SharedPreferenceManager.setLoggedUserNumber(context, numberEditText.getText().toString());
-                                SharedPreferenceManager.setFBUserId(context, user.getFbUserId());
+                                    SharedPreferenceManager.setIsUserDataCaptured(context, true);
+                                    SharedPreferenceManager.setLoggedUserName(context, firstNameEditText.getText().toString());
+                                    SharedPreferenceManager.setLoggedUserEmail(context, emailEditText.getText().toString());
+                                    SharedPreferenceManager.setLoggedUserImageUrl(context, user.getProfilePicUrl());
+                                    SharedPreferenceManager.setLoggedUserNumber(context, numberEditText.getText().toString());
+                                    SharedPreferenceManager.setFBUserId(context, user.getFbUserId());
 
-                                generateAuthToken(user.getEmail(), user.getFbUserId());
+                                    generateAuthToken(user.getEmail(), user.getFbUserId());
 
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        progress.dismiss();
-                                        Intent landingIntent = new Intent(RegisterActivity.this, LandingActivity.class);
-                                        landingIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                        startActivity(landingIntent);
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            progress.dismiss();
+                                            Intent landingIntent = new Intent(RegisterActivity.this, LandingActivity.class);
+                                            landingIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                            startActivity(landingIntent);
 
-                                        finish();
-                                    }
-                                });
-                            } else {
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        Toast.makeText(context, "Issue in user registration. Please try again from while", Toast.LENGTH_LONG).show();
-                                        progress.dismiss();
-                                    }
-                                });
-                            }
+                                            finish();
+                                        }
+                                    });
+                                }
+
+                                @Override
+                                public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                                    super.onFailure(statusCode, headers, throwable, errorResponse);
+
+                                    Toast.makeText(context, "Issue in user registration. Please try again from while", Toast.LENGTH_LONG).show();
+                                    progress.dismiss();
+                                }
+                            });
                         }
                     }).start();
                 } else {

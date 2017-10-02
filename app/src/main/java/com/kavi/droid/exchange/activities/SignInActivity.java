@@ -21,13 +21,17 @@ import com.kavi.droid.exchange.dialogs.LoadingProgressBarDialog;
 import com.kavi.droid.exchange.models.ApiClientResponse;
 import com.kavi.droid.exchange.models.User;
 import com.kavi.droid.exchange.services.apiConnection.ApiClient;
+import com.kavi.droid.exchange.services.connections.ApiCalls;
 import com.kavi.droid.exchange.services.loginManagers.FBManager;
 import com.kavi.droid.exchange.services.sharedPreferences.SharedPreferenceManager;
 import com.kavi.droid.exchange.utils.CommonUtils;
+import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import cz.msebera.android.httpclient.Header;
 
 /**
  * Created by kavi707 on 9/9/17.
@@ -112,41 +116,50 @@ public class SignInActivity extends AppCompatActivity {
                 @Override
                 public void run() {
 
-                    final ApiClientResponse response = apiClient.getUserFromFBId(Constants.SYNC_METHOD, appUser.getFbUserId());
-                    if (response != null) {
+                    new ApiCalls().getUserFromFBId(Constants.SYNC_METHOD, appUser.getFbUserId(), new JsonHttpResponseHandler() {
+                        @Override
+                        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
 
-                        if (response.getHttpStatusCode() == 200) {
-                            String jsonString = response.getResponseObj();
-                            persistUser(jsonString);
+                            if (statusCode == 200) {
+                                persistUser(response);
+                            }
+
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    progress.dismiss();
+                                    Intent landingIntent = new Intent(SignInActivity.this, LandingActivity.class);
+                                    landingIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    startActivity(landingIntent);
+
+                                    finish();
+                                }
+                            });
                         }
 
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                progress.dismiss();
+                        @Override
+                        public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                            super.onFailure(statusCode, headers, throwable, errorResponse);
 
-                                Intent landingIntent;
-                                if (response.getHttpStatusCode() == 200) {
-                                    landingIntent = new Intent(SignInActivity.this, LandingActivity.class);
-                                } else {
-                                    landingIntent = new Intent(SignInActivity.this, RegisterActivity.class);
+                            final int getStatusCode = statusCode;
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+
+                                    progress.dismiss();
+                                    if (getStatusCode == 404) {
+                                        Intent registerIntent = new Intent(SignInActivity.this, RegisterActivity.class);
+                                        registerIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                        startActivity(registerIntent);
+
+                                        finish();
+                                    } else {
+                                        Toast.makeText(context, "Issue in user registration. Please try again from while", Toast.LENGTH_LONG).show();
+                                    }
                                 }
-
-                                landingIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                startActivity(landingIntent);
-
-                                finish();
-                            }
-                        });
-                    } else {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(context, "Issue in user registration. Please try again from while", Toast.LENGTH_LONG).show();
-                                progress.dismiss();
-                            }
-                        });
-                    }
+                            });
+                        }
+                    });
                 }
             }).start();
         } else {
@@ -154,13 +167,11 @@ public class SignInActivity extends AppCompatActivity {
         }
     }
 
-    private boolean persistUser(String jsonString) {
+    private boolean persistUser(JSONObject jsonData) {
 
         boolean isTokenPersist = false;
 
         try {
-            JSONObject jsonData = new JSONObject(jsonString);
-
             JSONArray resDataArr = jsonData.getJSONArray("res");
 
             JSONObject jsonUserObj = resDataArr.getJSONObject(0).getJSONObject("data");

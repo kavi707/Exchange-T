@@ -124,24 +124,26 @@ public class LandingActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         Fragment fragment = null;
+        String fragmentTag = null;
         int id = item.getItemId();
 
         if (id == R.id.nav_home) {
             fragment = new HomeFragment();
+            fragmentTag = Constants.HOME_FRAGMENT_TAG;
         } else if (id == R.id.nav_history) {
-
+            fragmentTag = Constants.HISTORY_FRAGMENT_TAG;
         } else if (id == R.id.nav_notifications) {
-
+            fragmentTag = Constants.NOTIFICATION_FRAGMENT_TAG;
         } else if (id == R.id.nav_messages) {
-
+            fragmentTag = Constants.MESSAGE_FRAGMENT_TAG;
         } else if (id == R.id.nav_settings) {
-
+            fragmentTag = Constants.SETTINGS_FRAGMENT_TAG;
         }
 
         if (fragment != null) {
             FragmentManager fragmentManager = getFragmentManager();
             fragmentManager.beginTransaction()
-                    .replace(R.id.frame_container, fragment).commit();
+                    .replace(R.id.frame_container, fragment, fragmentTag).commit();
 
             DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
             drawer.closeDrawer(GravityCompat.START);
