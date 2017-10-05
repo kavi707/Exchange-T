@@ -17,10 +17,16 @@ import com.kavi.droid.exchange.dialogs.LoadingProgressBarDialog;
 import com.kavi.droid.exchange.models.ApiClientResponse;
 import com.kavi.droid.exchange.models.TicketRequest;
 import com.kavi.droid.exchange.services.apiConnection.ApiClient;
+import com.kavi.droid.exchange.services.connections.ApiCalls;
 import com.kavi.droid.exchange.utils.CommonUtils;
+import com.loopj.android.http.JsonHttpResponseHandler;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import cz.msebera.android.httpclient.Header;
 
 /**
  * Created by kwijewardana on 9/14/17.
@@ -77,25 +83,24 @@ public class HomeFragment extends Fragment {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    ApiClientResponse response = apiClient.getTicketRequest(Constants.SYNC_METHOD);
-                    if (response != null) {
 
-                        if (response.getHttpStatusCode() == 200) {
-                            ticketRequestList = commonUtils.getTicketRequestList(response.getResponseObj());
-                        } else {
+                    new ApiCalls().getTicketRequest(getActivity(), Constants.SYNC_METHOD, new JsonHttpResponseHandler(){
+
+                        @Override
+                        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+
+                            if (statusCode == 200) {
+                                ticketRequestList = commonUtils.getTicketRequestList(response);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                            super.onFailure(statusCode, headers, throwable, errorResponse);
                             Toast.makeText(getActivity(), "There was an error while making your request. Please try again from while.",
                                     Toast.LENGTH_SHORT).show();
                         }
-
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                progress.dismiss();
-                                requestItemAdapter = new RequestItemAdapter(ticketRequestList, getActivity());
-                                ticketRequestListView.setAdapter(requestItemAdapter);
-                            }
-                        });
-                    }
+                    });
                 }
             }).start();
         } else {

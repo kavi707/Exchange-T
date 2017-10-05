@@ -151,14 +151,13 @@ public class CommonUtils {
         }
     }
 
-    public List<TicketRequest> getTicketRequestList(String jsonString) {
+    public List<TicketRequest> getTicketRequestList(JSONObject jsonData) {
 
         List<TicketRequest> ticketRequestList = null;
 
         try {
             ticketRequestList = new ArrayList<>();
 
-            JSONObject jsonData = new JSONObject(jsonString);
             JSONArray jsonResArray = jsonData.getJSONArray("res");
             JSONObject resObj, entityObj;
             TicketRequest ticketRequest;

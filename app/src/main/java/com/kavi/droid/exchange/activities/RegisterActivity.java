@@ -82,7 +82,7 @@ public class RegisterActivity extends AppCompatActivity {
                         @Override
                         public void run() {
 
-                            new ApiCalls().addNewUser(Constants.SYNC_METHOD, user, new JsonHttpResponseHandler() {
+                            new ApiCalls().addNewUser(context, Constants.SYNC_METHOD, user, new JsonHttpResponseHandler() {
                                 @Override
                                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
 
@@ -125,36 +125,38 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
-    private boolean generateAuthToken(String username, String password) {
+    private void generateAuthToken(String username, String password) {
 
-        boolean isTokenGenerated = false;
-        ApiClientResponse apiClientResponse = apiClient.generateAuthToken(Constants.SYNC_METHOD, username, password);
-        if (apiClientResponse != null) {
+        new ApiCalls().generateAuthToken(Constants.SYNC_METHOD, username, password, new JsonHttpResponseHandler(){
 
-            int statusCode = apiClientResponse.getHttpStatusCode();
-            String jsonString = apiClientResponse.getResponseObj();
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
 
-            if (statusCode == 200) {
-                try {
-                    JSONObject jsonData = new JSONObject(jsonString);
-                    JSONObject resData;
-                    if (jsonData.get("res") instanceof JSONObject) {
-                        resData = jsonData.getJSONObject("res").getJSONObject("data");
-                    } else {
-                        resData = jsonData.getJSONArray("res").getJSONObject(0).getJSONObject("data");
+                if (statusCode == 200) {
+                    try {
+                        JSONObject resData;
+                        if (response.get("res") instanceof JSONObject) {
+                            resData = response.getJSONObject("res").getJSONObject("data");
+                        } else {
+                            resData = response.getJSONArray("res").getJSONObject(0).getJSONObject("data");
+                        }
+
+                        String authToken = resData.getString("accessToken");
+                        SharedPreferenceManager.setNodegridAuthToken(context, authToken);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-
-                    String authToken = resData.getString("accessToken");
-                    SharedPreferenceManager.setNodegridAuthToken(context, authToken);
-
-                    isTokenGenerated = true;
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
                 }
             }
-        }
 
-        return isTokenGenerated;
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                super.onFailure(statusCode, headers, throwable, errorResponse);
+
+                Toast.makeText(context, "Issue in user registration. Please try again from while", Toast.LENGTH_LONG).show();
+                progress.dismiss();
+            }
+        });
     }
 }

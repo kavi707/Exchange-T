@@ -25,9 +25,13 @@ import com.kavi.droid.exchange.models.ApiClientResponse;
 import com.kavi.droid.exchange.models.Destination;
 import com.kavi.droid.exchange.models.TicketRequest;
 import com.kavi.droid.exchange.services.apiConnection.ApiClient;
+import com.kavi.droid.exchange.services.connections.ApiCalls;
 import com.kavi.droid.exchange.services.imageLoader.ImageLoadingManager;
 import com.kavi.droid.exchange.services.sharedPreferences.SharedPreferenceManager;
 import com.kavi.droid.exchange.utils.CommonUtils;
+import com.loopj.android.http.JsonHttpResponseHandler;
+
+import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -35,6 +39,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
+import cz.msebera.android.httpclient.Header;
 
 /**
  * Created by kwijewardana on 9/15/17.
@@ -224,25 +230,35 @@ public class AddRequestActivity extends Activity {
                         @Override
                         public void run() {
 
-                            final ApiClientResponse apiClientResponse = apiClient.createTicketRequest(Constants.SYNC_METHOD,
-                                    ticketRequest);
-                            if (apiClientResponse != null) {
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        progress.dismiss();
+                            new ApiCalls().createTicketRequest(context, Constants.SYNC_METHOD, ticketRequest, new JsonHttpResponseHandler() {
 
-                                        if (apiClientResponse.getHttpStatusCode() == 200) {
-                                            Toast.makeText(context, "Successfully submitted your Exchange Ticket request.",
-                                                    Toast.LENGTH_SHORT).show();
-                                            finish();
-                                        } else {
-                                            Toast.makeText(context, "There was an error while submitting your request. Please try again from while.",
-                                                    Toast.LENGTH_SHORT).show();
+                                @Override
+                                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                                    super.onSuccess(statusCode, headers, response);
+
+                                    final int getStatusCode = statusCode;
+
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            progress.dismiss();
+
+                                            if (getStatusCode == 200) {
+                                                Toast.makeText(context, "Successfully submitted your Exchange Ticket request.",
+                                                        Toast.LENGTH_SHORT).show();
+                                                finish();
+                                            }
                                         }
-                                    }
-                                });
-                            }
+                                    });
+                                }
+
+                                @Override
+                                public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                                    super.onFailure(statusCode, headers, throwable, errorResponse);
+                                    Toast.makeText(context, "There was an error while submitting your request. Please try again from while.",
+                                            Toast.LENGTH_SHORT).show();
+                                }
+                            });
                         }
                     }).start();
                 } else {
