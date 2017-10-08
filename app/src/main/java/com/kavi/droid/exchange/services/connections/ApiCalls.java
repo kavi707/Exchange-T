@@ -60,11 +60,9 @@ public class ApiCalls {
             String reqJsonString = reqObj.toString();
 
             if (taskMethod.equals(Constants.SYNC_METHOD)) {
-                //syncHttpClient.post(url, requestParams, responseHandler);
                 syncHttpClient.post(context, url, new StringEntity(reqJsonString), APPLICATION_JSON, responseHandler);
             } else if (taskMethod.equals(Constants.ASYNC_METHOD)) {
-                //asyncHttpClient.post(url, requestParams, responseHandler);
-                syncHttpClient.post(context, url, new StringEntity(reqJsonString), APPLICATION_JSON, responseHandler);
+                asyncHttpClient.post(context, url, new StringEntity(reqJsonString), APPLICATION_JSON, responseHandler);
             }
 
         } catch (JSONException e) {

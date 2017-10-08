@@ -91,6 +91,17 @@ public class HomeFragment extends Fragment {
 
                             if (statusCode == 200) {
                                 ticketRequestList = commonUtils.getTicketRequestList(response);
+
+                                getActivity().runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        progress.dismiss();
+                                        requestItemAdapter = new RequestItemAdapter(ticketRequestList, getActivity());
+                                        ticketRequestListView.setAdapter(requestItemAdapter);
+                                    }
+                                });
+                            } else {
+                                // TODO - Show empty error
                             }
                         }
 
