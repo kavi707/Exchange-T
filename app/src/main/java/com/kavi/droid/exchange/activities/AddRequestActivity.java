@@ -45,7 +45,7 @@ import cz.msebera.android.httpclient.Header;
  * @author Kavimal Wijewardana <kavi707@gmail.com>
  */
 
-public class AddRequestActivity extends Activity {
+public class AddRequestActivity extends ExchangeBaseActivity {
 
     private ImageView profilePicImageView;
 

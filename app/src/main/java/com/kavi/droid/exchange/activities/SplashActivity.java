@@ -13,7 +13,7 @@ import com.kavi.droid.exchange.services.sharedPreferences.SharedPreferenceManage
  * Created by kavi707 on 9/9/17.
  * @author Kavimal Wijewardana <kavi707@gmail.com>
  */
-public class SplashActivity extends AppCompatActivity {
+public class SplashActivity extends ExchangeBaseActivity {
 
     // Splash screen timer
     private static int SPLASH_TIME_OUT = 2000;

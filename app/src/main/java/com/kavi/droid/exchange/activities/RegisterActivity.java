@@ -28,7 +28,7 @@ import cz.msebera.android.httpclient.Header;
  * Created by kavi707 on 9/9/17.
  * @author Kavimal Wijewardana <kavi707@gmail.com>
  */
-public class RegisterActivity extends AppCompatActivity {
+public class RegisterActivity extends ExchangeBaseActivity {
 
     private Button saveDataBtn;
     private EditText firstNameEditText;

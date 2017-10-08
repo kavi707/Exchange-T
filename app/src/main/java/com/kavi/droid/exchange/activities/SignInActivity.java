@@ -35,7 +35,7 @@ import cz.msebera.android.httpclient.Header;
  * Created by kavi707 on 9/9/17.
  * @author Kavimal Wijewardana <kavi707@gmail.com>
  */
-public class SignInActivity extends AppCompatActivity {
+public class SignInActivity extends ExchangeBaseActivity {
 
     private LoginButton fbLoginButton;
     private CallbackManager callbackManager;
