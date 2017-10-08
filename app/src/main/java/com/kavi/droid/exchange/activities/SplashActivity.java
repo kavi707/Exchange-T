@@ -46,6 +46,7 @@ public class SplashActivity extends ExchangeBaseActivity {
 
                 startIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(startIntent);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 
                 // close this activity
                 finish();

@@ -2,17 +2,20 @@ package com.kavi.droid.exchange.fragments;
 
 import android.app.Fragment;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.kavi.droid.exchange.Constants;
 import com.kavi.droid.exchange.R;
+import com.kavi.droid.exchange.activities.TicketRequestDetailActivity;
 import com.kavi.droid.exchange.adapters.RequestItemAdapter;
 import com.kavi.droid.exchange.dialogs.LoadingProgressBarDialog;
 import com.kavi.droid.exchange.models.TicketRequest;
@@ -69,6 +72,16 @@ public class HomeFragment extends Fragment {
 
         ticketRequestListView = (ListView) upView.findViewById(R.id.ticketRequestListView);
         noContentRelativeLayout = (RelativeLayout) upView.findViewById(R.id.noContentRelativeLayout);
+
+        ticketRequestListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                Intent ticketReqDetailsIntent = new Intent(getActivity(), TicketRequestDetailActivity.class);
+                startActivity(ticketReqDetailsIntent);
+                getActivity().overridePendingTransition(R.anim.left_to_right, R.anim.right_to_left);
+            }
+        });
     }
 
     private void getAllTicketRequest() {
