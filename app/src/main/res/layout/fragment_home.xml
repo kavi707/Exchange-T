@@ -12,4 +12,24 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true" />
 
+    <RelativeLayout
+        android:visibility="invisible"
+        android:id="@+id/noContentRelativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:text="No new ticket exchanges available"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="40dp"
+            android:gravity="center"
+            android:textSize="30dp"
+            android:textStyle="bold"
+            android:textColor="@color/mid_light_grey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
 </RelativeLayout>

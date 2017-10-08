@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.kavi.droid.exchange.Constants;
@@ -35,6 +36,7 @@ public class HomeFragment extends Fragment {
 
     private View rootView;
     private ListView ticketRequestListView;
+    private RelativeLayout noContentRelativeLayout;
 
     private ProgressDialog progress;
 
@@ -66,6 +68,7 @@ public class HomeFragment extends Fragment {
     public void setUpView(View upView) {
 
         ticketRequestListView = (ListView) upView.findViewById(R.id.ticketRequestListView);
+        noContentRelativeLayout = (RelativeLayout) upView.findViewById(R.id.noContentRelativeLayout);
     }
 
     private void getAllTicketRequest() {
@@ -92,12 +95,17 @@ public class HomeFragment extends Fragment {
                                     @Override
                                     public void run() {
                                         progress.dismiss();
-                                        requestItemAdapter = new RequestItemAdapter(ticketRequestList, getActivity());
-                                        ticketRequestListView.setAdapter(requestItemAdapter);
+                                        if (ticketRequestList != null && ticketRequestList.size() > 0) {
+                                            noContentRelativeLayout.setVisibility(View.INVISIBLE);
+                                            requestItemAdapter = new RequestItemAdapter(ticketRequestList, getActivity());
+                                            ticketRequestListView.setAdapter(requestItemAdapter);
+                                        } else {
+                                            noContentRelativeLayout.setVisibility(View.VISIBLE);
+                                        }
                                     }
                                 });
                             } else {
-                                // TODO - Show empty error
+                                noContentRelativeLayout.setVisibility(View.VISIBLE);
                             }
                         }
 

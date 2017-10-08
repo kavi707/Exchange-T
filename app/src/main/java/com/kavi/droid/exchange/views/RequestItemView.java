@@ -88,7 +88,11 @@ public class RequestItemView extends RelativeLayout {
             reqStartEndTextView.setText("JAFNA - COLOMBO");
         }
 
-        reqDescriptionTextView.setText(ticketRequest.getReqDescription());
+        if (ticketRequest.getReqDescription() != null && !ticketRequest.getReqDescription().equals("")) {
+            reqDescriptionTextView.setText(ticketRequest.getReqDescription());
+        } else {
+            reqDescriptionTextView.setVisibility(INVISIBLE);
+        }
         ticketDateTextView.setText(ticketRequest.getTicketDate());
         ticketDayTextView.setText(ticketRequest.getTicketDay());
         ticketTimeTextView.setText(ticketRequest.getTicketTime());
