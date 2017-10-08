@@ -13,9 +13,7 @@ import android.widget.Toast;
 import com.kavi.droid.exchange.Constants;
 import com.kavi.droid.exchange.R;
 import com.kavi.droid.exchange.dialogs.LoadingProgressBarDialog;
-import com.kavi.droid.exchange.models.ApiClientResponse;
 import com.kavi.droid.exchange.models.User;
-import com.kavi.droid.exchange.services.apiConnection.ApiClient;
 import com.kavi.droid.exchange.services.connections.ApiCalls;
 import com.kavi.droid.exchange.services.sharedPreferences.SharedPreferenceManager;
 import com.kavi.droid.exchange.utils.CommonUtils;
@@ -43,7 +41,6 @@ public class RegisterActivity extends AppCompatActivity {
     private ProgressDialog progress;
 
     private CommonUtils commonUtils = new CommonUtils();
-    private ApiClient apiClient = new ApiClient(context);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

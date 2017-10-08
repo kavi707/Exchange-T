@@ -21,10 +21,8 @@ import android.widget.Toast;
 import com.kavi.droid.exchange.Constants;
 import com.kavi.droid.exchange.R;
 import com.kavi.droid.exchange.dialogs.LoadingProgressBarDialog;
-import com.kavi.droid.exchange.models.ApiClientResponse;
 import com.kavi.droid.exchange.models.Destination;
 import com.kavi.droid.exchange.models.TicketRequest;
-import com.kavi.droid.exchange.services.apiConnection.ApiClient;
 import com.kavi.droid.exchange.services.connections.ApiCalls;
 import com.kavi.droid.exchange.services.imageLoader.ImageLoadingManager;
 import com.kavi.droid.exchange.services.sharedPreferences.SharedPreferenceManager;
@@ -76,7 +74,6 @@ public class AddRequestActivity extends Activity {
     private List<String> destinationNameList;
 
     private CommonUtils commonUtils = new CommonUtils();
-    private ApiClient apiClient = new ApiClient(context);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

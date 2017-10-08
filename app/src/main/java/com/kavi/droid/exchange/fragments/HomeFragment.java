@@ -14,9 +14,7 @@ import com.kavi.droid.exchange.Constants;
 import com.kavi.droid.exchange.R;
 import com.kavi.droid.exchange.adapters.RequestItemAdapter;
 import com.kavi.droid.exchange.dialogs.LoadingProgressBarDialog;
-import com.kavi.droid.exchange.models.ApiClientResponse;
 import com.kavi.droid.exchange.models.TicketRequest;
-import com.kavi.droid.exchange.services.apiConnection.ApiClient;
 import com.kavi.droid.exchange.services.connections.ApiCalls;
 import com.kavi.droid.exchange.utils.CommonUtils;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -44,7 +42,6 @@ public class HomeFragment extends Fragment {
     private List<TicketRequest> ticketRequestList = new ArrayList<>();
 
     private CommonUtils commonUtils = new CommonUtils();
-    private ApiClient apiClient;
 
     public HomeFragment() {
     }
@@ -53,7 +50,6 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_home, container, false);
-        apiClient = new ApiClient(getActivity());
         setUpView(rootView);
 
         return rootView;
