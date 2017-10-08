@@ -18,9 +18,7 @@ import com.facebook.login.widget.LoginButton;
 import com.kavi.droid.exchange.Constants;
 import com.kavi.droid.exchange.R;
 import com.kavi.droid.exchange.dialogs.LoadingProgressBarDialog;
-import com.kavi.droid.exchange.models.ApiClientResponse;
 import com.kavi.droid.exchange.models.User;
-import com.kavi.droid.exchange.services.apiConnection.ApiClient;
 import com.kavi.droid.exchange.services.connections.ApiCalls;
 import com.kavi.droid.exchange.services.loginManagers.FBManager;
 import com.kavi.droid.exchange.services.sharedPreferences.SharedPreferenceManager;
@@ -47,7 +45,6 @@ public class SignInActivity extends AppCompatActivity {
 
     private FBManager fbManager = new FBManager();
     private CommonUtils commonUtils = new CommonUtils();
-    private ApiClient apiClient = new ApiClient(context);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

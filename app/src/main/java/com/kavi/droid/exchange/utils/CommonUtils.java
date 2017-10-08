@@ -4,7 +4,6 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-import com.kavi.droid.exchange.models.ApiClientResponse;
 import com.kavi.droid.exchange.models.TicketRequest;
 import com.kavi.droid.exchange.models.User;
 import com.kavi.droid.exchange.services.loginManagers.FBManager;
@@ -40,18 +39,6 @@ public class CommonUtils {
         }
 
         return false;
-    }
-
-    public ApiClientResponse generateApiClientResponse(int statusCode, String response) {
-
-        ApiClientResponse apiClientResponse = null;
-
-        if (response != null) {
-            apiClientResponse.setHttpStatusCode(statusCode);
-            apiClientResponse.setResponseObj(response);
-        }
-
-        return apiClientResponse;
     }
 
     public User populateDataFromFB(String jsonString) {
