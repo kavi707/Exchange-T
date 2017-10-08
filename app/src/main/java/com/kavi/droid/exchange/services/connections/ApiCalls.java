@@ -143,4 +143,22 @@ public class ApiCalls {
             asyncHttpClient.get(url, null, responseHandler);
         }
     }
+
+    public void getMyTicketRequests(Context context, String taskMethod, JsonHttpResponseHandler responseHandler) {
+
+        String fbUserId = SharedPreferenceManager.getFBUserId(context);
+
+        String url = Constants.BASE_URL + Constants.GET_MY_TICKET_REQUEST +
+                "?qry=select * where entity.fbUserId=" + fbUserId;
+
+        String authToken = SharedPreferenceManager.getNodegridAuthToken(context);
+
+        if (taskMethod.equals(Constants.SYNC_METHOD)) {
+            syncHttpClient.addHeader(HEADER_AUTHORIZATION, authToken);
+            syncHttpClient.get(url, null, responseHandler);
+        } else if (taskMethod.equals(Constants.ASYNC_METHOD)) {
+            asyncHttpClient.addHeader(HEADER_AUTHORIZATION, authToken);
+            asyncHttpClient.get(url, null, responseHandler);
+        }
+    }
 }

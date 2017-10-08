@@ -32,4 +32,5 @@ public class Constants {
 
     public static final String ADD_TICKET_REQUEST = "/app/ticket_requests";
     public static final String GET_TICKET_REQUEST = "/app/ticket_requests";
+    public static final String GET_MY_TICKET_REQUEST = "/app/advance/ticket_requests";
 }

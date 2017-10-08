@@ -28,30 +28,30 @@ import java.util.List;
 import cz.msebera.android.httpclient.Header;
 
 /**
- * Created by kwijewardana on 9/14/17.
+ * Created by kavi707 on 10/8/17.
  * @author Kavimal Wijewardana <kavi707@gmail.com>
  */
 
-public class HomeFragment extends Fragment {
+public class MyRequestsHistoryFragment extends Fragment {
 
     private View rootView;
-    private ListView ticketRequestListView;
+    private ListView myTicketRequestListView;
     private RelativeLayout noContentRelativeLayout;
 
     private ProgressDialog progress;
 
     private RequestItemAdapter requestItemAdapter;
-    private List<TicketRequest> ticketRequestList = new ArrayList<>();
+    private List<TicketRequest> myTicketRequestList = new ArrayList<>();
 
     private CommonUtils commonUtils = new CommonUtils();
 
-    public HomeFragment() {
+    public MyRequestsHistoryFragment() {
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.fragment_home, container, false);
+        rootView = inflater.inflate(R.layout.fragment_my_request_history, container, false);
         setUpView(rootView);
 
         return rootView;
@@ -61,17 +61,17 @@ public class HomeFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        ticketRequestList.clear();
-        getAllTicketRequest();
+        myTicketRequestList.clear();
+        getMyTicketRequest();
     }
 
     private void setUpView(View upView) {
 
-        ticketRequestListView = (ListView) upView.findViewById(R.id.ticketRequestListView);
+        myTicketRequestListView = (ListView) upView.findViewById(R.id.myTicketRequestListView);
         noContentRelativeLayout = (RelativeLayout) upView.findViewById(R.id.noContentRelativeLayout);
     }
 
-    private void getAllTicketRequest() {
+    private void getMyTicketRequest() {
 
         if (commonUtils.isOnline(getActivity())) {
             if (progress == null) {
@@ -83,22 +83,22 @@ public class HomeFragment extends Fragment {
                 @Override
                 public void run() {
 
-                    new ApiCalls().getTicketRequest(getActivity(), Constants.SYNC_METHOD, new JsonHttpResponseHandler(){
+                    new ApiCalls().getMyTicketRequests(getActivity(), Constants.SYNC_METHOD, new JsonHttpResponseHandler(){
 
                         @Override
                         public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
 
                             if (statusCode == 200) {
-                                ticketRequestList = commonUtils.getTicketRequestList(response);
+                                myTicketRequestList = commonUtils.getTicketRequestList(response);
 
                                 getActivity().runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
                                         progress.dismiss();
-                                        if (ticketRequestList != null && ticketRequestList.size() > 0) {
+                                        if (myTicketRequestList != null && myTicketRequestList.size() > 0) {
                                             noContentRelativeLayout.setVisibility(View.INVISIBLE);
-                                            requestItemAdapter = new RequestItemAdapter(ticketRequestList, getActivity());
-                                            ticketRequestListView.setAdapter(requestItemAdapter);
+                                            requestItemAdapter = new RequestItemAdapter(myTicketRequestList, getActivity());
+                                            myTicketRequestListView.setAdapter(requestItemAdapter);
                                         } else {
                                             noContentRelativeLayout.setVisibility(View.VISIBLE);
                                         }
