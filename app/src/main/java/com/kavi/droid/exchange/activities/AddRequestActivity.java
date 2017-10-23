@@ -252,8 +252,14 @@ public class AddRequestActivity extends ExchangeBaseActivity {
                                 @Override
                                 public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                                     super.onFailure(statusCode, headers, throwable, errorResponse);
-                                    Toast.makeText(context, "There was an error while submitting your request. Please try again from while.",
-                                            Toast.LENGTH_SHORT).show();
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            progress.dismiss();
+                                            Toast.makeText(context, "There was an error while submitting your request. Please try again from while.",
+                                                    Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
                                 }
                             });
                         }

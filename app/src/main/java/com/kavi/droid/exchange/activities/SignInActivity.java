@@ -217,8 +217,13 @@ public class SignInActivity extends ExchangeBaseActivity {
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 super.onFailure(statusCode, headers, throwable, errorResponse);
 
-                Toast.makeText(context, "Issue in user registration. Please try again from while", Toast.LENGTH_LONG).show();
-                progress.dismiss();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(context, "Issue in user registration. Please try again from while", Toast.LENGTH_LONG).show();
+                        progress.dismiss();
+                    }
+                });
             }
         });
     }

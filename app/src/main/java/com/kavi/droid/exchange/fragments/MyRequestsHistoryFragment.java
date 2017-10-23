@@ -112,8 +112,15 @@ public class MyRequestsHistoryFragment extends Fragment {
                         @Override
                         public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                             super.onFailure(statusCode, headers, throwable, errorResponse);
-                            Toast.makeText(getActivity(), "There was an error while making your request. Please try again from while.",
-                                    Toast.LENGTH_SHORT).show();
+
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    progress.dismiss();
+                                    Toast.makeText(getActivity(), "There was an error while making your request. Please try again from while.",
+                                            Toast.LENGTH_SHORT).show();
+                                }
+                            });
                         }
                     });
                 }
