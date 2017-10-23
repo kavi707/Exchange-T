@@ -33,4 +33,5 @@
     
     <string name="list_msg_empty">No new ticket exchanges available</string>
     <string name="list_msg_issue">Issue on loading ticket requests</string>
+    <string name="list_msg_offline">No internet connection</string>
 </resources>

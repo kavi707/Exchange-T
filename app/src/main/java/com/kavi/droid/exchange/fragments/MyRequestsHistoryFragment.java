@@ -133,6 +133,8 @@ public class MyRequestsHistoryFragment extends Fragment {
                 }
             }).start();
         } else {
+            noContentRelativeLayout.setVisibility(View.VISIBLE);
+            listErrorTextView.setText(getResources().getString(R.string.list_msg_offline));
             Toast.makeText(getActivity(), "Please check device Internet connection.", Toast.LENGTH_SHORT).show();
         }
     }
