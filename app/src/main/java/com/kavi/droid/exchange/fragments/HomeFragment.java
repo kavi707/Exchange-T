@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.kavi.droid.exchange.Constants;
@@ -40,6 +41,7 @@ public class HomeFragment extends Fragment {
     private View rootView;
     private ListView ticketRequestListView;
     private RelativeLayout noContentRelativeLayout;
+    private TextView listErrorTextView;
 
     private ProgressDialog progress;
 
@@ -72,6 +74,7 @@ public class HomeFragment extends Fragment {
 
         ticketRequestListView = (ListView) upView.findViewById(R.id.ticketRequestListView);
         noContentRelativeLayout = (RelativeLayout) upView.findViewById(R.id.noContentRelativeLayout);
+        listErrorTextView = (TextView) upView.findViewById(R.id.listErrorTextView);
 
         ticketRequestListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -114,11 +117,13 @@ public class HomeFragment extends Fragment {
                                             ticketRequestListView.setAdapter(requestItemAdapter);
                                         } else {
                                             noContentRelativeLayout.setVisibility(View.VISIBLE);
+                                            listErrorTextView.setText(getResources().getString(R.string.list_msg_empty));
                                         }
                                     }
                                 });
                             } else {
                                 noContentRelativeLayout.setVisibility(View.VISIBLE);
+                                listErrorTextView.setText(getResources().getString(R.string.list_msg_issue));
                             }
                         }
 
@@ -130,6 +135,8 @@ public class HomeFragment extends Fragment {
                                 @Override
                                 public void run() {
                                     progress.dismiss();
+                                    noContentRelativeLayout.setVisibility(View.VISIBLE);
+                                    listErrorTextView.setText(getResources().getString(R.string.list_msg_issue));
                                     Toast.makeText(getActivity(), "There was an error while making your request. Please try again from while.",
                                             Toast.LENGTH_SHORT).show();
                                 }

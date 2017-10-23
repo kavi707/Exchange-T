@@ -30,4 +30,7 @@
         <item>09</item>
         <item>10</item>
     </string-array>
+    
+    <string name="list_msg_empty">No new ticket exchanges available</string>
+    <string name="list_msg_issue">Issue on loading ticket requests</string>
 </resources>

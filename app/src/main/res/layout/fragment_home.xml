@@ -19,6 +19,7 @@
         android:layout_height="match_parent">
 
         <TextView
+            android:id="@+id/listErrorTextView"
             android:text="No new ticket exchanges available"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
