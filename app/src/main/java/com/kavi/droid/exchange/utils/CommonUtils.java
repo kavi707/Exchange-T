@@ -107,6 +107,16 @@ public class CommonUtils {
         }
     }
 
+    public String getTypeFromInt(int type) {
+        if (type == TicketRequest.I_NEED) {
+            return "I Need";
+        } else if (type == TicketRequest.I_HAVE) {
+            return "I Have";
+        } else {
+            return "Unknown";
+        }
+    }
+
     public int getDestinationFromName(String destination) {
 
         if (destination.equals("COLOMBO - KANDY")) {
@@ -135,6 +145,37 @@ public class CommonUtils {
             return TicketRequest.VAUNIYA_COLOMBO;
         } else {
             return -1;
+        }
+    }
+
+    public String getDestinationFromInt(int destination) {
+
+        if (destination == TicketRequest.COLOMBO_KANDY) {
+            return "COLOMBO - KANDY";
+        } else if (destination == TicketRequest.KANDY_COLOMBO) {
+            return "KANDY - COLOMBO";
+        } else if (destination == TicketRequest.COLOMBO_BADULLA) {
+            return "COLOMBO - BADULLA";
+        } else if (destination == TicketRequest.BADULLA_COLOMBO) {
+            return "BADULLA - COLOMBO";
+        } else if (destination == TicketRequest.COLOMBO_KURUNEGALA) {
+            return "COLOMBO - KURUNEGALA";
+        } else if (destination == TicketRequest.KURUNEGALA_COLOMBO) {
+            return "KURUNEGALA - COLOMBO";
+        } else if (destination == TicketRequest.COLOMBO_ANURADHAPURA) {
+            return "COLOMBO - ANURADHAPURA";
+        } else if (destination == TicketRequest.ANURADHAPURA_COLOMBO) {
+            return "ANURADHAPURA - COLOMBO";
+        } else if (destination == TicketRequest.COLOMBO_JAFNA) {
+            return "COLOMBO - JAFNA";
+        } else if (destination == TicketRequest.JAFNA_COLOMBO) {
+            return "JAFNA - COLOMBO";
+        } else if (destination == TicketRequest.COLOMBO_VAUNIYA) {
+            return "COLOMBO - VAUNIYA";
+        } else if (destination == TicketRequest.VAUNIYA_COLOMBO) {
+            return "VAUNIYA - COLOMBO";
+        } else {
+            return "Unknown - Unknown";
         }
     }
 

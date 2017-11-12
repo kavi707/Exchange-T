@@ -81,7 +81,7 @@ public class HomeFragment extends Fragment {
         ticketRequestListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                TicketRequestDetailActivity.setTicketRequest(ticketRequestList.get(position));
                 Intent ticketReqDetailsIntent = new Intent(getActivity(), TicketRequestDetailActivity.class);
                 startActivity(ticketReqDetailsIntent);
                 getActivity().overridePendingTransition(R.anim.left_to_right, R.anim.right_to_left);
@@ -138,7 +138,7 @@ public class HomeFragment extends Fragment {
 
                                     if (statusCode == 401) {
                                         Intent startIntent = new Intent(getActivity(), SignInActivity.class);
-                                        
+
                                         startIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                         startActivity(startIntent);
                                         getActivity().overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
