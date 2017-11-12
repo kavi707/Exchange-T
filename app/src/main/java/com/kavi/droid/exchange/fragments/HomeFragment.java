@@ -16,6 +16,8 @@ import android.widget.Toast;
 
 import com.kavi.droid.exchange.Constants;
 import com.kavi.droid.exchange.R;
+import com.kavi.droid.exchange.activities.SignInActivity;
+import com.kavi.droid.exchange.activities.SplashActivity;
 import com.kavi.droid.exchange.activities.TicketRequestDetailActivity;
 import com.kavi.droid.exchange.adapters.RequestItemAdapter;
 import com.kavi.droid.exchange.dialogs.LoadingProgressBarDialog;
@@ -128,15 +130,27 @@ public class HomeFragment extends Fragment {
                         }
 
                         @Override
-                        public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                        public void onFailure(final int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                             getActivity().runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
                                     progress.dismiss();
-                                    noContentRelativeLayout.setVisibility(View.VISIBLE);
-                                    listErrorTextView.setText(getResources().getString(R.string.list_msg_issue));
-                                    Toast.makeText(getActivity(), "There was an error while making your request. Please try again from while.",
-                                            Toast.LENGTH_SHORT).show();
+
+                                    if (statusCode == 401) {
+                                        Intent startIntent = new Intent(getActivity(), SignInActivity.class);
+                                        
+                                        startIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                        startActivity(startIntent);
+                                        getActivity().overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+
+                                        // close this activity
+                                        getActivity().finish();
+                                    } else {
+                                        noContentRelativeLayout.setVisibility(View.VISIBLE);
+                                        listErrorTextView.setText(getResources().getString(R.string.list_msg_issue));
+                                        Toast.makeText(getActivity(), "There was an error while making your request. Please try again from while.",
+                                                Toast.LENGTH_SHORT).show();
+                                    }
                                 }
                             });
                         }
