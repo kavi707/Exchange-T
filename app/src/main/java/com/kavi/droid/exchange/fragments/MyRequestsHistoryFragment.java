@@ -116,8 +116,6 @@ public class MyRequestsHistoryFragment extends Fragment {
 
                         @Override
                         public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                            super.onFailure(statusCode, headers, throwable, errorResponse);
-
                             getActivity().runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
