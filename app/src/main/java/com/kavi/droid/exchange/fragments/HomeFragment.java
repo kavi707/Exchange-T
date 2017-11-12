@@ -24,6 +24,7 @@ import com.kavi.droid.exchange.dialogs.LoadingProgressBarDialog;
 import com.kavi.droid.exchange.models.TicketRequest;
 import com.kavi.droid.exchange.services.connections.ApiCalls;
 import com.kavi.droid.exchange.utils.CommonUtils;
+import com.kavi.droid.exchange.utils.NavigationUtil;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONObject;
@@ -82,9 +83,10 @@ public class HomeFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 TicketRequestDetailActivity.setTicketRequest(ticketRequestList.get(position));
-                Intent ticketReqDetailsIntent = new Intent(getActivity(), TicketRequestDetailActivity.class);
-                startActivity(ticketReqDetailsIntent);
-                getActivity().overridePendingTransition(R.anim.left_to_right, R.anim.right_to_left);
+                new NavigationUtil(getActivity())
+                        .to(TicketRequestDetailActivity.class)
+                        .setTransitionAnim(NavigationUtil.ANIM_LEFT_TO_RIGHT)
+                        .go();
             }
         });
     }
@@ -137,14 +139,10 @@ public class HomeFragment extends Fragment {
                                     progress.dismiss();
 
                                     if (statusCode == 401) {
-                                        Intent startIntent = new Intent(getActivity(), SignInActivity.class);
-
-                                        startIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                        startActivity(startIntent);
-                                        getActivity().overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-
-                                        // close this activity
-                                        getActivity().finish();
+                                        new NavigationUtil(getActivity())
+                                                .to(SignInActivity.class)
+                                                .finish()
+                                                .go();
                                     } else {
                                         noContentRelativeLayout.setVisibility(View.VISIBLE);
                                         listErrorTextView.setText(getResources().getString(R.string.list_msg_issue));

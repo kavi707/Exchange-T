@@ -2,11 +2,13 @@ package com.kavi.droid.exchange.fragments;
 
 import android.app.Fragment;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -14,11 +16,13 @@ import android.widget.Toast;
 
 import com.kavi.droid.exchange.Constants;
 import com.kavi.droid.exchange.R;
+import com.kavi.droid.exchange.activities.TicketRequestDetailActivity;
 import com.kavi.droid.exchange.adapters.RequestItemAdapter;
 import com.kavi.droid.exchange.dialogs.LoadingProgressBarDialog;
 import com.kavi.droid.exchange.models.TicketRequest;
 import com.kavi.droid.exchange.services.connections.ApiCalls;
 import com.kavi.droid.exchange.utils.CommonUtils;
+import com.kavi.droid.exchange.utils.NavigationUtil;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONObject;
@@ -72,6 +76,18 @@ public class MyRequestsHistoryFragment extends Fragment {
         myTicketRequestListView = (ListView) upView.findViewById(R.id.myTicketRequestListView);
         noContentRelativeLayout = (RelativeLayout) upView.findViewById(R.id.noContentRelativeLayout);
         listErrorTextView = (TextView) upView.findViewById(R.id.listErrorTextView);
+
+        myTicketRequestListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                TicketRequestDetailActivity.setTicketRequest(myTicketRequestList.get(position));
+
+                new NavigationUtil(getActivity())
+                        .to(TicketRequestDetailActivity.class)
+                        .setTransitionAnim(NavigationUtil.ANIM_LEFT_TO_RIGHT)
+                        .go();
+            }
+        });
     }
 
     private void getMyTicketRequest() {

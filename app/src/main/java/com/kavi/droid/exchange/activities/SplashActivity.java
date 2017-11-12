@@ -8,6 +8,10 @@ import android.os.Bundle;
 
 import com.kavi.droid.exchange.R;
 import com.kavi.droid.exchange.services.sharedPreferences.SharedPreferenceManager;
+import com.kavi.droid.exchange.utils.NavigationUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by kavi707 on 9/9/17.
@@ -36,20 +40,26 @@ public class SplashActivity extends ExchangeBaseActivity {
 
                 // This method will be executed once the timer is over
                 // Start your app main activity
-                Intent startIntent;
+
+                Class navigationState;
                 // Check User is logged in or not
                 if (SharedPreferenceManager.isUserLogIn(context)) {
-                    startIntent = new Intent(SplashActivity.this, LandingActivity.class);
+                    navigationState = LandingActivity.class;
                 } else {
-                    startIntent = new Intent(SplashActivity.this, SignInActivity.class);
+                    navigationState = SignInActivity.class;
                 }
 
-                startIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(startIntent);
-                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                List<Integer> flags = new ArrayList<>();
+                flags.add(Intent.FLAG_ACTIVITY_NEW_TASK);
+                flags.add(Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
-                // close this activity
-                finish();
+                new NavigationUtil(SplashActivity.this)
+                        .to(navigationState)
+                        .setTransitionAnim(NavigationUtil.ANIM_FADE_IN)
+                        .setFlags(flags)
+                        .finish()
+                        .go();
+
             }
         }, SPLASH_TIME_OUT);
     }

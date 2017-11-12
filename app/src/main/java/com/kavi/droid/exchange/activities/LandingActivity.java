@@ -26,6 +26,7 @@ import com.kavi.droid.exchange.fragments.HomeFragment;
 import com.kavi.droid.exchange.fragments.MyRequestsHistoryFragment;
 import com.kavi.droid.exchange.services.imageLoader.ImageLoadingManager;
 import com.kavi.droid.exchange.services.sharedPreferences.SharedPreferenceManager;
+import com.kavi.droid.exchange.utils.NavigationUtil;
 
 /**
  * Created by kavi707 on 9/9/17.
@@ -61,8 +62,9 @@ public class LandingActivity extends AppCompatActivity
             public void onClick(View view) {
                 /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();*/
-                Intent addingIntent = new Intent(LandingActivity.this, AddRequestActivity.class);
-                startActivity(addingIntent);
+                new NavigationUtil(LandingActivity.this)
+                        .to(AddRequestActivity.class)
+                        .go();
             }
         });
 

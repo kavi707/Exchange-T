@@ -17,10 +17,14 @@ import com.kavi.droid.exchange.models.User;
 import com.kavi.droid.exchange.services.connections.ApiCalls;
 import com.kavi.droid.exchange.services.sharedPreferences.SharedPreferenceManager;
 import com.kavi.droid.exchange.utils.CommonUtils;
+import com.kavi.droid.exchange.utils.NavigationUtil;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -96,11 +100,16 @@ public class RegisterActivity extends ExchangeBaseActivity {
                                         @Override
                                         public void run() {
                                             progress.dismiss();
-                                            Intent landingIntent = new Intent(RegisterActivity.this, LandingActivity.class);
-                                            landingIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                            startActivity(landingIntent);
 
-                                            finish();
+                                            List<Integer> flags = new ArrayList<>();
+                                            flags.add(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                            flags.add(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+                                            new NavigationUtil(RegisterActivity.this)
+                                                    .to(LandingActivity.class)
+                                                    .setFlags(flags)
+                                                    .finish()
+                                                    .go();
                                         }
                                     });
                                 }

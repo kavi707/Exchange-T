@@ -23,11 +23,15 @@ import com.kavi.droid.exchange.services.connections.ApiCalls;
 import com.kavi.droid.exchange.services.loginManagers.FBManager;
 import com.kavi.droid.exchange.services.sharedPreferences.SharedPreferenceManager;
 import com.kavi.droid.exchange.utils.CommonUtils;
+import com.kavi.droid.exchange.utils.NavigationUtil;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -125,11 +129,16 @@ public class SignInActivity extends ExchangeBaseActivity {
                                 @Override
                                 public void run() {
                                     progress.dismiss();
-                                    Intent landingIntent = new Intent(SignInActivity.this, LandingActivity.class);
-                                    landingIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                    startActivity(landingIntent);
 
-                                    finish();
+                                    List<Integer> flags = new ArrayList<>();
+                                    flags.add(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    flags.add(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+                                    new NavigationUtil(SignInActivity.this)
+                                            .to(LandingActivity.class)
+                                            .setFlags(flags)
+                                            .finish()
+                                            .go();
                                 }
                             });
                         }
@@ -145,11 +154,16 @@ public class SignInActivity extends ExchangeBaseActivity {
 
                                     progress.dismiss();
                                     if (getStatusCode == 404) {
-                                        Intent registerIntent = new Intent(SignInActivity.this, RegisterActivity.class);
-                                        registerIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                        startActivity(registerIntent);
+                                        List<Integer> flags = new ArrayList<>();
+                                        flags.add(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        flags.add(Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
-                                        finish();
+                                        new NavigationUtil(SignInActivity.this)
+                                                .to(RegisterActivity.class)
+                                                .setFlags(flags)
+                                                .finish()
+                                                .go();
+
                                     } else {
                                         Toast.makeText(context, "Issue in user registration. Please try again from while", Toast.LENGTH_LONG).show();
                                     }
