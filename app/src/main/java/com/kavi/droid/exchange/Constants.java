@@ -23,8 +23,9 @@ public class Constants {
     public static final String MESSAGE_FRAGMENT_TAG = "MESSAGE_FRAGMENT";
     public static final String SETTINGS_FRAGMENT_TAG = "SETTINGS_FRAGMENT";
 
-    //public static final String BASE_URL = "http://10.0.2.2:3000";
-    public static final String BASE_URL = "http://13.59.85.152:8000";
+    //public static final String BASE_URL = "http://10.0.2.2:8000";
+    //public static final String BASE_URL = "http://13.59.85.152:8000";
+    public static final String BASE_URL = "http://10.140.48.254:8000";
 
     public static final String ADD_USER = "/system/user/";
     public static final String GET_FB_USER = "/system/user/fb/";
