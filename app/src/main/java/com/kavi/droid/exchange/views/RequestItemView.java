@@ -55,7 +55,7 @@ public class RequestItemView extends RelativeLayout {
     public void setTicketRequest(TicketRequest ticketRequest) {
         this.ticketRequest = ticketRequest;
 
-        imageLoadingManager.loadImageToImageView(ticketRequest.getUserPicUrl(), userPicImageView, false);
+        imageLoadingManager.loadImageToImageView(ticketRequest.getUserPicUrl(), userPicImageView, true);
         if (ticketRequest.getReqType() == TicketRequest.I_HAVE) {
             reqTypeTextView.setText("I Have");
         } else if (ticketRequest.getReqType() == TicketRequest.I_NEED) {
