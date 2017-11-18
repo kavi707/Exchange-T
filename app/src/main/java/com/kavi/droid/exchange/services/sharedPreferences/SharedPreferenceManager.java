@@ -23,6 +23,7 @@ public class SharedPreferenceManager {
     private static final String LOGGED_USER_EMAIL = "LOGGED_USER_EMAIL";
     private static final String LOGGED_USER_IMAGE_URL = "LOGGED_USER_IMAGE_URL";
     private static final String LOGGED_USER_NUMBER = "LOGGED_USER_NUMBER";
+    private static final String FCM_PUSH_TOKEN = "FCM_PUSH_TOKEN";
 
     /**
      * Store boolean shared preference value
@@ -160,5 +161,13 @@ public class SharedPreferenceManager {
 
     public static String getLoggedUserNumber(Context context){
         return readStringSharePreference(context, LOGGED_USER_NUMBER);
+    }
+
+    public static void setFCMPushToken(Context context, String value) {
+        writeStringSharePreference(context, FCM_PUSH_TOKEN, value);
+    }
+
+    public static String getFCMPushToken(Context context){
+        return readStringSharePreference(context, FCM_PUSH_TOKEN);
     }
 }

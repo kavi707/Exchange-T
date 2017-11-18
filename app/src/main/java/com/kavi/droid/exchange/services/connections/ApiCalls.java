@@ -36,7 +36,6 @@ public class ApiCalls {
 
         String url = Constants.BASE_URL + Constants.ADD_USER;
 
-        RequestParams requestParams = new RequestParams();
         JSONObject reqObj = new JSONObject();
         JSONObject reqObjAdditional = new JSONObject();
 
@@ -46,15 +45,10 @@ public class ApiCalls {
             reqObj.put("username", user.getEmail());
             reqObj.put("password", user.getFbUserId());
 
-            requestParams.put("name", user.getFirstName() + " " + user.getLastName());
-            requestParams.put("username", user.getEmail());
-            requestParams.put("password", user.getFbUserId());
-
             reqObjAdditional.put("phoneNumber", user.getPhoneNumber());
             reqObjAdditional.put("fbUserId", user.getFbUserId());
             reqObjAdditional.put("profilePicUrl", user.getProfilePicUrl());
 
-            requestParams.put("additional", reqObjAdditional);
             reqObj.put("additional", reqObjAdditional);
 
             String reqJsonString = reqObj.toString();
@@ -159,6 +153,40 @@ public class ApiCalls {
         } else if (taskMethod.equals(Constants.ASYNC_METHOD)) {
             asyncHttpClient.addHeader(HEADER_AUTHORIZATION, authToken);
             asyncHttpClient.get(url, null, responseHandler);
+        }
+    }
+
+    public void submitPushToken(Context context, String taskMethod, String userId, String pushToken, JsonHttpResponseHandler responseHandler) {
+
+        String url = Constants.BASE_URL + Constants.SUBMIT_FCM_PUSH_TOKEN;
+
+        JSONObject reqObj = new JSONObject();
+        JSONObject reqObjPushData = new JSONObject();
+
+        try {
+            reqObj.put("userId", userId);
+
+            reqObjPushData.put("regId", pushToken);
+            reqObjPushData.put("notifier", Constants.NOTIFIER_GOOGLE);
+
+            reqObj.put("push", reqObjPushData);
+
+            String reqJsonString = reqObj.toString();
+
+            String authToken = SharedPreferenceManager.getNodegridAuthToken(context);
+
+            if (taskMethod.equals(Constants.SYNC_METHOD)) {
+                asyncHttpClient.addHeader(HEADER_AUTHORIZATION, authToken);
+                syncHttpClient.post(context, url, new StringEntity(reqJsonString), APPLICATION_JSON, responseHandler);
+            } else if (taskMethod.equals(Constants.ASYNC_METHOD)) {
+                asyncHttpClient.addHeader(HEADER_AUTHORIZATION, authToken);
+                asyncHttpClient.post(context, url, new StringEntity(reqJsonString), APPLICATION_JSON, responseHandler);
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
         }
     }
 }

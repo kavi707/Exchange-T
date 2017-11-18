@@ -129,6 +129,8 @@ public class SignInActivity extends ExchangeBaseActivity {
                                 @Override
                                 public void run() {
                                     progress.dismiss();
+                                    // Submit push token to service
+                                    submitFCMPushToken();
 
                                     List<Integer> flags = new ArrayList<>();
                                     flags.add(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -197,6 +199,7 @@ public class SignInActivity extends ExchangeBaseActivity {
 
             generateAuthToken(jsonUserObj.getString("username"), jsonUserObj.getJSONObject("additionalData")
                     .getString("fbUserId"));
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -238,5 +241,24 @@ public class SignInActivity extends ExchangeBaseActivity {
                 });
             }
         });
+    }
+
+    private void submitFCMPushToken() {
+
+        String fbUserId = SharedPreferenceManager.getFBUserId(context);
+
+        new ApiCalls().submitPushToken(context, Constants.ASYNC_METHOD, fbUserId,
+                SharedPreferenceManager.getFCMPushToken(context),
+                new JsonHttpResponseHandler(){
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                        super.onSuccess(statusCode, headers, response);
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                        super.onFailure(statusCode, headers, throwable, errorResponse);
+                    }
+                });
     }
 }
