@@ -189,4 +189,18 @@ public class ApiCalls {
             e.printStackTrace();
         }
     }
+
+    public void checkCurrentTokenStatus(Context context, String taskMethod, JsonHttpResponseHandler responseHandler) {
+
+        String authToken = SharedPreferenceManager.getNodegridAuthToken(context);
+
+        String url = Constants.BASE_URL + Constants.CHECK_ACCESS_TOKEN_STATUS +
+                "/" + authToken;
+
+        if (taskMethod.equals(Constants.SYNC_METHOD)) {
+            syncHttpClient.get(url, null, responseHandler);
+        } else if (taskMethod.equals(Constants.ASYNC_METHOD)) {
+            asyncHttpClient.get(url, null, responseHandler);
+        }
+    }
 }

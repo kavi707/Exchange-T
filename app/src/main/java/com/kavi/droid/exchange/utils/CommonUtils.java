@@ -4,9 +4,11 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+import com.facebook.login.LoginManager;
 import com.kavi.droid.exchange.models.TicketRequest;
 import com.kavi.droid.exchange.models.User;
 import com.kavi.droid.exchange.services.loginManagers.FBManager;
+import com.kavi.droid.exchange.services.sharedPreferences.SharedPreferenceManager;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,6 +41,23 @@ public class CommonUtils {
         }
 
         return false;
+    }
+
+    public void logoutApplication(Context context, boolean isAlsoFromFB) {
+
+        if (isAlsoFromFB) {
+            LoginManager.getInstance().logOut();
+
+            SharedPreferenceManager.setIsLogIn(context, false);
+            SharedPreferenceManager.setIsUserDataCaptured(context, false);
+            SharedPreferenceManager.setLoggedUserName(context, null);
+            SharedPreferenceManager.setLoggedUserEmail(context, null);
+            SharedPreferenceManager.setLoggedUserImageUrl(context, null);
+            SharedPreferenceManager.setLoggedUserNumber(context, null);
+            SharedPreferenceManager.setFBUserId(context, null);
+        }
+
+        SharedPreferenceManager.setNodegridAuthToken(context, null);
     }
 
     public User populateDataFromFB(String jsonString) {
