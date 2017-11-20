@@ -97,29 +97,38 @@ public class ApiCalls {
                                     JsonHttpResponseHandler responseHandler) {
 
         String url = Constants.BASE_URL + Constants.ADD_TICKET_REQUEST;
-        RequestParams requestParams = new RequestParams();
+
+        JSONObject reqObj = new JSONObject();
 
         String authToken = SharedPreferenceManager.getNodegridAuthToken(context);
 
-        requestParams.put("fbUserId", SharedPreferenceManager.getFBUserId(context));
-        requestParams.put("name", ticketRequest.getName());
-        requestParams.put("profilePicUrl", ticketRequest.getUserPicUrl());
-        requestParams.put("phoneNo", ticketRequest.getPhoneNo());
-        requestParams.put("email", ticketRequest.getEmail());
-        requestParams.put("type", ticketRequest.getReqType());
-        requestParams.put("startToEnd", ticketRequest.getStartToEnd());
-        requestParams.put("qty", ticketRequest.getQty());
-        requestParams.put("ticketDate", ticketRequest.getTicketDate());
-        requestParams.put("ticketTime", ticketRequest.getTicketTime());
-        requestParams.put("ticketDay", ticketRequest.getTicketDay());
-        requestParams.put("reqNote", ticketRequest.getReqDescription());
+        try {
+            reqObj.put("fbUserId", SharedPreferenceManager.getFBUserId(context));
+            reqObj.put("name", ticketRequest.getName());
+            reqObj.put("profilePicUrl", ticketRequest.getUserPicUrl());
+            reqObj.put("phoneNo", ticketRequest.getPhoneNo());
+            reqObj.put("email", ticketRequest.getEmail());
+            reqObj.put("type", ticketRequest.getReqType());
+            reqObj.put("startToEnd", ticketRequest.getStartToEnd());
+            reqObj.put("qty", ticketRequest.getQty());
+            reqObj.put("ticketDate", ticketRequest.getTicketDate());
+            reqObj.put("ticketTime", ticketRequest.getTicketTime());
+            reqObj.put("ticketDay", ticketRequest.getTicketDay());
+            reqObj.put("reqNote", ticketRequest.getReqDescription());
 
-        if (taskMethod.equals(Constants.SYNC_METHOD)) {
-            syncHttpClient.addHeader(HEADER_AUTHORIZATION, authToken);
-            syncHttpClient.post(url, requestParams, responseHandler);
-        } else if (taskMethod.equals(Constants.ASYNC_METHOD)) {
-            asyncHttpClient.addHeader(HEADER_AUTHORIZATION, authToken);
-            asyncHttpClient.post(url, requestParams, responseHandler);
+            String reqJsonString = reqObj.toString();
+
+            if (taskMethod.equals(Constants.SYNC_METHOD)) {
+                syncHttpClient.addHeader(HEADER_AUTHORIZATION, authToken);
+                syncHttpClient.post(context, url, new StringEntity(reqJsonString), APPLICATION_JSON, responseHandler);
+            } else if (taskMethod.equals(Constants.ASYNC_METHOD)) {
+                asyncHttpClient.addHeader(HEADER_AUTHORIZATION, authToken);
+                asyncHttpClient.post(context, url, new StringEntity(reqJsonString), APPLICATION_JSON, responseHandler);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
         }
     }
 
