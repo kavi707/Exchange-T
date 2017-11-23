@@ -6,9 +6,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -45,15 +48,23 @@ public class HomeFragment extends Fragment {
     private ListView ticketRequestListView;
     private RelativeLayout noContentRelativeLayout;
     private TextView listErrorTextView;
+    private LinearLayout filterView;
 
     private ProgressDialog progress;
 
     private RequestItemAdapter requestItemAdapter;
     private List<TicketRequest> ticketRequestList = new ArrayList<>();
+    private boolean isDown;
 
     private CommonUtils commonUtils = new CommonUtils();
 
     public HomeFragment() {
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
     }
 
     @Nullable
@@ -73,11 +84,33 @@ public class HomeFragment extends Fragment {
         getAllTicketRequest();
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.toolbar_search:
+                if (isDown) {
+                    slideUp(filterView);
+                } else {
+                    slideDown(filterView);
+                }
+                isDown = !isDown;
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
+
+    }
+
     private void setUpView(View upView) {
 
         ticketRequestListView = (ListView) upView.findViewById(R.id.ticketRequestListView);
         noContentRelativeLayout = (RelativeLayout) upView.findViewById(R.id.noContentRelativeLayout);
         listErrorTextView = (TextView) upView.findViewById(R.id.listErrorTextView);
+        filterView = (LinearLayout) upView.findViewById(R.id.filterView);
+
+        // initialize as invisible (could also do in xml)
+        filterView.setVisibility(View.INVISIBLE);
+        isDown = false;
 
         ticketRequestListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -160,5 +193,30 @@ public class HomeFragment extends Fragment {
             listErrorTextView.setText(getResources().getString(R.string.list_msg_offline));
             Toast.makeText(getActivity(), "Please check device Internet connection.", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    // slide the view from below itself to the current position
+    public void slideUp(View view){
+        view.setVisibility(View.VISIBLE);
+        TranslateAnimation animate = new TranslateAnimation(
+                0,                 // fromXDelta
+                0,                 // toXDelta
+                0,  // fromYDelta
+                -(view.getHeight()));                // toYDelta
+        animate.setDuration(500);
+        animate.setFillAfter(true);
+        view.startAnimation(animate);
+    }
+
+    // slide the view from its current position to below itself
+    public void slideDown(View view){
+        TranslateAnimation animate = new TranslateAnimation(
+                0,                 // fromXDelta
+                0,                 // toXDelta
+                -(view.getHeight()),                 // fromYDelta
+                0); // toYDelta
+        animate.setDuration(500);
+        animate.setFillAfter(true);
+        view.startAnimation(animate);
     }
 }

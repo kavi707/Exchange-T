@@ -5,6 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <LinearLayout
+        android:id="@+id/filterView"
+        android:background="#a6e1aa"
+        android:orientation="vertical"
+        android:layout_alignParentTop="true"
+        android:layout_width="match_parent"
+        android:layout_height="280dp">
+
+    </LinearLayout>
+
     <ListView
         android:id="@+id/ticketRequestListView"
         android:layout_width="match_parent"

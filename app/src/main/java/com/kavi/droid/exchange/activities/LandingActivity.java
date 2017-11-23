@@ -3,10 +3,8 @@ package com.kavi.droid.exchange.activities;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -19,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.kavi.droid.exchange.Constants;
 import com.kavi.droid.exchange.R;
@@ -156,6 +155,13 @@ public class LandingActivity extends AppCompatActivity
             Log.e(Constants.LOG_TAG,"LandingActivity:onNavigationItemSelected / On Fragment form error: Fail to create Fragment");
         }
 
+        return true;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.activity_icon_menu, menu);
         return true;
     }
 }
