@@ -1,5 +1,6 @@
 package com.kavi.droid.exchange.fragments;
 
+import android.app.DatePickerDialog;
 import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -11,9 +12,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +31,8 @@ import com.kavi.droid.exchange.adapters.RequestItemAdapter;
 import com.kavi.droid.exchange.dialogs.LoadingProgressBarDialog;
 import com.kavi.droid.exchange.models.TicketRequest;
 import com.kavi.droid.exchange.services.connections.ApiCalls;
+import com.kavi.droid.exchange.services.connections.dto.FilterTicketReq;
+import com.kavi.droid.exchange.services.connections.dto.FilterTicketReqDate;
 import com.kavi.droid.exchange.utils.CommonUtils;
 import com.kavi.droid.exchange.utils.NavigationUtil;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -33,6 +40,7 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
@@ -50,11 +58,25 @@ public class HomeFragment extends Fragment {
     private TextView listErrorTextView;
     private LinearLayout filterView;
 
+    private TextView ticketFromDateTextView;
+    private TextView ticketToDateTextView;
+
+    private Spinner destinationSpinner;
+    private Spinner typeSelectSpinner;
+    private Spinner ticketCountSpinner;
+
+    private Button filterActionButton;
+
     private ProgressDialog progress;
 
     private RequestItemAdapter requestItemAdapter;
     private List<TicketRequest> ticketRequestList = new ArrayList<>();
     private boolean isDown;
+    private List<String> destinationNameList;
+    private List<String> typeNameList;
+    private List<String> qtyList;
+    private int selectedYear, selectedMonth, selectedDay;
+    private boolean isDateFilterSet = false;
 
     private CommonUtils commonUtils = new CommonUtils();
 
@@ -65,6 +87,10 @@ public class HomeFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        destinationNameList = commonUtils.initDestinationList();
+        typeNameList = commonUtils.initTypeList();
+        qtyList = commonUtils.initQtyList();
+        setCurrentDateTime();
     }
 
     @Nullable
@@ -108,9 +134,31 @@ public class HomeFragment extends Fragment {
         listErrorTextView = (TextView) upView.findViewById(R.id.listErrorTextView);
         filterView = (LinearLayout) upView.findViewById(R.id.filterView);
 
+        ticketFromDateTextView = (TextView) upView.findViewById(R.id.ticketFromDateTextView);
+        ticketToDateTextView = (TextView) upView.findViewById(R.id.ticketToDateTextView);
+        ticketToDateTextView.setEnabled(false);
+        ticketToDateTextView.setHintTextColor(getResources().getColor(R.color.light_red));
+
+        filterActionButton = (Button) upView.findViewById(R.id.filterActionButton);
+
         // initialize as invisible (could also do in xml)
         filterView.setVisibility(View.INVISIBLE);
         isDown = false;
+
+        destinationSpinner = (Spinner) upView.findViewById(R.id.destinationSpinner);
+        ArrayAdapter<String> destinationAdapter = new ArrayAdapter<>(getActivity(), R.layout.spinner_filter_item, destinationNameList);
+        destinationAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        destinationSpinner.setAdapter(destinationAdapter);
+
+        typeSelectSpinner = (Spinner) upView.findViewById(R.id.typeSelectSpinner);
+        ArrayAdapter<String> typeAdapter = new ArrayAdapter<>(getActivity(), R.layout.spinner_filter_item, typeNameList);
+        typeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        typeSelectSpinner.setAdapter(typeAdapter);
+
+        ticketCountSpinner = (Spinner) upView.findViewById(R.id.ticketCountSpinner);
+        ArrayAdapter<String> qtyAdapter = new ArrayAdapter<>(getActivity(), R.layout.spinner_filter_item, qtyList);
+        qtyAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ticketCountSpinner.setAdapter(qtyAdapter);
 
         ticketRequestListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -120,6 +168,91 @@ public class HomeFragment extends Fragment {
                         .to(TicketRequestDetailActivity.class)
                         .setTransitionAnim(NavigationUtil.ANIM_LEFT_TO_RIGHT)
                         .go();
+            }
+        });
+
+        ticketFromDateTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                        ticketFromDateTextView.setText(commonUtils.orderDate(year, month + 1, day));
+
+                        isDateFilterSet = true;
+
+                        ticketToDateTextView.setEnabled(true);
+                        ticketToDateTextView.setHintTextColor(getResources().getColor(R.color.light_green));
+                    }
+                }, selectedYear, selectedMonth, selectedDay).show();
+            }
+        });
+
+        ticketToDateTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                        ticketToDateTextView.setText(commonUtils.orderDate(year, month + 1, day));
+                    }
+                }, selectedYear, selectedMonth, selectedDay).show();
+            }
+        });
+
+        filterActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String type = typeSelectSpinner.getSelectedItem().toString();
+                String qty = ticketCountSpinner.getSelectedItem().toString();
+                String selectedDestination = destinationSpinner.getSelectedItem().toString();
+                String ticketFromDateString = ticketFromDateTextView.getText().toString();
+                String ticketToDateString = ticketToDateTextView.getText().toString();
+
+                FilterTicketReq filterTicketReq = new FilterTicketReq();
+                if (!qty.equals("Select Qty")) {
+                    int ticketQty = Integer.parseInt(qty);
+                    filterTicketReq.setQtyFilter(ticketQty);
+                } else {
+                    filterTicketReq.setQtyFilter(-1);
+                }
+
+                if (!type.equals("Select Type")) {
+                    filterTicketReq.setTypeFilter(commonUtils.getTypeFromName(type));
+                } else {
+                    filterTicketReq.setTypeFilter(-1);
+                }
+
+                if (!selectedDestination.equals("Select Destination")) {
+                    filterTicketReq.setDestinationFilter(commonUtils.getDestinationFromName(selectedDestination));
+                } else {
+                    filterTicketReq.setDestinationFilter(-1);
+                }
+
+                if (isDateFilterSet) {
+                    FilterTicketReqDate filterTicketReqDate = new FilterTicketReqDate();
+
+                    if (!ticketFromDateString.equals("Ticket Date")) {
+                        filterTicketReqDate.setFromDateTimestamp(commonUtils.getTimestampFromDate(ticketFromDateString));
+                    } else {
+                        filterTicketReqDate.setToDateTimestamp(-1);
+                    }
+
+                    if (!ticketToDateString.equals("Ticket Date")) {
+                        filterTicketReqDate.setToDateTimestamp(commonUtils.getTimestampFromDate(ticketToDateString));
+                    } else {
+                        filterTicketReqDate.setToDateTimestamp(-1);
+                    }
+
+                    filterTicketReq.setDateFilter(filterTicketReqDate);
+                }
+
+                // Hide the filtering window
+                slideUp(filterView);
+                isDown = false;
+
+                filterTicketRequest(filterTicketReq);
             }
         });
     }
@@ -142,6 +275,78 @@ public class HomeFragment extends Fragment {
                         public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
 
                             if (statusCode == 200) {
+                                ticketRequestList = commonUtils.getTicketRequestList(response);
+
+                                getActivity().runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        progress.dismiss();
+                                        if (ticketRequestList != null && ticketRequestList.size() > 0) {
+                                            noContentRelativeLayout.setVisibility(View.INVISIBLE);
+                                            requestItemAdapter = new RequestItemAdapter(ticketRequestList, getActivity());
+                                            ticketRequestListView.setAdapter(requestItemAdapter);
+                                        } else {
+                                            noContentRelativeLayout.setVisibility(View.VISIBLE);
+                                            listErrorTextView.setText(getResources().getString(R.string.list_msg_empty));
+                                        }
+                                    }
+                                });
+                            } else {
+                                noContentRelativeLayout.setVisibility(View.VISIBLE);
+                                listErrorTextView.setText(getResources().getString(R.string.list_msg_issue));
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(final int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    progress.dismiss();
+
+                                    if (statusCode == 401) {
+                                        new NavigationUtil(getActivity())
+                                                .to(SignInActivity.class)
+                                                .finish()
+                                                .go();
+                                    } else {
+                                        noContentRelativeLayout.setVisibility(View.VISIBLE);
+                                        listErrorTextView.setText(getResources().getString(R.string.list_msg_issue));
+                                        Toast.makeText(getActivity(), "There was an error while making your request. Please try again from while.",
+                                                Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+                        }
+                    });
+                }
+            }).start();
+        } else {
+            noContentRelativeLayout.setVisibility(View.VISIBLE);
+            listErrorTextView.setText(getResources().getString(R.string.list_msg_offline));
+            Toast.makeText(getActivity(), "Please check device Internet connection.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void filterTicketRequest(final FilterTicketReq filterTicketReq) {
+
+        if (commonUtils.isOnline(getActivity())) {
+            if (progress == null) {
+                progress = LoadingProgressBarDialog.createProgressDialog(getActivity());
+            }
+            progress.show();
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+
+                    new ApiCalls().filterTicketRequest(getActivity(), Constants.SYNC_METHOD, filterTicketReq, new JsonHttpResponseHandler(){
+
+                        @Override
+                        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+
+                            if (statusCode == 200) {
+                                ticketRequestList.clear();
                                 ticketRequestList = commonUtils.getTicketRequestList(response);
 
                                 getActivity().runOnUiThread(new Runnable() {
@@ -218,5 +423,13 @@ public class HomeFragment extends Fragment {
         animate.setDuration(500);
         animate.setFillAfter(true);
         view.startAnimation(animate);
+    }
+
+    private void setCurrentDateTime() {
+        Calendar calendar = Calendar.getInstance();
+
+        selectedYear = calendar.get(Calendar.YEAR);
+        selectedMonth = calendar.get(Calendar.MONTH);
+        selectedDay = calendar.get(Calendar.DAY_OF_MONTH);
     }
 }

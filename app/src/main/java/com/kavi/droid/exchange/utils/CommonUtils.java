@@ -16,7 +16,11 @@ import org.json.JSONObject;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -196,6 +200,88 @@ public class CommonUtils {
         } else {
             return "Unknown - Unknown";
         }
+    }
+
+    public List<String> initDestinationList() {
+
+        List<String> destinationNameList = new ArrayList<>();
+
+        destinationNameList.add("Select Destination");
+        destinationNameList.add("COLOMBO - KANDY");
+        destinationNameList.add("KANDY - COLOMBO");
+        destinationNameList.add("COLOMBO - BADULLA");
+        destinationNameList.add("BADULLA - COLOMBO");
+        destinationNameList.add("COLOMBO - KURUNEGALA");
+        destinationNameList.add("KURUNEGALA - COLOMBO");
+        destinationNameList.add("COLOMBO - ANURADHAPURA");
+        destinationNameList.add("ANURADHAPURA - COLOMBO");
+        destinationNameList.add("COLOMBO - JAFNA");
+        destinationNameList.add("JAFNA - COLOMBO");
+        destinationNameList.add("COLOMBO - VAUNIYA");
+        destinationNameList.add("VAUNIYA - COLOMBO");
+
+        return destinationNameList;
+    }
+
+    public List<String> initTypeList() {
+
+        List<String> typeNameList = new ArrayList<>();
+
+        typeNameList.add("Select Type");
+        typeNameList.add("I Need");
+        typeNameList.add("I Have");
+
+        return typeNameList;
+    }
+
+    public List<String> initQtyList() {
+
+        List<String> qtyList = new ArrayList<>();
+
+        qtyList.add("Select Qty");
+        qtyList.add("01");
+        qtyList.add("02");
+        qtyList.add("03");
+        qtyList.add("04");
+        qtyList.add("05");
+        qtyList.add("06");
+        qtyList.add("07");
+        qtyList.add("08");
+        qtyList.add("09");
+        qtyList.add("10");
+
+        return qtyList;
+    }
+
+    public String orderDate(int year, int month, int day) {
+
+        String dateString = null;
+        try {
+            String givenDate = year + "-" + month + "-" + day;
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date date = dateFormat.parse(givenDate);
+
+            dateFormat = new SimpleDateFormat("MMM-dd-yyyy");
+
+            dateString = dateFormat.format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return dateString;
+    }
+
+    public long getTimestampFromDate(String date) {
+        long dateTimestamp = 0;
+        try {
+            DateFormat dateFormat = new SimpleDateFormat("MMM-dd-yyyy");
+            Date gotDate = dateFormat.parse(date);
+            dateTimestamp = gotDate.getTime() / 1000L;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return dateTimestamp;
     }
 
     public List<TicketRequest> getTicketRequestList(JSONObject jsonData) {

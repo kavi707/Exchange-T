@@ -5,6 +5,7 @@ import android.content.Context;
 import com.kavi.droid.exchange.Constants;
 import com.kavi.droid.exchange.models.TicketRequest;
 import com.kavi.droid.exchange.models.User;
+import com.kavi.droid.exchange.services.connections.dto.FilterTicketReq;
 import com.kavi.droid.exchange.services.sharedPreferences.SharedPreferenceManager;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -210,6 +211,49 @@ public class ApiCalls {
             syncHttpClient.get(url, null, responseHandler);
         } else if (taskMethod.equals(Constants.ASYNC_METHOD)) {
             asyncHttpClient.get(url, null, responseHandler);
+        }
+    }
+
+    public void filterTicketRequest(Context context, String taskMethod, FilterTicketReq filterTicketReq, JsonHttpResponseHandler responseHandler) {
+
+        String url = Constants.BASE_URL + Constants.GET_FILTER_TICKET_REQUEST;
+
+        JSONObject reqObj = new JSONObject();
+        JSONObject dateReqObj = new JSONObject();
+
+        try {
+            if (filterTicketReq.getTypeFilter() != -1)
+                reqObj.put("type", filterTicketReq.getTypeFilter());
+
+            if (filterTicketReq.getDateFilter() != null) {
+                dateReqObj.put("from", filterTicketReq.getDateFilter().getFromDateTimestamp());
+                if (filterTicketReq.getDateFilter().getToDateTimestamp() != -1)
+                    dateReqObj.put("to", filterTicketReq.getDateFilter().getToDateTimestamp());
+                reqObj.put("date", dateReqObj);
+            }
+
+            if (filterTicketReq.getDestinationFilter() != -1)
+                reqObj.put("startToEnd", filterTicketReq.getDestinationFilter());
+
+            if (filterTicketReq.getQtyFilter() != -1)
+                reqObj.put("qty", filterTicketReq.getQtyFilter());
+
+            String reqJsonString = reqObj.toString();
+
+            String authToken = SharedPreferenceManager.getNodegridAuthToken(context);
+
+            if (taskMethod.equals(Constants.SYNC_METHOD)) {
+                syncHttpClient.addHeader(HEADER_AUTHORIZATION, authToken);
+                syncHttpClient.post(context, url, new StringEntity(reqJsonString), APPLICATION_JSON, responseHandler);
+            } else if (taskMethod.equals(Constants.ASYNC_METHOD)) {
+                asyncHttpClient.addHeader(HEADER_AUTHORIZATION, authToken);
+                asyncHttpClient.post(context, url, new StringEntity(reqJsonString), APPLICATION_JSON, responseHandler);
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
         }
     }
 }

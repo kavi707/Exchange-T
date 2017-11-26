@@ -80,7 +80,7 @@ public class AddRequestActivity extends ExchangeBaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_request);
 
-        initDestinationList();
+        destinationNameList = commonUtils.initDestinationList();
         setCurrentDateTime();
 
         setUpViews();
@@ -127,7 +127,7 @@ public class AddRequestActivity extends ExchangeBaseActivity {
                 new DatePickerDialog(context, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                        ticketDateTextView.setText(orderDate(year, month + 1, day));
+                        ticketDateTextView.setText(commonUtils.orderDate(year, month + 1, day));
                     }
                 }, selectedYear, selectedMonth, selectedDay).show();
             }
@@ -279,39 +279,5 @@ public class AddRequestActivity extends ExchangeBaseActivity {
 
         selectedHour = calendar.get(Calendar.HOUR);
         selectedMinute = calendar.get(Calendar.MINUTE);
-    }
-
-    private String orderDate(int year, int month, int day) {
-
-        String dateString = null;
-        try {
-            String givenDate = year + "-" + month + "-" + day;
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            Date date = dateFormat.parse(givenDate);
-
-            dateFormat = new SimpleDateFormat("MMM-dd-yyyy");
-
-            dateString = dateFormat.format(date);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        return dateString;
-    }
-
-    private void initDestinationList() {
-        destinationNameList = new ArrayList<>();
-        destinationNameList.add("COLOMBO - KANDY");
-        destinationNameList.add("KANDY - COLOMBO");
-        destinationNameList.add("COLOMBO - BADULLA");
-        destinationNameList.add("BADULLA - COLOMBO");
-        destinationNameList.add("COLOMBO - KURUNEGALA");
-        destinationNameList.add("KURUNEGALA - COLOMBO");
-        destinationNameList.add("COLOMBO - ANURADHAPURA");
-        destinationNameList.add("ANURADHAPURA - COLOMBO");
-        destinationNameList.add("COLOMBO - JAFNA");
-        destinationNameList.add("JAFNA - COLOMBO");
-        destinationNameList.add("COLOMBO - VAUNIYA");
-        destinationNameList.add("VAUNIYA - COLOMBO");
     }
 }
