@@ -6,14 +6,20 @@
     android:layout_height="match_parent"
     tools:context="com.kavi.droid.exchange.activities.SplashActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Exchange - T"
-        android:textColor="@color/colorPrimary"
-        android:textStyle="bold"
-        android:textSize="35dp"
+    <ImageView
+        android:src="@drawable/et_app_icon_name"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:id="@+id/imageView" />
+
+    <TextView
+        android:text="@string/powered_by"
+        android:gravity="center"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 </RelativeLayout>

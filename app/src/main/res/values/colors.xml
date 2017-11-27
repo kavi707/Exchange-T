@@ -9,5 +9,6 @@
     <color name="mid_light_grey">#cfcfcf</color>
     <color name="grey">#a1a1a1</color>
     <color name="light_green">#a6e1aa</color>
+    <color name="lighter_green">#A7FFEB</color>
     <color name="light_red">#ff1500</color>
 </resources>

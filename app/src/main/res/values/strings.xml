@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">ExchangeT</string>
+    <string name="powered_by">Powered by <b>kaviDroid</b></string>
 
     <!-- Facebook -->
     <string name="facebook_app_id">158052984776841</string>
@@ -34,4 +35,7 @@
     <string name="list_msg_empty">No new ticket exchanges available</string>
     <string name="list_msg_issue">Issue on loading ticket requests</string>
     <string name="list_msg_offline">No internet connection</string>
+
+    <string name="et_sign_in">Sign In</string>
+    <string name="et_sign_in_msg">Did you missed to book <b>Tickets</b>? \n or \n Are you going to loss your <b>Money</b>?</string>
 </resources>

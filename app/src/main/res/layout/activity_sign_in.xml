@@ -4,14 +4,59 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
     tools:context="com.kavi.droid.exchange.activities.SignInActivity">
 
-    <com.facebook.login.widget.LoginButton
-        android:id="@+id/fbLoginButton"
-        android:layout_width="wrap_content"
+    <TextView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
+        android:text="@string/et_sign_in_msg"
+        android:textColor="@color/white"
+        android:textSize="22dp"
+        android:gravity="center"
+        android:layout_above="@+id/splashImageView"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"/>
+
+    <ImageView
+        android:src="@drawable/et_splash_img"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:id="@+id/splashImageView" />
+
+    <TextView
+        android:id="@+id/signInTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/et_sign_in"
+        android:textColor="@color/white"
+        android:textSize="24dp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_below="@+id/splashImageView"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/style_border_squre"
+        android:layout_below="@+id/signInTextView"
+        android:layout_marginTop="20dp"
+        android:layout_alignStart="@+id/splashImageView"
+        android:layout_alignEnd="@+id/splashImageView">
+
+        <com.facebook.login.widget.LoginButton
+            android:id="@+id/fbLoginButton"
+            android:layout_centerHorizontal="true"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"/>
+
+    </RelativeLayout>
 
 </RelativeLayout>
