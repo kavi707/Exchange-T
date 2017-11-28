@@ -3,7 +3,9 @@ package com.kavi.droid.exchange.activities;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.kavi.droid.exchange.R;
@@ -18,6 +20,7 @@ import com.kavi.droid.exchange.utils.CommonUtils;
 
 public class TicketRequestDetailActivity extends ExchangeBaseActivity {
 
+    private RelativeLayout ticketRequestDetailHolder;
     private TextView requestedNameTextView;
     private ImageView reqUserImageView;
     private TextView reqTypeTextView;
@@ -26,8 +29,8 @@ public class TicketRequestDetailActivity extends ExchangeBaseActivity {
     private TextView ticketDayTextView;
     private TextView ticketDateTextView;
     private TextView ticketTimeTextView;
-    private TextView contactNumberTextView;
-    private TextView emailTextView;
+    private Button contactNumberButton;
+    private Button emailButton;
 
     private Context context = this;
     private ImageLoadingManager imageLoadingManager;
@@ -47,6 +50,7 @@ public class TicketRequestDetailActivity extends ExchangeBaseActivity {
     private void setUpViews() {
         imageLoadingManager = new ImageLoadingManager(context);
 
+        ticketRequestDetailHolder = (RelativeLayout) findViewById(R.id.ticketRequestDetailHolder);
         requestedNameTextView = (TextView) findViewById(R.id.requestedNameTextView);
         reqUserImageView = (ImageView) findViewById(R.id.reqUserImageView);
         reqTypeTextView = (TextView) findViewById(R.id.reqTypeTextView);
@@ -55,20 +59,25 @@ public class TicketRequestDetailActivity extends ExchangeBaseActivity {
         ticketDayTextView = (TextView) findViewById(R.id.ticketDayTextView);
         ticketDateTextView = (TextView) findViewById(R.id.ticketDateTextView);
         ticketTimeTextView = (TextView) findViewById(R.id.ticketTimeTextView);
-        contactNumberTextView = (TextView) findViewById(R.id.contactNumberTextView);
-        emailTextView = (TextView) findViewById(R.id.emailTextView);
+        contactNumberButton = (Button) findViewById(R.id.contactNumberButton);
+        emailButton = (Button) findViewById(R.id.emailButton);
 
         requestedNameTextView.setText("Me, " + ticketRequest.getName());
         imageLoadingManager.loadImageToImageView(ticketRequest.getUserPicUrl(),
                 reqUserImageView, true);
         reqTypeTextView.setText(commonUtils.getTypeFromInt(ticketRequest.getReqType()));
+        if (ticketRequest.getReqType() == TicketRequest.I_HAVE) {
+            ticketRequestDetailHolder.setBackgroundColor(getResources().getColor(R.color.i_have));
+        } else if (ticketRequest.getReqType() == TicketRequest.I_NEED) {
+            ticketRequestDetailHolder.setBackgroundColor(getResources().getColor(R.color.i_need));
+        }
         qtyTextView.setText(ticketRequest.getQty() + " tickets");
         startToEndTextView.setText(commonUtils.getDestinationFromInt(ticketRequest.getStartToEnd()));
         ticketDayTextView.setText(ticketRequest.getTicketDay());
         ticketDateTextView.setText(ticketRequest.getTicketDate());
         ticketTimeTextView.setText(ticketRequest.getTicketTime());
-        contactNumberTextView.setText(ticketRequest.getPhoneNo());
-        emailTextView.setText(ticketRequest.getEmail());
+        contactNumberButton.setText("Call me: " + ticketRequest.getPhoneNo());
+        emailButton.setText("Email me: " + ticketRequest.getEmail());
     }
 
     public static void setTicketRequest(TicketRequest getTicketRequest) {
