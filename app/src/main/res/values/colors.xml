@@ -14,4 +14,7 @@
     <color name="primaryGreen">#B2DFDB</color>
     <color name="lighter_green">#A7FFEB</color>
     <color name="light_red">#ff1500</color>
+
+    <color name="i_have">#1E88E5</color>
+    <color name="i_need">#009688</color>
 </resources>

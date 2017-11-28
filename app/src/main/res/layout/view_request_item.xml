@@ -5,8 +5,10 @@
     android:layout_height="wrap_content">
 
     <RelativeLayout
+        android:id="@+id/requestTileHolder"
         android:layout_width="match_parent"
-        android:layout_height="140dp">
+        android:layout_height="140dp"
+        android:background="@color/i_need">
 
         <ImageView
             android:id="@+id/userImageView"
@@ -25,6 +27,7 @@
             android:layout_alignBottom="@+id/userImageView"
             android:layout_alignStart="@+id/reqTypeTextView"
             android:text="COLOMBO - KANDY"
+            android:textColor="@color/white"
             android:textSize="20dp"
             android:textStyle="bold" />
 
@@ -37,6 +40,7 @@
             android:layout_marginStart="15dp"
             android:layout_toEndOf="@+id/userImageView"
             android:text="I Need"
+            android:textColor="@color/white"
             android:textSize="18dp" />
 
         <TextView
@@ -50,6 +54,7 @@
             android:layout_marginBottom="5dp"
             android:text="Request Description / Details"
             android:textSize="14dp"
+            android:textColor="@color/white"
             android:layout_alignParentBottom="true" />
 
         <TextView
@@ -62,7 +67,9 @@
             android:layout_marginRight="5dp"
             android:layout_toEndOf="@+id/reqDescriptionTextView"
             android:gravity="right"
-            android:text="59 minutes ago"
+            android:text="now"
+            android:textStyle="italic"
+            android:textColor="@color/white"
             android:textSize="10dp" />
 
         <TextView
@@ -74,6 +81,7 @@
             android:layout_toEndOf="@+id/reqStartEndTextView"
             android:gravity="right"
             android:text="30 May 2017"
+            android:textColor="@color/white"
             android:textStyle="bold" />
 
         <TextView
@@ -86,6 +94,7 @@
             android:layout_marginTop="5dp"
             android:gravity="right"
             android:text="Friday"
+            android:textColor="@color/white"
             android:textStyle="bold" />
 
         <TextView
@@ -96,6 +105,7 @@
             android:layout_below="@+id/ticketDayTextView"
             android:gravity="right"
             android:text="5.20 pm"
+            android:textColor="@color/white"
             android:textStyle="bold" />
     </RelativeLayout>
 

@@ -17,6 +17,7 @@ import com.kavi.droid.exchange.services.imageLoader.ImageLoadingManager;
 
 public class RequestItemView extends RelativeLayout {
 
+    private RelativeLayout requestTileHolder;
     private ImageView userPicImageView;
     private TextView reqTypeTextView;
     private TextView reqStartEndTextView;
@@ -38,6 +39,7 @@ public class RequestItemView extends RelativeLayout {
     protected void onFinishInflate() {
         super.onFinishInflate();
 
+        requestTileHolder = (RelativeLayout) findViewById(R.id.requestTileHolder);
         userPicImageView = (ImageView) findViewById(R.id.userImageView);
         reqTypeTextView = (TextView) findViewById(R.id.reqTypeTextView);
         reqStartEndTextView = (TextView) findViewById(R.id.reqStartEndTextView);
@@ -58,8 +60,10 @@ public class RequestItemView extends RelativeLayout {
         imageLoadingManager.loadImageToImageView(ticketRequest.getUserPicUrl(), userPicImageView, true);
         if (ticketRequest.getReqType() == TicketRequest.I_HAVE) {
             reqTypeTextView.setText("I Have");
+            requestTileHolder.setBackgroundColor(getResources().getColor(R.color.i_have));
         } else if (ticketRequest.getReqType() == TicketRequest.I_NEED) {
             reqTypeTextView.setText("I Need");
+            requestTileHolder.setBackgroundColor(getResources().getColor(R.color.i_need));
         }
 
         if (ticketRequest.getStartToEnd() == TicketRequest.COLOMBO_KANDY) {
@@ -122,6 +126,8 @@ public class RequestItemView extends RelativeLayout {
             timeDiffString = minutes + " minutes ago";
         } else if (minutes == 0 && validSeconds > 0){
             timeDiffString = validSeconds + " seconds ago";
+        } else {
+            timeDiffString = "now";
         }
 
         return timeDiffString;
