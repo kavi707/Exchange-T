@@ -2,10 +2,14 @@ package com.kavi.droid.exchange.utils;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
 
 import com.kavi.droid.exchange.R;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * Created by kavi707 on 11/12/17.
@@ -16,6 +20,7 @@ public class NavigationUtil {
 
     private Activity currentActivity;
     private Class navigationClass;
+    private Map<String, Object> paramsObject = null;
     private boolean isCurrentFinish = false;
 
     private boolean isFlagsAvailable = false;
@@ -34,6 +39,11 @@ public class NavigationUtil {
 
     public NavigationUtil to(Class navigationClass) {
         this.navigationClass = navigationClass;
+        return this;
+    }
+
+    public NavigationUtil withParams(Map<String, Object> paramsObj) {
+        this.paramsObject = paramsObj;
         return this;
     }
 
@@ -61,6 +71,28 @@ public class NavigationUtil {
             for (Integer intentFlag : intentFlags) {
                 navigationIntent.setFlags(intentFlag);
             }
+        }
+
+        if (paramsObject != null) {
+            Bundle paramsBundle = new Bundle();
+
+            List<String> keys = new ArrayList<String>(this.paramsObject.keySet());
+            for (String key: keys) {
+                Object value = this.paramsObject.get(key);
+                if (value instanceof String) {
+                    paramsBundle.putString(key, (String)value);
+                } else if (value instanceof Integer) {
+                    paramsBundle.putInt(key, (Integer) value);
+                } else if (value instanceof Float) {
+                    paramsBundle.putFloat(key, (Float) value);
+                } else if (value instanceof Long) {
+                    paramsBundle.putLong(key, (Long) value);
+                } else if (value instanceof Boolean) {
+                    paramsBundle.putBoolean(key, (Boolean) value);
+                }
+            }
+
+            navigationIntent.putExtras(paramsBundle);
         }
 
         currentActivity.startActivity(navigationIntent);
