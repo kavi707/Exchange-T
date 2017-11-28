@@ -1,188 +1,192 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ticketRequestDetailHolder"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/ticketRequestDetailHolder"
-    android:background="@color/i_need">
+    android:background="@color/i_need"
+    android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/requestedNameTextView"
+    <RelativeLayout
+        android:id="@+id/dataContentRelativeLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="30dp"
-        android:textColor="@color/white"
-        android:textSize="25dp"/>
-
-    <ImageView
-        android:id="@+id/reqUserImageView"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_below="@+id/requestedNameTextView"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"/>
-
-    <LinearLayout
-        android:id="@+id/reqDataLinearLayout"
-        android:orientation="vertical"
-        android:gravity="center_horizontal"
-        android:layout_below="@+id/reqUserImageView"
-        android:layout_marginTop="30dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_alignParentTop="true">
 
         <TextView
-            android:id="@+id/reqTypeTextView"
+            android:id="@+id/requestedNameTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:textSize="25dp"/>
-
-        <TextView
-            android:id="@+id/qtyTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_centerHorizontal="true"
             android:textColor="@color/white"
             android:textSize="25dp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:textSize="20dp"
-            android:textStyle="bold"
-            android:textColor="@color/white"
-            android:text="For" />
+        <ImageView
+            android:id="@+id/reqUserImageView"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_below="@+id/requestedNameTextView"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp" />
 
-        <TextView
-            android:id="@+id/startToEndTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:textColor="@color/white"
-            android:textSize="25dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:textSize="20dp"
-            android:textStyle="bold"
-            android:textColor="@color/white"
-            android:text="on" />
-
-        <TextView
-            android:id="@+id/ticketDayTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:textColor="@color/white"
-            android:textSize="25dp"/>
-
-        <RelativeLayout
-            android:layout_marginTop="15dp"
-            android:orientation="horizontal"
+        <LinearLayout
+            android:id="@+id/reqDataLinearLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/reqUserImageView"
+            android:layout_marginTop="30dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
 
             <TextView
-                android:id="@+id/ticketDateTextView"
+                android:id="@+id/reqTypeTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="right"
-                android:textSize="25dp"
                 android:textColor="@color/white"
-                android:layout_alignParentStart="true"
-                android:layout_toStartOf="@+id/atTextView" />
+                android:textSize="25dp" />
+
+            <TextView
+                android:id="@+id/qtyTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:textColor="@color/white"
+                android:textSize="25dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_centerHorizontal="true"
-                android:textSize="25dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:text="at"
+                android:layout_marginTop="15dp"
+                android:text="For"
                 android:textColor="@color/white"
-                android:textStyle="bold"
-                android:id="@+id/atTextView" />
+                android:textSize="20dp"
+                android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/ticketTimeTextView"
+                android:id="@+id/startToEndTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="left"
-                android:textSize="25dp"
+                android:layout_marginTop="15dp"
                 android:textColor="@color/white"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:layout_toEndOf="@+id/atTextView" />
+                android:textSize="25dp" />
 
-        </RelativeLayout>
-    </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="on"
+                android:textColor="@color/white"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/ticketDayTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:textColor="@color/white"
+                android:textSize="25dp" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/ticketDateTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_toStartOf="@+id/atTextView"
+                    android:gravity="right"
+                    android:textColor="@color/white"
+                    android:textSize="25dp" />
+
+                <TextView
+                    android:id="@+id/atTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:text="at"
+                    android:textColor="@color/white"
+                    android:textSize="25dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/ticketTimeTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_toEndOf="@+id/atTextView"
+                    android:gravity="left"
+                    android:textColor="@color/white"
+                    android:textSize="25dp" />
+
+            </RelativeLayout>
+        </LinearLayout>
+    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/contactRelativeLayout"
-        android:layout_marginTop="10dp"
-        android:layout_below="@+id/reqDataLinearLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/dataContentRelativeLayout"
+        android:layout_marginTop="10dp">
 
         <TextView
             android:id="@+id/contactHeadingTextView"
-            android:layout_marginTop="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
+            android:layout_marginTop="5dp"
             android:text="Contact Details"
             android:textColor="@color/white"
             android:textSize="20dp"
-            android:textStyle="bold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:textStyle="bold" />
 
         <LinearLayout
             android:id="@+id/callMeLinearLayout"
-            android:orientation="horizontal"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="25dp"
-            android:layout_below="@id/contactHeadingTextView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_below="@id/contactHeadingTextView"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/contactNumberButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="10dp"
                 android:background="@drawable/style_border_button"
-                android:textSize="18dp"
                 android:text="Call me"
                 android:textColor="@color/white"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:textSize="18dp" />
         </LinearLayout>
 
         <LinearLayout
-            android:orientation="horizontal"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="25dp"
-            android:layout_below="@id/callMeLinearLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_below="@id/callMeLinearLayout"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/emailButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="10dp"
                 android:background="@drawable/style_border_button"
-                android:textSize="18dp"
                 android:text="Email me"
                 android:textColor="@color/white"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:textSize="18dp" />
         </LinearLayout>
 
     </RelativeLayout>
