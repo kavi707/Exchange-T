@@ -11,11 +11,16 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.kavi.droid.exchange.Constants;
 import com.kavi.droid.exchange.R;
+import com.kavi.droid.exchange.models.EmailData;
 import com.kavi.droid.exchange.models.TicketRequest;
 import com.kavi.droid.exchange.services.imageLoader.ImageLoadingManager;
 import com.kavi.droid.exchange.services.sharedPreferences.SharedPreferenceManager;
 import com.kavi.droid.exchange.utils.CommonUtils;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by kavi707 on 10/8/17.
@@ -116,13 +121,13 @@ public class TicketRequestDetailActivity extends ExchangeBaseActivity {
             @Override
             public void onClick(View v) {
 
-                // TODO - Need to set a proper email template.
+                EmailData emailTemplate = getMailObject();
 
                 Intent intent = new Intent(Intent.ACTION_SEND);
                 intent.setType("plain/text");
-                intent.putExtra(Intent.EXTRA_EMAIL, new String[] { ticketRequest.getEmail() });
-                intent.putExtra(Intent.EXTRA_SUBJECT, "ExchangeT: Some thing");
-                intent.putExtra(Intent.EXTRA_TEXT, "mail body");
+                intent.putExtra(Intent.EXTRA_EMAIL, new String[] { emailTemplate.getEmailAdd() });
+                intent.putExtra(Intent.EXTRA_SUBJECT, emailTemplate.getSubject());
+                intent.putExtra(Intent.EXTRA_TEXT, emailTemplate.getBody());
                 startActivity(Intent.createChooser(intent, ""));
             }
         });
@@ -138,5 +143,32 @@ public class TicketRequestDetailActivity extends ExchangeBaseActivity {
         } else {
             return false;
         }
+    }
+
+    private EmailData getMailObject() {
+
+        EmailData sendMailData = new EmailData();
+        String subject = null;
+        String body = null;
+        if (ticketRequest.getReqType() == TicketRequest.I_HAVE) {
+            subject = "ExchangeT: Request to keep you tickets for me";
+            body = "Hi " + ticketRequest.getName() + ",\n\n" + "I'm looking for " + Constants.EVENT_TRAIN +
+                    " tickets in " + commonUtils.getDestinationFromInt(ticketRequest.getStartToEnd()) +" on " +
+                    ticketRequest.getTicketDate() + " @ " + ticketRequest.getTicketTime() + ".\n\n" +
+                    "If you can keep those tickets you for me, that would be grateful.\n\nThank you.";
+        } else {
+            subject = "ExchangeT: Do you need tickets?";
+            body = "Hi " + ticketRequest.getName() + ",\n\n" + "I'm have " + ticketRequest.getQty() +
+                    " ticket(s) for " + Constants.EVENT_TRAIN +
+                    " in " + commonUtils.getDestinationFromInt(ticketRequest.getStartToEnd()) +" on " +
+                    ticketRequest.getTicketDate() + " @ " + ticketRequest.getTicketTime() + ".\n\n" +
+                    "If you are interested, then I can keep them for you.\n\nThank you.";
+        }
+
+        sendMailData.setEmailAdd(ticketRequest.getEmail());
+        sendMailData.setSubject(subject);
+        sendMailData.setBody(body);
+
+        return sendMailData;
     }
 }

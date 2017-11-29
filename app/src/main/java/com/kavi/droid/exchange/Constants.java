@@ -9,6 +9,8 @@ public class Constants {
 
     public static final String LOG_TAG = "EXCHANGE-T";
 
+    public static final String EVENT_TRAIN = "Train";
+
     public static final String ASYNC_METHOD = "ASYNC";
     public static final String SYNC_METHOD = "SYNC";
 
