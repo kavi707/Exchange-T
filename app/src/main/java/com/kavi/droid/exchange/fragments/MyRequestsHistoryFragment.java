@@ -2,7 +2,6 @@ package com.kavi.droid.exchange.fragments;
 
 import android.app.Fragment;
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -20,6 +19,7 @@ import com.kavi.droid.exchange.Constants;
 import com.kavi.droid.exchange.R;
 import com.kavi.droid.exchange.activities.TicketRequestDetailActivity;
 import com.kavi.droid.exchange.adapters.RequestItemAdapter;
+import com.kavi.droid.exchange.utils.CommonDialogBuilderUtil;
 import com.kavi.droid.exchange.dialogs.LoadingProgressBarDialog;
 import com.kavi.droid.exchange.models.TicketRequest;
 import com.kavi.droid.exchange.services.connections.ApiCalls;
@@ -93,6 +93,30 @@ public class MyRequestsHistoryFragment extends Fragment {
                         .to(TicketRequestDetailActivity.class)
                         .setTransitionAnim(NavigationUtil.ANIM_LEFT_TO_RIGHT)
                         .go();
+            }
+        });
+
+        myTicketRequestListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
+                new CommonDialogBuilderUtil(getActivity())
+                        .title("Are you sure?")
+                        .content("Your are going to delete the selected ticket request. " +
+                                "\n\nAre you sure, you want to delete it?")
+                        .setFirstActionListener("Delete", new CommonDialogBuilderUtil.FirstActionInterface() {
+                            @Override
+                            public void firstAction() {
+                                Toast.makeText(getActivity(), "Shows First Action in dialog", Toast.LENGTH_LONG).show();
+                            }
+                        })
+                        .setSecondActionListener("Keep", new CommonDialogBuilderUtil.SecondActionInterface() {
+                            @Override
+                            public void secondAction() {
+                                Toast.makeText(getActivity(), "Shows Second Action in dialog", Toast.LENGTH_LONG).show();
+                            }
+                        }).build().show();
+                return true;
             }
         });
     }

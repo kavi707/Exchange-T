@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/titleTextView"
+        android:layout_marginTop="25dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="15dp"
+        android:text="Title"
+        android:textStyle="bold"
+        android:textSize="18dp"
+        android:textColor="@color/grey_dark"
+        android:textAllCaps="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/msgTextView"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="15dp"
+        android:layout_below="@id/titleTextView"
+        android:text="Message"
+        android:textStyle="normal"
+        android:textSize="16dp"
+        android:textColor="@color/grey"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginBottom="15dp"
+        android:gravity="right"
+        android:layout_below="@id/msgTextView">
+
+        <Button
+            android:id="@+id/firstActionButton"
+            android:text="Yes"
+            android:textSize="16dp"
+            android:textColor="@color/primaryGreenDark"
+            android:background="@android:color/transparent"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp" />
+
+        <Button
+            android:id="@+id/secondActionButton"
+            android:text="No"
+            android:textSize="16dp"
+            android:textColor="@color/primaryGreenDark"
+            android:background="@android:color/transparent"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp" />
+    </LinearLayout>
+
+</RelativeLayout>

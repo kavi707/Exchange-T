@@ -9,6 +9,7 @@
     <color name="light_grey">#dedede</color>
     <color name="mid_light_grey">#cfcfcf</color>
     <color name="grey">#a1a1a1</color>
+    <color name="grey_dark">#7e7e7e</color>
     <color name="light_green">#a6e1aa</color>
     <color name="primaryGreenDark">#009688</color>
     <color name="primaryGreen">#B2DFDB</color>
