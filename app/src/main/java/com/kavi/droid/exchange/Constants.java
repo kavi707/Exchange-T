@@ -14,6 +14,8 @@ public class Constants {
     public static final String ASYNC_METHOD = "ASYNC";
     public static final String SYNC_METHOD = "SYNC";
 
+    public static final int ALL_TICKET_REQUEST_LIMIT = 15; // Get latest 14 days ticket request
+
     public static final String NOTIFIER_GOOGLE = "google";
 
     public static final String HOME_FRAGMENT_TAG = "HOME_FRAGMENT";
@@ -31,7 +33,7 @@ public class Constants {
     public static final String GENERATE_AUTH_TOKEN = "/system/security/generateToken";
 
     public static final String ADD_TICKET_REQUEST = "/app/ticket_requests";
-    public static final String GET_TICKET_REQUEST = "/app/ticket_requests";
+    public static final String GET_TICKET_REQUEST = "/app/advance/ticket_requests";
     public static final String DELETE_TICKET_REQUEST = "/app/ticket_requests";
     public static final String GET_MY_TICKET_REQUEST = "/app/advance/ticket_requests";
     public static final String SUBMIT_FCM_PUSH_TOKEN = "/app/push/push_tokens/store";

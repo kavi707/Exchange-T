@@ -16,6 +16,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Calendar;
 
 import cz.msebera.android.httpclient.entity.StringEntity;
 
@@ -135,7 +136,13 @@ public class ApiCalls {
 
     public void getTicketRequest(Context context, String taskMethod, JsonHttpResponseHandler responseHandler) {
 
-        String url = Constants.BASE_URL + Constants.GET_TICKET_REQUEST;
+        // Add filter for get latest month ticket request list
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DATE, -(Constants.ALL_TICKET_REQUEST_LIMIT));
+        long timeStampMonthAgo = calendar.getTimeInMillis() / 1000L;
+
+        String url = Constants.BASE_URL + Constants.GET_TICKET_REQUEST +
+                "?qry=select * where createdTime>" + timeStampMonthAgo;
 
         String authToken = SharedPreferenceManager.getNodegridAuthToken(context);
 
