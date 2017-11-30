@@ -299,6 +299,7 @@ public class CommonUtils {
                 entityObj = resObj.getJSONObject("entity");
 
                 ticketRequest = new TicketRequest();
+                ticketRequest.setId(jsonResArray.getJSONObject(i).getString("_id"));
                 ticketRequest.setReqDate(resObj.getLong("createdTime"));
                 ticketRequest.setFbId(entityObj.getString("fbUserId"));
                 ticketRequest.setName(entityObj.getString("name"));

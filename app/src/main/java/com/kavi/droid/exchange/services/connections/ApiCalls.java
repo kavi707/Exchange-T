@@ -256,4 +256,21 @@ public class ApiCalls {
             e.printStackTrace();
         }
     }
+
+    public void deleteMyTicketRequestFromId(Context context, String taskMethod, String requestId,
+                                            JsonHttpResponseHandler responseHandler) {
+
+        String url = Constants.BASE_URL + Constants.DELETE_TICKET_REQUEST +
+                "/" + requestId;
+
+        String authToken = SharedPreferenceManager.getNodegridAuthToken(context);
+
+        if (taskMethod.equals(Constants.SYNC_METHOD)) {
+            syncHttpClient.addHeader(HEADER_AUTHORIZATION, authToken);
+            syncHttpClient.delete(url, null, responseHandler);
+        } else if (taskMethod.equals(Constants.ASYNC_METHOD)) {
+            asyncHttpClient.addHeader(HEADER_AUTHORIZATION, authToken);
+            asyncHttpClient.delete(url, null, responseHandler);
+        }
+    }
 }

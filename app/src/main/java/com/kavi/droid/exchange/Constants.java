@@ -32,6 +32,7 @@ public class Constants {
 
     public static final String ADD_TICKET_REQUEST = "/app/ticket_requests";
     public static final String GET_TICKET_REQUEST = "/app/ticket_requests";
+    public static final String DELETE_TICKET_REQUEST = "/app/ticket_requests";
     public static final String GET_MY_TICKET_REQUEST = "/app/advance/ticket_requests";
     public static final String SUBMIT_FCM_PUSH_TOKEN = "/app/push/push_tokens/store";
     public static final String CHECK_ACCESS_TOKEN_STATUS = "/system/security/tokenStatus";

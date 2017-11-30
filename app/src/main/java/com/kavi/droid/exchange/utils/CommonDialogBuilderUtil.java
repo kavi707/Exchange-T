@@ -83,7 +83,8 @@ public class CommonDialogBuilderUtil {
             firstActionBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    firstActionImpl.firstAction();
+                    if (firstActionImpl != null)
+                        firstActionImpl.firstAction();
                     dialog.dismiss();
                 }
             });
@@ -97,7 +98,8 @@ public class CommonDialogBuilderUtil {
             secondActionBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    secondActionImpl.secondAction();
+                    if (secondActionImpl != null)
+                        secondActionImpl.secondAction();
                     dialog.dismiss();
                 }
             });

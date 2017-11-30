@@ -70,7 +70,7 @@ public class MyRequestsHistoryFragment extends Fragment {
         super.onResume();
 
         myTicketRequestList.clear();
-        getMyTicketRequest();
+        getTicketRequestAsync();
     }
 
     @Override
@@ -98,7 +98,7 @@ public class MyRequestsHistoryFragment extends Fragment {
 
         myTicketRequestListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
 
                 new CommonDialogBuilderUtil(getActivity())
                         .title("Are you sure?")
@@ -107,21 +107,82 @@ public class MyRequestsHistoryFragment extends Fragment {
                         .setFirstActionListener("Delete", new CommonDialogBuilderUtil.FirstActionInterface() {
                             @Override
                             public void firstAction() {
-                                Toast.makeText(getActivity(), "Shows First Action in dialog", Toast.LENGTH_LONG).show();
+                                deleteTicketRequestFromId(myTicketRequestList.get(position).getId());
                             }
                         })
-                        .setSecondActionListener("Keep", new CommonDialogBuilderUtil.SecondActionInterface() {
-                            @Override
-                            public void secondAction() {
-                                Toast.makeText(getActivity(), "Shows Second Action in dialog", Toast.LENGTH_LONG).show();
-                            }
-                        }).build().show();
+                        .setSecondActionListener("Keep", null).build().show();
                 return true;
             }
         });
     }
 
+    private void getTicketRequestAsync() {
+
+        if (commonUtils.isOnline(getActivity())) {
+            if (progress == null) {
+                progress = LoadingProgressBarDialog.createProgressDialog(getActivity());
+            }
+            progress.show();
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    getMyTicketRequest();
+                }
+            }).start();
+        } else {
+            noContentRelativeLayout.setVisibility(View.VISIBLE);
+            listErrorTextView.setText(getResources().getString(R.string.list_msg_offline));
+            Toast.makeText(getActivity(), "Please check device Internet connection.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     private void getMyTicketRequest() {
+        new ApiCalls().getMyTicketRequests(getActivity(), Constants.SYNC_METHOD, new JsonHttpResponseHandler(){
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+
+                if (statusCode == 200) {
+                    myTicketRequestList = commonUtils.getTicketRequestList(response);
+
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            progress.dismiss();
+                            if (myTicketRequestList != null && myTicketRequestList.size() > 0) {
+                                noContentRelativeLayout.setVisibility(View.INVISIBLE);
+                                requestItemAdapter = new RequestItemAdapter(myTicketRequestList, getActivity());
+                                myTicketRequestListView.setAdapter(requestItemAdapter);
+                            } else {
+                                noContentRelativeLayout.setVisibility(View.VISIBLE);
+                                listErrorTextView.setText(getResources().getString(R.string.list_msg_empty));
+                            }
+                        }
+                    });
+                } else {
+                    noContentRelativeLayout.setVisibility(View.VISIBLE);
+                    listErrorTextView.setText(getResources().getString(R.string.list_msg_issue));
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        progress.dismiss();
+                        noContentRelativeLayout.setVisibility(View.VISIBLE);
+                        listErrorTextView.setText(getResources().getString(R.string.list_msg_issue));
+                        Toast.makeText(getActivity(), "There was an error while making your request. Please try again from while.",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+    }
+
+    private void deleteTicketRequestFromId(final String ticketReqId) {
 
         if (commonUtils.isOnline(getActivity())) {
             if (progress == null) {
@@ -133,53 +194,38 @@ public class MyRequestsHistoryFragment extends Fragment {
                 @Override
                 public void run() {
 
-                    new ApiCalls().getMyTicketRequests(getActivity(), Constants.SYNC_METHOD, new JsonHttpResponseHandler(){
-
-                        @Override
-                        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-
-                            if (statusCode == 200) {
-                                myTicketRequestList = commonUtils.getTicketRequestList(response);
-
-                                getActivity().runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        progress.dismiss();
-                                        if (myTicketRequestList != null && myTicketRequestList.size() > 0) {
-                                            noContentRelativeLayout.setVisibility(View.INVISIBLE);
-                                            requestItemAdapter = new RequestItemAdapter(myTicketRequestList, getActivity());
-                                            myTicketRequestListView.setAdapter(requestItemAdapter);
-                                        } else {
-                                            noContentRelativeLayout.setVisibility(View.VISIBLE);
-                                            listErrorTextView.setText(getResources().getString(R.string.list_msg_empty));
-                                        }
-                                    }
-                                });
-                            } else {
-                                noContentRelativeLayout.setVisibility(View.VISIBLE);
-                                listErrorTextView.setText(getResources().getString(R.string.list_msg_issue));
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                            getActivity().runOnUiThread(new Runnable() {
+                    new ApiCalls().deleteMyTicketRequestFromId(getActivity(), Constants.SYNC_METHOD, ticketReqId,
+                            new JsonHttpResponseHandler() {
                                 @Override
-                                public void run() {
-                                    progress.dismiss();
-                                    noContentRelativeLayout.setVisibility(View.VISIBLE);
-                                    listErrorTextView.setText(getResources().getString(R.string.list_msg_issue));
-                                    Toast.makeText(getActivity(), "There was an error while making your request. Please try again from while.",
-                                            Toast.LENGTH_SHORT).show();
+                                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+
+                                    getActivity().runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            Toast.makeText(getActivity(), "Successfully deleted your ticket request.",
+                                                    Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+
+                                    // Refresh the list
+                                    getMyTicketRequest();
+                                }
+
+                                @Override
+                                public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                                    getActivity().runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            progress.dismiss();
+                                            Toast.makeText(getActivity(), "There was an error while making your request. Please try again from while.",
+                                                    Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
                                 }
                             });
-                        }
-                    });
                 }
             }).start();
         } else {
-            noContentRelativeLayout.setVisibility(View.VISIBLE);
-            listErrorTextView.setText(getResources().getString(R.string.list_msg_offline));
             Toast.makeText(getActivity(), "Please check device Internet connection.", Toast.LENGTH_SHORT).show();
         }
     }

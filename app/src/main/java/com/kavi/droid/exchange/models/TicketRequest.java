@@ -26,6 +26,7 @@ public class TicketRequest {
     public static final int COLOMBO_VAUNIYA = 10;
     public static final int VAUNIYA_COLOMBO = 11;
 
+    private String id;
     private String name;
     private String phoneNo;
     private String email;
@@ -39,6 +40,14 @@ public class TicketRequest {
     private String ticketDay;
     private String fbId;
     private String userPicUrl;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
