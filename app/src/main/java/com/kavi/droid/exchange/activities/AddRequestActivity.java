@@ -189,6 +189,17 @@ public class AddRequestActivity extends ExchangeBaseActivity {
                 String ticketTime = ticketTimeTextView.getText().toString();
                 String reqNote = reqNoteEditText.getText().toString();
 
+                // Create default note
+                if  (reqNote == null || reqNote.equals("")) {
+                    if (commonUtils.getTypeFromName(type) == TicketRequest.I_NEED) {
+                        reqNote = type + " " + qty + " for " + selectedDestination + " on " + ticketDate + " @ " +
+                                ticketTime + " Train. Is there anyone have tickets?";
+                    } else {
+                        reqNote = type + " " + qty + " for " + selectedDestination + " on " + ticketDate + " @ " +
+                                ticketTime + " Train. Is there anyone interested?";
+                    }
+                }
+
                 String reqDay = null;
                 try {
                     SimpleDateFormat simpleDateformat = new SimpleDateFormat("MMM-dd-yyyy");
