@@ -6,7 +6,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
+    android:background="@color/white"
     tools:context="com.kavi.droid.exchange.activities.RegisterActivity">
+
+    <ImageView
+        android:src="@drawable/e_app_icon_name"
+        android:gravity="center"
+        android:layout_above="@+id/firstNameEditText"
+        android:layout_marginBottom="40dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
     <EditText
         android:id="@+id/firstNameEditText"
@@ -14,7 +25,10 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
+        android:backgroundTint="@color/colorPrimary"
         android:hint="First Name"
+        android:textColor="@color/colorPrimary"
+        android:textColorHint="@color/i_have"
         android:gravity="center"
         android:layout_above="@+id/lastNameEditText"
         android:layout_marginBottom="20dp"
@@ -27,6 +41,9 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
+        android:backgroundTint="@color/colorPrimary"
+        android:textColor="@color/colorPrimary"
+        android:textColorHint="@color/i_have"
         android:hint="Last Name"
         android:gravity="center"
         android:layout_above="@+id/emailEditText"
@@ -40,6 +57,9 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="Email"
+        android:backgroundTint="@color/colorPrimary"
+        android:textColor="@color/colorPrimary"
+        android:textColorHint="@color/i_have"
         android:gravity="center"
         android:inputType="textEmailAddress"
         android:layout_above="@+id/numberEditText"
@@ -53,8 +73,11 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="Phone Number"
+        android:textColor="@color/colorPrimary"
+        android:textColorHint="@color/i_have"
         android:gravity="center"
         android:inputType="phone"
+        android:backgroundTint="@color/colorPrimary"
         android:layout_above="@+id/saveDataBtn"
         android:layout_marginBottom="40dp"
         android:layout_alignParentStart="true"
@@ -62,11 +85,15 @@
 
     <Button
         android:id="@+id/saveDataBtn"
+        android:background="@drawable/style_border_square_b"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="30dp"
         android:text="Register"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        android:textColor="@color/colorPrimary"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true" />
 </RelativeLayout>
