@@ -7,9 +7,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/et_app_icon"
+        android:icon="@mipmap/e_app_icon"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/et_app_icon"
+        android:roundIcon="@mipmap/e_app_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <meta-data

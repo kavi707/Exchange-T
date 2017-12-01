@@ -40,6 +40,7 @@ public class TicketRequestDetailActivity extends ExchangeBaseActivity {
     private TextView ticketDayTextView;
     private TextView ticketDateTextView;
     private TextView ticketTimeTextView;
+    private TextView ticketReqNoteTextView;
     private Button contactNumberButton;
     private Button emailButton;
 
@@ -73,6 +74,7 @@ public class TicketRequestDetailActivity extends ExchangeBaseActivity {
         ticketDayTextView = (TextView) findViewById(R.id.ticketDayTextView);
         ticketDateTextView = (TextView) findViewById(R.id.ticketDateTextView);
         ticketTimeTextView = (TextView) findViewById(R.id.ticketTimeTextView);
+        ticketReqNoteTextView = (TextView) findViewById(R.id.ticketReqNoteTextView);
         contactNumberButton = (Button) findViewById(R.id.contactNumberButton);
         emailButton = (Button) findViewById(R.id.emailButton);
 
@@ -91,6 +93,7 @@ public class TicketRequestDetailActivity extends ExchangeBaseActivity {
         ticketDayTextView.setText(ticketRequest.getTicketDay());
         ticketDateTextView.setText(ticketRequest.getTicketDate());
         ticketTimeTextView.setText(ticketRequest.getTicketTime());
+        ticketReqNoteTextView.setText(ticketRequest.getReqDescription());
         contactNumberButton.setText("Call me: " + ticketRequest.getPhoneNo());
         emailButton.setText("Email me: " + ticketRequest.getEmail());
 
