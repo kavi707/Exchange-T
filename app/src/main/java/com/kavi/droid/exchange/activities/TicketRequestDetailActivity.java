@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -17,6 +18,9 @@ import com.facebook.share.model.ShareHashtag;
 import com.facebook.share.model.SharePhoto;
 import com.facebook.share.model.SharePhotoContent;
 import com.facebook.share.widget.ShareDialog;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.kavi.droid.exchange.Constants;
 import com.kavi.droid.exchange.R;
 import com.kavi.droid.exchange.models.EmailData;
@@ -50,6 +54,7 @@ public class TicketRequestDetailActivity extends ExchangeBaseActivity {
     private Button contactNumberButton;
     private Button emailButton;
     private ImageButton fbShareButton;
+    private AdView ticketDetailsAdView;
 
     private Context context = this;
     private ImageLoadingManager imageLoadingManager;
@@ -85,6 +90,43 @@ public class TicketRequestDetailActivity extends ExchangeBaseActivity {
         contactNumberButton = (Button) findViewById(R.id.contactNumberButton);
         emailButton = (Button) findViewById(R.id.emailButton);
         fbShareButton = (ImageButton) findViewById(R.id.fbShareButton);
+        ticketDetailsAdView = (AdView) findViewById(R.id.ticketDetailsAdView);
+
+        AdRequest adRequest = new AdRequest.Builder().build();
+        ticketDetailsAdView.loadAd(adRequest);
+
+        ticketDetailsAdView.setAdListener(new AdListener(){
+            @Override
+            public void onAdLoaded() {
+                // Code to be executed when an ad finishes loading.
+                Log.d("TAG", "AdMob: Loaded");
+            }
+
+            @Override
+            public void onAdFailedToLoad(int errorCode) {
+                // Code to be executed when an ad request fails.
+                Log.d("TAG", "AdMob: Failed to load: Error: " + errorCode);
+            }
+
+            @Override
+            public void onAdOpened() {
+                // Code to be executed when an ad opens an overlay that
+                // covers the screen.
+                // Code to be executed when an ad request fails.
+                Log.d("TAG", "AdMob: Opened");
+            }
+
+            @Override
+            public void onAdLeftApplication() {
+                // Code to be executed when the user has left the app.
+            }
+
+            @Override
+            public void onAdClosed() {
+                // Code to be executed when when the user is about to return
+                // to the app after tapping on an ad.
+            }
+        });
 
         contactRelativeLayout.setVisibility(View.GONE);
         requestedNameTextView.setText("Me, " + ticketRequest.getName());

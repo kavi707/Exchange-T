@@ -19,12 +19,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true">
+
+                <com.google.android.gms.ads.AdView
+                    xmlns:ads="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/ticketDetailsAdView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_alignParentTop="true"
+                    ads:adSize="SMART_BANNER"
+                    ads:adUnitId="@string/ad_mob_test_ad_unit_id">
+                </com.google.android.gms.ads.AdView>
                 
                 <ImageView
                     android:id="@+id/appImageView"
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="45dp"
                     android:src="@drawable/e_app_icon_name_h_w" />
 
                 <TextView

@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.MobileAds;
 import com.kavi.droid.exchange.Constants;
 import com.kavi.droid.exchange.R;
 import com.kavi.droid.exchange.services.connections.ApiCalls;
@@ -39,6 +40,9 @@ public class SplashActivity extends ExchangeBaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+
+        // Initialize Google Ads
+        MobileAds.initialize(this, getResources().getString(R.string.ad_mob_app_id));
 
         setUpViews();
     }

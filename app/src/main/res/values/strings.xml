@@ -7,6 +7,12 @@
     <string name="fb_login_protocol_scheme">fb458076427901786</string>
     <string name="title_activity_landing">LandingActivity</string>
 
+    <!-- AdMob -->
+    <string name="ad_mob_app_id">ca-app-pub-4012126745881017~6119256888</string>
+    <string name="ad_mob_test_ad_unit_id">ca-app-pub-3940256099942544/5224354917</string>
+    <string name="ad_mob_detail_view_ad_unit_id">ca-app-pub-4012126745881017/5081561286</string>
+
+
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
