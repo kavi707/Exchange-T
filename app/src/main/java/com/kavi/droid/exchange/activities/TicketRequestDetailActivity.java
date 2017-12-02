@@ -2,15 +2,21 @@ package com.kavi.droid.exchange.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.facebook.share.model.ShareHashtag;
+import com.facebook.share.model.SharePhoto;
+import com.facebook.share.model.SharePhotoContent;
+import com.facebook.share.widget.ShareDialog;
 import com.kavi.droid.exchange.Constants;
 import com.kavi.droid.exchange.R;
 import com.kavi.droid.exchange.models.EmailData;
@@ -43,6 +49,7 @@ public class TicketRequestDetailActivity extends ExchangeBaseActivity {
     private TextView ticketReqNoteTextView;
     private Button contactNumberButton;
     private Button emailButton;
+    private ImageButton fbShareButton;
 
     private Context context = this;
     private ImageLoadingManager imageLoadingManager;
@@ -77,6 +84,7 @@ public class TicketRequestDetailActivity extends ExchangeBaseActivity {
         ticketReqNoteTextView = (TextView) findViewById(R.id.ticketReqNoteTextView);
         contactNumberButton = (Button) findViewById(R.id.contactNumberButton);
         emailButton = (Button) findViewById(R.id.emailButton);
+        fbShareButton = (ImageButton) findViewById(R.id.fbShareButton);
 
         contactRelativeLayout.setVisibility(View.GONE);
         requestedNameTextView.setText("Me, " + ticketRequest.getName());
@@ -99,11 +107,13 @@ public class TicketRequestDetailActivity extends ExchangeBaseActivity {
 
         RelativeLayout.LayoutParams dataLayoutParams = (RelativeLayout.LayoutParams) dataContentRelativeLayout.getLayoutParams();
         if (isThisMyRequest()) {
+            fbShareButton.setVisibility(View.VISIBLE);
             contactRelativeLayout.setVisibility(View.GONE);
             dataLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0);
             dataLayoutParams.setMargins(0, 0, 0, 0);
             dataLayoutParams.addRule(RelativeLayout.CENTER_VERTICAL);
         } else {
+            fbShareButton.setVisibility(View.GONE);
             contactRelativeLayout.setVisibility(View.VISIBLE);
             dataLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
             dataLayoutParams.setMargins(0, 40, 0, 0);
@@ -132,6 +142,13 @@ public class TicketRequestDetailActivity extends ExchangeBaseActivity {
                 intent.putExtra(Intent.EXTRA_SUBJECT, emailTemplate.getSubject());
                 intent.putExtra(Intent.EXTRA_TEXT, emailTemplate.getBody());
                 startActivity(Intent.createChooser(intent, ""));
+            }
+        });
+
+        fbShareButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                shareOnFb();
             }
         });
     }
@@ -173,5 +190,33 @@ public class TicketRequestDetailActivity extends ExchangeBaseActivity {
         sendMailData.setBody(body);
 
         return sendMailData;
+    }
+
+    private Bitmap getScreenShot() {
+
+        View rootView = getWindow().getDecorView().findViewById(android.R.id.content);
+
+        View screenView = rootView.getRootView();
+        screenView.setDrawingCacheEnabled(true);
+        Bitmap bitmap = Bitmap.createBitmap(screenView.getDrawingCache());
+        screenView.setDrawingCacheEnabled(false);
+        return bitmap;
+    }
+
+    private void shareOnFb() {
+        SharePhoto photo = new SharePhoto.Builder()
+                .setBitmap(getScreenShot())
+                .build();
+
+        ShareHashtag shareHashTagAppName = new ShareHashtag.Builder()
+                .setHashtag("#Exchanger")
+                .build();
+
+        SharePhotoContent sharePhotoContent = new SharePhotoContent.Builder()
+                .setShareHashtag(shareHashTagAppName)
+                .addPhoto(photo)
+                .build();
+
+        ShareDialog.show(TicketRequestDetailActivity.this, sharePhotoContent);
     }
 }
