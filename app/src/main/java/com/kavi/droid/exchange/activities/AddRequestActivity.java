@@ -26,6 +26,7 @@ import com.kavi.droid.exchange.models.TicketRequest;
 import com.kavi.droid.exchange.services.connections.ApiCalls;
 import com.kavi.droid.exchange.services.imageLoader.ImageLoadingManager;
 import com.kavi.droid.exchange.services.sharedPreferences.SharedPreferenceManager;
+import com.kavi.droid.exchange.utils.CommonDialogBuilderUtil;
 import com.kavi.droid.exchange.utils.CommonUtils;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
@@ -179,103 +180,111 @@ public class AddRequestActivity extends ExchangeBaseActivity {
             @Override
             public void onClick(View v) {
 
-                String name = nameTextView.getText().toString();
-                String contactNum = phoneNumEditText.getText().toString();
-                String email = emailEditText.getText().toString();
-                String type = typeSelectSpinner.getSelectedItem().toString();
-                String qty = ticketCountSpinner.getSelectedItem().toString();
-                String selectedDestination = destinationSpinner.getSelectedItem().toString();
-                String ticketDate = ticketDateTextView.getText().toString();
-                String ticketTime = ticketTimeTextView.getText().toString();
-                String reqNote = reqNoteEditText.getText().toString();
+                if (isDirty()) {
 
-                // Create default note
-                if  (reqNote == null || reqNote.equals("")) {
-                    if (commonUtils.getTypeFromName(type) == TicketRequest.I_NEED) {
-                        reqNote = type + " " + qty + " for " + selectedDestination + " on " + ticketDate + " @ " +
-                                ticketTime + " Train. Is there anyone have tickets?";
-                    } else {
-                        reqNote = type + " " + qty + " for " + selectedDestination + " on " + ticketDate + " @ " +
-                                ticketTime + " Train. Is there anyone interested?";
-                    }
-                }
+                    String name = nameTextView.getText().toString();
+                    String contactNum = phoneNumEditText.getText().toString();
+                    String email = emailEditText.getText().toString();
+                    String type = typeSelectSpinner.getSelectedItem().toString();
+                    String qty = ticketCountSpinner.getSelectedItem().toString();
+                    String selectedDestination = destinationSpinner.getSelectedItem().toString();
+                    String ticketDate = ticketDateTextView.getText().toString();
+                    String ticketTime = ticketTimeTextView.getText().toString();
+                    String reqNote = reqNoteEditText.getText().toString();
 
-                String reqDay = null;
-                try {
-                    SimpleDateFormat simpleDateformat = new SimpleDateFormat("MMM-dd-yyyy");
-                    Date dt = simpleDateformat.parse(ticketDate);
-                    simpleDateformat = new SimpleDateFormat("EEEE");
-                    reqDay = simpleDateformat.format(dt);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-
-                final TicketRequest ticketRequest = new TicketRequest();
-                ticketRequest.setName(name);
-                ticketRequest.setUserPicUrl(SharedPreferenceManager.getLoggedUserImageUrl(context));
-                ticketRequest.setReqDescription(reqNote);
-                ticketRequest.setTicketDate(ticketDate);
-                ticketRequest.setTicketTime(ticketTime);
-                ticketRequest.setTicketDay(reqDay);
-                ticketRequest.setPhoneNo(contactNum);
-                ticketRequest.setEmail(email);
-
-                if (!qty.equals("Select Qty")) {
-                    int ticketQty = Integer.parseInt(qty);
-                    ticketRequest.setQty(ticketQty);
-                }
-
-                ticketRequest.setReqType(commonUtils.getTypeFromName(type));
-                ticketRequest.setStartToEnd(commonUtils.getDestinationFromName(selectedDestination));
-
-                if (commonUtils.isOnline(context)) {
-                    if (progress == null) {
-                        progress = LoadingProgressBarDialog.createProgressDialog(context);
-                    }
-                    progress.show();
-
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-
-                            new ApiCalls().createTicketRequest(context, Constants.SYNC_METHOD, ticketRequest, new JsonHttpResponseHandler() {
-
-                                @Override
-                                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                                    super.onSuccess(statusCode, headers, response);
-
-                                    final int getStatusCode = statusCode;
-
-                                    runOnUiThread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            progress.dismiss();
-
-                                            if (getStatusCode == 200) {
-                                                Toast.makeText(context, "Successfully submitted your Exchange Ticket request.",
-                                                        Toast.LENGTH_SHORT).show();
-                                                finish();
-                                            }
-                                        }
-                                    });
-                                }
-
-                                @Override
-                                public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                                    runOnUiThread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            progress.dismiss();
-                                            Toast.makeText(context, "There was an error while submitting your request. Please try again from while.",
-                                                    Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
-                                }
-                            });
+                    // Create default note
+                    if (reqNote == null || reqNote.equals("")) {
+                        if (commonUtils.getTypeFromName(type) == TicketRequest.I_NEED) {
+                            reqNote = type + " " + qty + " for " + selectedDestination + " on " + ticketDate + " @ " +
+                                    ticketTime + " Train. Is there anyone have tickets?";
+                        } else {
+                            reqNote = type + " " + qty + " for " + selectedDestination + " on " + ticketDate + " @ " +
+                                    ticketTime + " Train. Is there anyone interested?";
                         }
-                    }).start();
+                    }
+
+                    String reqDay = null;
+                    try {
+                        SimpleDateFormat simpleDateformat = new SimpleDateFormat("MMM-dd-yyyy");
+                        Date dt = simpleDateformat.parse(ticketDate);
+                        simpleDateformat = new SimpleDateFormat("EEEE");
+                        reqDay = simpleDateformat.format(dt);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+
+                    final TicketRequest ticketRequest = new TicketRequest();
+                    ticketRequest.setName(name);
+                    ticketRequest.setUserPicUrl(SharedPreferenceManager.getLoggedUserImageUrl(context));
+                    ticketRequest.setReqDescription(reqNote);
+                    ticketRequest.setTicketDate(ticketDate);
+                    ticketRequest.setTicketTime(ticketTime);
+                    ticketRequest.setTicketDay(reqDay);
+                    ticketRequest.setPhoneNo(contactNum);
+                    ticketRequest.setEmail(email);
+
+                    if (!qty.equals("Select Qty")) {
+                        int ticketQty = Integer.parseInt(qty);
+                        ticketRequest.setQty(ticketQty);
+                    }
+
+                    ticketRequest.setReqType(commonUtils.getTypeFromName(type));
+                    ticketRequest.setStartToEnd(commonUtils.getDestinationFromName(selectedDestination));
+
+                    if (commonUtils.isOnline(context)) {
+                        if (progress == null) {
+                            progress = LoadingProgressBarDialog.createProgressDialog(context);
+                        }
+                        progress.show();
+
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+
+                                new ApiCalls().createTicketRequest(context, Constants.SYNC_METHOD, ticketRequest, new JsonHttpResponseHandler() {
+
+                                    @Override
+                                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                                        super.onSuccess(statusCode, headers, response);
+
+                                        final int getStatusCode = statusCode;
+
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                progress.dismiss();
+
+                                                if (getStatusCode == 200) {
+                                                    Toast.makeText(context, "Successfully submitted your Exchange Ticket request.",
+                                                            Toast.LENGTH_SHORT).show();
+                                                    finish();
+                                                }
+                                            }
+                                        });
+                                    }
+
+                                    @Override
+                                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                progress.dismiss();
+                                                Toast.makeText(context, "There was an error while submitting your request. Please try again from while.",
+                                                        Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                        }).start();
+                    } else {
+                        Toast.makeText(context, "Please check device Internet connection.", Toast.LENGTH_SHORT).show();
+                    }
                 } else {
-                    Toast.makeText(context, "Please check device Internet connection.", Toast.LENGTH_SHORT).show();
+                    new CommonDialogBuilderUtil(context)
+                            .title("Missing information")
+                            .content(getResources().getString(R.string.et_add_request_error_msg_1))
+                            .setFirstActionListener("Ok", null).build().show();
                 }
             }
         });
@@ -290,5 +299,36 @@ public class AddRequestActivity extends ExchangeBaseActivity {
 
         selectedHour = calendar.get(Calendar.HOUR);
         selectedMinute = calendar.get(Calendar.MINUTE);
+    }
+
+    private boolean isDirty() {
+
+        String type = typeSelectSpinner.getSelectedItem().toString();
+        String qty = ticketCountSpinner.getSelectedItem().toString();
+        String selectedDestination = destinationSpinner.getSelectedItem().toString();
+        String ticketDate = ticketDateTextView.getText().toString();
+        String ticketTime = ticketTimeTextView.getText().toString();
+
+        if (type.equals("Select Type")) {
+            return false;
+        }
+
+        if (qty.equals("Select Qty")) {
+            return false;
+        }
+
+        if (selectedDestination.equals("Select Destination")) {
+            return false;
+        }
+
+        if (ticketDate == null || ticketDate.equals("")) {
+            return false;
+        }
+
+        if (ticketTime == null || ticketTime.equals("")) {
+            return false;
+        }
+
+        return true;
     }
 }
