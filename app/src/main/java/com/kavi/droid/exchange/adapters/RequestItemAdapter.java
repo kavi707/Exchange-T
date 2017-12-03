@@ -48,7 +48,7 @@ public class RequestItemAdapter extends BaseAdapter {
             return View.inflate(context, R.layout.view_space, null);
         } else {
             RequestItemView requestItemView;
-            if (convertView == null) {
+            if (convertView == null || (convertView instanceof RequestItemView)) {
                 requestItemView = (RequestItemView) View.inflate(context, R.layout.view_request_item, null);
             } else {
                 requestItemView = (RequestItemView) convertView;

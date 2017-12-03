@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<com.kavi.droid.exchange.views.RequestItemView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -8,4 +8,4 @@
     <android.support.v4.widget.Space
         android:layout_width="match_parent"
         android:layout_height="50dp" />
-</LinearLayout>
+</com.kavi.droid.exchange.views.RequestItemView>
