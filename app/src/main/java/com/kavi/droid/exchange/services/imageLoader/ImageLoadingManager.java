@@ -103,10 +103,12 @@ public class ImageLoadingManager {
 
             canvas.clipPath(path);
             Bitmap sourceBitmap = scaleBitmapImage;
-            canvas.drawBitmap(sourceBitmap,
-                    new Rect(0, 0, sourceBitmap.getWidth(),
-                            sourceBitmap.getHeight()),
-                    new Rect(0, 0, targetWidth, targetHeight), null);
+            if (sourceBitmap != null) {
+                canvas.drawBitmap(sourceBitmap,
+                        new Rect(0, 0, sourceBitmap.getWidth(),
+                                sourceBitmap.getHeight()),
+                        new Rect(0, 0, targetWidth, targetHeight), null);
+            }
             return targetBitmap;
         }
     }
