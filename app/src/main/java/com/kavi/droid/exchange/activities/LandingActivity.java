@@ -23,6 +23,7 @@ import com.kavi.droid.exchange.Constants;
 import com.kavi.droid.exchange.R;
 import com.kavi.droid.exchange.fragments.HomeFragment;
 import com.kavi.droid.exchange.fragments.MyRequestsHistoryFragment;
+import com.kavi.droid.exchange.fragments.NotificationFragment;
 import com.kavi.droid.exchange.services.imageLoader.ImageLoadingManager;
 import com.kavi.droid.exchange.services.sharedPreferences.SharedPreferenceManager;
 import com.kavi.droid.exchange.utils.NavigationUtil;
@@ -136,9 +137,8 @@ public class LandingActivity extends AppCompatActivity
             fragment = new MyRequestsHistoryFragment();
             fragmentTag = Constants.HISTORY_FRAGMENT_TAG;
         } else if (id == R.id.nav_notifications) {
+            fragment = new NotificationFragment();
             fragmentTag = Constants.NOTIFICATION_FRAGMENT_TAG;
-        } else if (id == R.id.nav_messages) {
-            fragmentTag = Constants.MESSAGE_FRAGMENT_TAG;
         } else if (id == R.id.nav_settings) {
             fragmentTag = Constants.SETTINGS_FRAGMENT_TAG;
         }

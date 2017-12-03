@@ -21,7 +21,6 @@ public class Constants {
     public static final String HOME_FRAGMENT_TAG = "HOME_FRAGMENT";
     public static final String HISTORY_FRAGMENT_TAG = "HISTORY_FRAGMENT";
     public static final String NOTIFICATION_FRAGMENT_TAG = "NOTIFICATION_FRAGMENT";
-    public static final String MESSAGE_FRAGMENT_TAG = "MESSAGE_FRAGMENT";
     public static final String SETTINGS_FRAGMENT_TAG = "SETTINGS_FRAGMENT";
 
     //public static final String BASE_URL = "http://10.0.2.2:8000";
