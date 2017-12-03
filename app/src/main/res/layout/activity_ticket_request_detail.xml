@@ -27,7 +27,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:layout_alignParentTop="true"
-                    ads:adSize="SMART_BANNER"
+                    ads:adSize="BANNER"
                     ads:adUnitId="@string/ad_mob_test_ad_unit_id">
                 </com.google.android.gms.ads.AdView>
                 
@@ -35,7 +35,7 @@
                     android:id="@+id/appImageView"
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
-                    android:layout_marginTop="45dp"
+                    android:layout_marginTop="55dp"
                     android:src="@drawable/e_app_icon_name_h_w" />
 
                 <TextView

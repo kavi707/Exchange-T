@@ -15,6 +15,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.kavi.droid.exchange.Constants;
 import com.kavi.droid.exchange.R;
 import com.kavi.droid.exchange.activities.TicketRequestDetailActivity;
@@ -45,11 +47,13 @@ public class MyRequestsHistoryFragment extends Fragment {
     private ListView myTicketRequestListView;
     private RelativeLayout noContentRelativeLayout;
     private TextView listErrorTextView;
+    private AdView myTicketListAdView;
 
     private ProgressDialog progress;
 
     private RequestItemAdapter requestItemAdapter;
     private List<TicketRequest> myTicketRequestList = new ArrayList<>();
+    private static final String DEFAULT_SPACE_VIEW_ID = "DEFAULT:LAST_SPACE";
 
     private CommonUtils commonUtils = new CommonUtils();
 
@@ -84,15 +88,21 @@ public class MyRequestsHistoryFragment extends Fragment {
         noContentRelativeLayout = (RelativeLayout) upView.findViewById(R.id.noContentRelativeLayout);
         listErrorTextView = (TextView) upView.findViewById(R.id.listErrorTextView);
 
+        // Google Ads
+        myTicketListAdView = (AdView) upView.findViewById(R.id.myTicketListAdView);
+        myTicketListAdView.loadAd(new AdRequest.Builder().build());
+
         myTicketRequestListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                TicketRequestDetailActivity.setTicketRequest(myTicketRequestList.get(position));
+                if (!myTicketRequestList.get(position).getId().equals(DEFAULT_SPACE_VIEW_ID)) {
+                    TicketRequestDetailActivity.setTicketRequest(myTicketRequestList.get(position));
 
-                new NavigationUtil(getActivity())
-                        .to(TicketRequestDetailActivity.class)
-                        .setTransitionAnim(NavigationUtil.ANIM_LEFT_TO_RIGHT)
-                        .go();
+                    new NavigationUtil(getActivity())
+                            .to(TicketRequestDetailActivity.class)
+                            .setTransitionAnim(NavigationUtil.ANIM_LEFT_TO_RIGHT)
+                            .go();
+                }
             }
         });
 
@@ -151,6 +161,12 @@ public class MyRequestsHistoryFragment extends Fragment {
                         public void run() {
                             progress.dismiss();
                             if (myTicketRequestList != null && myTicketRequestList.size() > 0) {
+
+                                // Keep space for last element
+                                TicketRequest lastSpace = new TicketRequest();
+                                lastSpace.setId(DEFAULT_SPACE_VIEW_ID);
+                                myTicketRequestList.add(lastSpace);
+
                                 noContentRelativeLayout.setVisibility(View.INVISIBLE);
                                 requestItemAdapter = new RequestItemAdapter(myTicketRequestList, getActivity());
                                 myTicketRequestListView.setAdapter(requestItemAdapter);

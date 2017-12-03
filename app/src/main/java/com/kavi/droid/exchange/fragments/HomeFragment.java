@@ -24,6 +24,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.kavi.droid.exchange.Constants;
 import com.kavi.droid.exchange.R;
 import com.kavi.droid.exchange.activities.SignInActivity;
@@ -69,6 +71,8 @@ public class HomeFragment extends Fragment {
 
     private Button filterActionButton;
 
+    private AdView ticketListAdView;
+
     private ProgressDialog progress;
 
     private RequestItemAdapter requestItemAdapter;
@@ -79,6 +83,7 @@ public class HomeFragment extends Fragment {
     private List<String> qtyList;
     private int selectedYear, selectedMonth, selectedDay;
     private boolean isDateFilterSet = false;
+    private static final String DEFAULT_SPACE_VIEW_ID = "DEFAULT:LAST_SPACE";
 
     private CommonUtils commonUtils = new CommonUtils();
 
@@ -148,6 +153,10 @@ public class HomeFragment extends Fragment {
 
         filterActionButton = (Button) upView.findViewById(R.id.filterActionButton);
 
+        // Google Ads
+        ticketListAdView = (AdView) upView.findViewById(R.id.ticketListAdView);
+        ticketListAdView.loadAd(new AdRequest.Builder().build());
+
         // initialize as invisible (could also do in xml)
         filterView.setVisibility(View.INVISIBLE);
         isDown = false;
@@ -170,11 +179,13 @@ public class HomeFragment extends Fragment {
         ticketRequestListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                TicketRequestDetailActivity.setTicketRequest(ticketRequestList.get(position));
-                new NavigationUtil(getActivity())
-                        .to(TicketRequestDetailActivity.class)
-                        .setTransitionAnim(NavigationUtil.ANIM_LEFT_TO_RIGHT)
-                        .go();
+                if (!ticketRequestList.get(position).getId().equals(DEFAULT_SPACE_VIEW_ID)) {
+                    TicketRequestDetailActivity.setTicketRequest(ticketRequestList.get(position));
+                    new NavigationUtil(getActivity())
+                            .to(TicketRequestDetailActivity.class)
+                            .setTransitionAnim(NavigationUtil.ANIM_LEFT_TO_RIGHT)
+                            .go();
+                }
             }
         });
 
@@ -289,6 +300,12 @@ public class HomeFragment extends Fragment {
                                     public void run() {
                                         progress.dismiss();
                                         if (ticketRequestList != null && ticketRequestList.size() > 0) {
+
+                                            // Keep space for last element
+                                            TicketRequest lastSpace = new TicketRequest();
+                                            lastSpace.setId(DEFAULT_SPACE_VIEW_ID);
+                                            ticketRequestList.add(lastSpace);
+
                                             noContentRelativeLayout.setVisibility(View.INVISIBLE);
                                             requestItemAdapter = new RequestItemAdapter(ticketRequestList, getActivity());
                                             ticketRequestListView.setAdapter(requestItemAdapter);

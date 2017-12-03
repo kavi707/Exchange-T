@@ -33,7 +33,7 @@ public class RequestItemAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        return (ticketRequestList == null)?null:ticketRequestList.get(position);
+        return (ticketRequestList == null)? null: ticketRequestList.get(position);
     }
 
     @Override
@@ -43,14 +43,19 @@ public class RequestItemAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        RequestItemView requestItemView;
-        if (convertView == null) {
-            requestItemView = (RequestItemView) View.inflate(context, R.layout.view_request_item, null);
-        } else {
-            requestItemView = (RequestItemView) convertView;
-        }
 
-        requestItemView.setTicketRequest(ticketRequestList.get(position));
-        return requestItemView;
+        if (position == ticketRequestList.size() - 1) {
+            return View.inflate(context, R.layout.view_space, null);
+        } else {
+            RequestItemView requestItemView;
+            if (convertView == null) {
+                requestItemView = (RequestItemView) View.inflate(context, R.layout.view_request_item, null);
+            } else {
+                requestItemView = (RequestItemView) convertView;
+            }
+
+            requestItemView.setTicketRequest(ticketRequestList.get(position));
+            return requestItemView;
+        }
     }
 }

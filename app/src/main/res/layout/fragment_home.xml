@@ -8,9 +8,7 @@
     <ListView
         android:id="@+id/ticketRequestListView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
+        android:layout_height="match_parent" />
 
     <RelativeLayout
         android:visibility="invisible"
@@ -187,5 +185,15 @@
                 android:background="@drawable/style_border_button"/>
         </RelativeLayout>
     </LinearLayout>
+
+    <com.google.android.gms.ads.AdView
+        xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/ticketListAdView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        ads:adSize="BANNER"
+        ads:adUnitId="@string/ad_mob_test_ad_unit_id">
+    </com.google.android.gms.ads.AdView>
 
 </FrameLayout>
