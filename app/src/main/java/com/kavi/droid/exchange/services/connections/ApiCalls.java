@@ -142,7 +142,7 @@ public class ApiCalls {
         long timeStampMonthAgo = calendar.getTimeInMillis() / 1000L;
 
         String url = Constants.BASE_URL + Constants.GET_TICKET_REQUEST +
-                "?qry=select * where createdTime>" + timeStampMonthAgo;
+                "?qry=select * where createdTime>" + timeStampMonthAgo + "&sort=createdTime:-1";
 
         String authToken = SharedPreferenceManager.getNodegridAuthToken(context);
 
@@ -160,7 +160,7 @@ public class ApiCalls {
         String fbUserId = SharedPreferenceManager.getFBUserId(context);
 
         String url = Constants.BASE_URL + Constants.GET_MY_TICKET_REQUEST +
-                "?qry=select * where entity.fbUserId=" + fbUserId;
+                "?qry=select * where entity.fbUserId=" + fbUserId + "&sort=createdTime:-1";
 
         String authToken = SharedPreferenceManager.getNodegridAuthToken(context);
 
