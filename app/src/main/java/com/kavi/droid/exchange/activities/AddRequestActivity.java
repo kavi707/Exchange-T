@@ -18,6 +18,8 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.kavi.droid.exchange.Constants;
 import com.kavi.droid.exchange.R;
 import com.kavi.droid.exchange.dialogs.LoadingProgressBarDialog;
@@ -65,6 +67,8 @@ public class AddRequestActivity extends ExchangeBaseActivity {
     private Button submitReqBtn;
     private Button cancelReqBtn;
 
+    private AdView addTicketRequestAdView;
+
     private ProgressDialog progress;
 
     private Context context = this;
@@ -104,6 +108,10 @@ public class AddRequestActivity extends ExchangeBaseActivity {
 
         submitReqBtn = (Button) findViewById(R.id.submitReqBtn);
         cancelReqBtn = (Button) findViewById(R.id.cancelReqBtn);
+
+        // Google Ads
+        addTicketRequestAdView = (AdView) findViewById(R.id.addTicketRequestAdView);
+        addTicketRequestAdView.loadAd(new AdRequest.Builder().build());
 
         if(SharedPreferenceManager.isUserLogIn(context)) {
             imageLoadingManager.loadImageToImageView(SharedPreferenceManager.getLoggedUserImageUrl(context),

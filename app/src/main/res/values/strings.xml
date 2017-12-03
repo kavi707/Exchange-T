@@ -13,6 +13,7 @@
     <string name="ad_mob_detail_view_ad_unit_id">ca-app-pub-4012126745881017/5081561286</string>
     <string name="ad_mob_all_list_view_ad_unit_id">ca-app-pub-4012126745881017/9083798745</string>
     <string name="ad_mob_my_list_view_ad_unit_id">ca-app-pub-4012126745881017/6058056444</string>
+    <string name="ad_mob_add_request_view_ad_unit_id">ca-app-pub-4012126745881017/2548280178</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
