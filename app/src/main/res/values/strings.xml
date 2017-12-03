@@ -38,4 +38,6 @@
 
     <string name="et_sign_in">Sign In</string>
     <string name="et_sign_in_msg">Did you missed to book <b>Tickets</b>? \n or \n Are you going to loss your <b>Money</b>?</string>
+
+    <string name="et_add_request_error_msg_1">Some details are missing in \n\'Ticket info\' section.\n\nPlease double check and re-submit your request.</string>
 </resources>
