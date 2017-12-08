@@ -6,6 +6,8 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -32,6 +34,7 @@ import com.kavi.droid.exchange.activities.SignInActivity;
 import com.kavi.droid.exchange.activities.SplashActivity;
 import com.kavi.droid.exchange.activities.TicketRequestDetailActivity;
 import com.kavi.droid.exchange.adapters.RequestItemAdapter;
+import com.kavi.droid.exchange.adapters.RequestItemRecyclerViewAdapter;
 import com.kavi.droid.exchange.dialogs.LoadingProgressBarDialog;
 import com.kavi.droid.exchange.models.TicketRequest;
 import com.kavi.droid.exchange.services.connections.ApiCalls;
@@ -58,6 +61,7 @@ public class HomeFragment extends Fragment {
 
     private View rootView;
     private ListView ticketRequestListView;
+    private RecyclerView ticketRequestRecycleView;
     private RelativeLayout noContentRelativeLayout;
     private TextView listErrorTextView;
     private LinearLayout filterView;
@@ -142,6 +146,7 @@ public class HomeFragment extends Fragment {
     private void setUpView(View upView) {
 
         ticketRequestListView = (ListView) upView.findViewById(R.id.ticketRequestListView);
+        ticketRequestRecycleView = (RecyclerView) upView.findViewById(R.id.ticketRequestRecycleView);
         noContentRelativeLayout = (RelativeLayout) upView.findViewById(R.id.noContentRelativeLayout);
         listErrorTextView = (TextView) upView.findViewById(R.id.listErrorTextView);
         filterView = (LinearLayout) upView.findViewById(R.id.filterView);
@@ -152,6 +157,10 @@ public class HomeFragment extends Fragment {
         ticketToDateTextView.setHintTextColor(getResources().getColor(R.color.light_red));
 
         filterActionButton = (Button) upView.findViewById(R.id.filterActionButton);
+
+        ticketRequestRecycleView.setHasFixedSize(true);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        ticketRequestRecycleView.setLayoutManager(linearLayoutManager);
 
         // Google Ads
         ticketListAdView = (AdView) upView.findViewById(R.id.ticketListAdView);
@@ -307,8 +316,11 @@ public class HomeFragment extends Fragment {
                                             ticketRequestList.add(lastSpace);
 
                                             noContentRelativeLayout.setVisibility(View.INVISIBLE);
-                                            requestItemAdapter = new RequestItemAdapter(ticketRequestList, getActivity());
-                                            ticketRequestListView.setAdapter(requestItemAdapter);
+                                            //requestItemAdapter = new RequestItemAdapter(ticketRequestList, getActivity());
+                                            //ticketRequestListView.setAdapter(requestItemAdapter);
+
+                                            RequestItemRecyclerViewAdapter adapter = new RequestItemRecyclerViewAdapter(ticketRequestList, getActivity());
+                                            ticketRequestRecycleView.setAdapter(adapter);
                                         } else {
                                             noContentRelativeLayout.setVisibility(View.VISIBLE);
                                             listErrorTextView.setText(getResources().getString(R.string.list_msg_empty));
