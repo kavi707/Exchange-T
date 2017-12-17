@@ -1,6 +1,7 @@
 package com.kavi.droid.exchange.services.connections;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.kavi.droid.exchange.Constants;
 import com.kavi.droid.exchange.models.TicketRequest;
@@ -27,6 +28,8 @@ import cz.msebera.android.httpclient.entity.StringEntity;
 
 public class ApiCalls {
 
+    public final String TAG = this.getClass().getName();
+
     public static final String HEADER_AUTHORIZATION = "Authorization";
 
     private static final String APPLICATION_JSON = "application/json";
@@ -37,6 +40,7 @@ public class ApiCalls {
     public void addNewUser(Context context, String taskMethod, User user, JsonHttpResponseHandler responseHandler) {
 
         String url = Constants.BASE_URL + Constants.ADD_USER;
+        Log.d(TAG, "addNewUser: POST: url -> " + url);
 
         JSONObject reqObj = new JSONObject();
         JSONObject reqObjAdditional = new JSONObject();
@@ -54,6 +58,7 @@ public class ApiCalls {
             reqObj.put("additional", reqObjAdditional);
 
             String reqJsonString = reqObj.toString();
+            Log.d(TAG, "addNewUser: reqJsonString -> " + reqJsonString);
 
             if (taskMethod.equals(Constants.SYNC_METHOD)) {
                 syncHttpClient.post(context, url, new StringEntity(reqJsonString), APPLICATION_JSON, responseHandler);
@@ -72,6 +77,7 @@ public class ApiCalls {
     public void getUserFromFBId(String taskMethod, String fbUserId, JsonHttpResponseHandler responseHandler) {
 
         String url = Constants.BASE_URL + Constants.GET_FB_USER + fbUserId;
+        Log.d(TAG, "getUserFromFBId: GET: url -> " + url);
 
         if (taskMethod.equals(Constants.SYNC_METHOD))
             syncHttpClient.get(url, null, responseHandler);
@@ -83,10 +89,13 @@ public class ApiCalls {
     public void generateAuthToken(String taskMethod, String username, String password, JsonHttpResponseHandler responseHandler) {
 
         String url = Constants.BASE_URL + Constants.GENERATE_AUTH_TOKEN;
+        Log.d(TAG, "generateAuthToken: POST: url -> " + url);
+
         RequestParams requestParams = new RequestParams();
 
         requestParams.put("username", username);
         requestParams.put("password", password);
+        Log.d(TAG, "addNewUser: requestParams -> " + requestParams.toString());
 
         if (taskMethod.equals(Constants.SYNC_METHOD)) {
             syncHttpClient.post(url, requestParams, responseHandler);
@@ -99,6 +108,7 @@ public class ApiCalls {
                                     JsonHttpResponseHandler responseHandler) {
 
         String url = Constants.BASE_URL + Constants.ADD_TICKET_REQUEST;
+        Log.d(TAG, "createTicketRequest: POST: url -> " + url);
 
         JSONObject reqObj = new JSONObject();
 
@@ -119,6 +129,7 @@ public class ApiCalls {
             reqObj.put("reqNote", ticketRequest.getReqDescription());
 
             String reqJsonString = reqObj.toString();
+            Log.d(TAG, "createTicketRequest: reqJsonString -> " + reqJsonString);
 
             if (taskMethod.equals(Constants.SYNC_METHOD)) {
                 syncHttpClient.addHeader(HEADER_AUTHORIZATION, authToken);
@@ -143,6 +154,7 @@ public class ApiCalls {
 
         String url = Constants.BASE_URL + Constants.GET_TICKET_REQUEST +
                 "?qry=select * where createdTime>" + timeStampMonthAgo + "&sort=createdTime:-1";
+        Log.d(TAG, "getTicketRequest: GET: url -> " + url);
 
         String authToken = SharedPreferenceManager.getNodegridAuthToken(context);
 
@@ -161,6 +173,7 @@ public class ApiCalls {
 
         String url = Constants.BASE_URL + Constants.GET_MY_TICKET_REQUEST +
                 "?qry=select * where entity.fbUserId=" + fbUserId + "&sort=createdTime:-1";
+        Log.d(TAG, "getMyTicketRequests: GET: url -> " + url);
 
         String authToken = SharedPreferenceManager.getNodegridAuthToken(context);
 
@@ -176,6 +189,7 @@ public class ApiCalls {
     public void submitPushToken(Context context, String taskMethod, String userId, String pushToken, JsonHttpResponseHandler responseHandler) {
 
         String url = Constants.BASE_URL + Constants.SUBMIT_FCM_PUSH_TOKEN;
+        Log.d(TAG, "submitPushToken: POST: url -> " + url);
 
         JSONObject reqObj = new JSONObject();
         JSONObject reqObjPushData = new JSONObject();
@@ -189,6 +203,7 @@ public class ApiCalls {
             reqObj.put("push", reqObjPushData);
 
             String reqJsonString = reqObj.toString();
+            Log.d(TAG, "submitPushToken: reqJsonString -> " + reqJsonString);
 
             String authToken = SharedPreferenceManager.getNodegridAuthToken(context);
 
@@ -213,6 +228,7 @@ public class ApiCalls {
 
         String url = Constants.BASE_URL + Constants.CHECK_ACCESS_TOKEN_STATUS +
                 "/" + authToken;
+        Log.d(TAG, "checkCurrentTokenStatus: GET: url -> " + url);
 
         if (taskMethod.equals(Constants.SYNC_METHOD)) {
             syncHttpClient.get(url, null, responseHandler);
@@ -224,6 +240,7 @@ public class ApiCalls {
     public void filterTicketRequest(Context context, String taskMethod, FilterTicketReq filterTicketReq, JsonHttpResponseHandler responseHandler) {
 
         String url = Constants.BASE_URL + Constants.GET_FILTER_TICKET_REQUEST;
+        Log.d(TAG, "filterTicketRequest: POST: url -> " + url);
 
         JSONObject reqObj = new JSONObject();
         JSONObject dateReqObj = new JSONObject();
@@ -246,6 +263,7 @@ public class ApiCalls {
                 reqObj.put("qty", filterTicketReq.getQtyFilter());
 
             String reqJsonString = reqObj.toString();
+            Log.d(TAG, "filterTicketRequest: reqJsonString -> " + reqJsonString);
 
             String authToken = SharedPreferenceManager.getNodegridAuthToken(context);
 
@@ -269,6 +287,7 @@ public class ApiCalls {
 
         String url = Constants.BASE_URL + Constants.DELETE_TICKET_REQUEST +
                 "/" + requestId;
+        Log.d(TAG, "deleteMyTicketRequestFromId: DELETE: url -> " + url);
 
         String authToken = SharedPreferenceManager.getNodegridAuthToken(context);
 
