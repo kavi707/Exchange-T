@@ -102,16 +102,29 @@ public class TicketRequestDetailActivity extends ExchangeBaseActivity {
         reqTypeTextView.setText(commonUtils.getTypeFromInt(ticketRequest.getReqType()));
         if (ticketRequest.getReqType() == TicketRequest.I_HAVE) {
             ticketRequestDetailHolder.setBackgroundColor(getResources().getColor(R.color.i_have));
+            contactNumberButton.setTextColor(getResources().getColor(R.color.i_have));
+            contactNumberButton.setBackground(getResources().getDrawable(R.drawable.style_border_button_b));
+            emailButton.setTextColor(getResources().getColor(R.color.i_have));
+            emailButton.setBackground(getResources().getDrawable(R.drawable.style_border_button_b));
         } else if (ticketRequest.getReqType() == TicketRequest.I_NEED) {
             ticketRequestDetailHolder.setBackgroundColor(getResources().getColor(R.color.i_need));
+            contactNumberButton.setTextColor(getResources().getColor(R.color.i_need));
+            contactNumberButton.setBackground(getResources().getDrawable(R.drawable.style_border_button_g));
+            emailButton.setTextColor(getResources().getColor(R.color.i_need));
+            emailButton.setBackground(getResources().getDrawable(R.drawable.style_border_button_g));
         }
-        qtyTextView.setText(ticketRequest.getQty() + " tickets");
+        qtyTextView.setText(ticketRequest.getQty() + " ticket(s)");
         startToEndTextView.setText(commonUtils.getDestinationFromInt(ticketRequest.getStartToEnd()));
         ticketDayTextView.setText(ticketRequest.getTicketDay());
         ticketDateTextView.setText(ticketRequest.getTicketDate());
         ticketTimeTextView.setText(ticketRequest.getTicketTime());
         ticketReqNoteTextView.setText(ticketRequest.getReqDescription());
-        contactNumberButton.setText("Call me: " + ticketRequest.getPhoneNo());
+        if (ticketRequest.getPhoneNo().equals(null) || ticketRequest.getPhoneNo().equals("")) {
+            contactNumberButton.setVisibility(View.GONE);
+        } else {
+            contactNumberButton.setVisibility(View.VISIBLE);
+            contactNumberButton.setText("Call me: " + ticketRequest.getPhoneNo());
+        }
         emailButton.setText("Email me: " + ticketRequest.getEmail());
 
         RelativeLayout.LayoutParams dataLayoutParams = (RelativeLayout.LayoutParams) dataContentRelativeLayout.getLayoutParams();
