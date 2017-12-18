@@ -7,12 +7,15 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -51,6 +54,7 @@ import cz.msebera.android.httpclient.Header;
 public class AddRequestActivity extends ExchangeBaseActivity {
 
     private ImageView profilePicImageView;
+    private RelativeLayout addNewTicketRequestContainer;
 
     private TextView nameTextView;
     private TextView ticketDateTextView;
@@ -63,6 +67,10 @@ public class AddRequestActivity extends ExchangeBaseActivity {
     private Spinner typeSelectSpinner;
     private Spinner ticketCountSpinner;
     private Spinner destinationSpinner;
+
+    private RelativeLayout spinnerRelativeLayout;
+    private RelativeLayout dateTimeRelativeLayout;
+    private RelativeLayout destinationsRelativeLayout;
 
     private Button submitReqBtn;
     private Button cancelReqBtn;
@@ -94,6 +102,7 @@ public class AddRequestActivity extends ExchangeBaseActivity {
     private void setUpViews() {
 
         imageLoadingManager = new ImageLoadingManager(context);
+        addNewTicketRequestContainer = (RelativeLayout) findViewById(R.id.addNewTicketRequestContainer);
 
         profilePicImageView = (ImageView) findViewById(R.id.profilePicImageView);
         nameTextView = (TextView) findViewById(R.id.nameTextView);
@@ -106,12 +115,44 @@ public class AddRequestActivity extends ExchangeBaseActivity {
         ticketCountSpinner = (Spinner) findViewById(R.id.ticketCountSpinner);
         destinationSpinner = (Spinner) findViewById(R.id.destinationSpinner);
 
+        spinnerRelativeLayout = (RelativeLayout) findViewById(R.id.spinnerRelativeLayout);
+        dateTimeRelativeLayout = (RelativeLayout) findViewById(R.id.dateTimeRelativeLayout);
+        destinationsRelativeLayout = (RelativeLayout) findViewById(R.id.destinationsRelativeLayout);
+
         submitReqBtn = (Button) findViewById(R.id.submitReqBtn);
         cancelReqBtn = (Button) findViewById(R.id.cancelReqBtn);
 
         // Google Ads
         addTicketRequestAdView = (AdView) findViewById(R.id.addTicketRequestAdView);
         addTicketRequestAdView.loadAd(new AdRequest.Builder().build());
+
+        typeSelectSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                switch (position) {
+                    case 0:
+                        addNewTicketRequestContainer.setBackground(getResources().getDrawable(R.drawable.style_border_square_b));
+                        break;
+                    case 1:
+                        addNewTicketRequestContainer.setBackground(getResources().getDrawable(R.drawable.style_border_square_ineed));
+                        spinnerRelativeLayout.setBackgroundColor(getResources().getColor(R.color.primaryGreen));
+                        dateTimeRelativeLayout.setBackgroundColor(getResources().getColor(R.color.primaryGreen));
+                        destinationsRelativeLayout.setBackgroundColor(getResources().getColor(R.color.primaryGreen));
+                        break;
+                    case 2:
+                        addNewTicketRequestContainer.setBackground(getResources().getDrawable(R.drawable.style_border_square_ihave));
+                        spinnerRelativeLayout.setBackgroundColor(getResources().getColor(R.color.primaryBlue));
+                        dateTimeRelativeLayout.setBackgroundColor(getResources().getColor(R.color.primaryBlue));
+                        destinationsRelativeLayout.setBackgroundColor(getResources().getColor(R.color.primaryBlue));
+                        break;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+
+            }
+        });
 
         if(SharedPreferenceManager.isUserLogIn(context)) {
             imageLoadingManager.loadImageToImageView(SharedPreferenceManager.getLoggedUserImageUrl(context),

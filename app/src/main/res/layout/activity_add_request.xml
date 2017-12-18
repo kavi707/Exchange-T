@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/primaryGreenDark">
+    android:id="@+id/addNewTicketRequestContainer"
+    android:background="@drawable/style_border_square_b">
 
     <com.google.android.gms.ads.AdView
         xmlns:ads="http://schemas.android.com/apk/res-auto"
@@ -23,6 +24,7 @@
         android:layout_height="wrap_content">
 
         <RelativeLayout
+            android:layout_margin="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
@@ -44,7 +46,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_toEndOf="@+id/profilePicImageView"
                 android:text="Me"
-                android:textColor="@color/white"
+                android:textColor="@color/grey_dark"
                 android:textSize="22dp"
                 android:textStyle="bold" />
 
@@ -55,7 +57,7 @@
                 android:layout_alignBottom="@+id/profilePicImageView"
                 android:layout_alignStart="@+id/meTextView"
                 android:text="Name"
-                android:textColor="@color/white"
+                android:textColor="@color/grey_dark"
                 android:textSize="18dp" />
 
             <RelativeLayout
@@ -72,7 +74,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Contact info:"
-                    android:textColor="@color/white"
+                    android:textColor="@color/grey_dark"
                     android:textSize="18dp"
                     android:textStyle="bold" />
 
@@ -80,7 +82,7 @@
                     android:id="@+id/phoneNumEditText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="@color/white"
+                    android:backgroundTint="@color/grey_dark"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentStart="true"
                     android:layout_below="@+id/contactInfoTextView"
@@ -88,14 +90,14 @@
                     android:layout_marginTop="10dp"
                     android:hint="Phone Number"
                     android:textColorHint="@color/light_grey"
-                    android:textColor="@color/white"
+                    android:textColor="@color/grey_dark"
                     android:inputType="phone" />
 
                 <EditText
                     android:id="@+id/emailEditText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="@color/white"
+                    android:backgroundTint="@color/grey_dark"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentStart="true"
                     android:layout_below="@+id/phoneNumEditText"
@@ -103,7 +105,7 @@
                     android:layout_marginTop="3dp"
                     android:hint="Email Address"
                     android:textColorHint="@color/light_grey"
-                    android:textColor="@color/white"
+                    android:textColor="@color/grey_dark"
                     android:inputType="textEmailAddress" />
             </RelativeLayout>
 
@@ -121,7 +123,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Ticket info:"
-                    android:textColor="@color/white"
+                    android:textColor="@color/grey_dark"
                     android:textSize="18dp"
                     android:textStyle="bold" />
 
@@ -252,7 +254,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Note:"
-                    android:textColor="@color/white"
+                    android:textColor="@color/grey_dark"
                     android:textSize="18dp"
                     android:textStyle="bold" />
 
@@ -260,8 +262,8 @@
                     android:id="@+id/reqNoteEditText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="@color/white"
-                    android:textColor="@color/white"
+                    android:backgroundTint="@color/grey_dark"
+                    android:textColor="@color/grey_dark"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentStart="true"
                     android:layout_below="@+id/noteTitleTextView"
@@ -273,38 +275,49 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:gravity="center"
-                android:layout_margin="10dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
                 android:layout_alignParentBottom="true"
                 android:layout_below="@+id/noteRelativeLayout"
-                android:layout_alignParentEnd="true"
-                android:weightSum="1">
+                android:layout_alignParentEnd="true">
 
-                <Button
-                    android:id="@+id/submitReqBtn"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="5dp"
-                    android:text="Submit"
-                    android:textColor="@color/white"
-                    android:textStyle="bold"
-                    android:background="@drawable/style_border_square_w"
-                    android:layout_alignParentStart="true"
-                    android:layout_weight="0.45" />
+                    android:weightSum="1">
 
-                <Button
-                    android:id="@+id/cancelReqBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:text="Cancel"
-                    android:textColor="@color/white"
-                    android:textStyle="bold"
-                    android:background="@drawable/style_border_square_w"
-                    android:layout_alignParentEnd="true"
-                    android:layout_weight="0.45" />
+                    <Button
+                        android:id="@+id/submitReqBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:text="Submit"
+                        android:textColor="@color/colorPrimary"
+                        android:textStyle="bold"
+                        android:background="@drawable/style_border_square_b"
+                        android:layout_alignParentStart="true"
+                        android:layout_weight="0.45" />
+
+                    <Button
+                        android:id="@+id/cancelReqBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:text="Cancel"
+                        android:textColor="@color/colorPrimary"
+                        android:textStyle="bold"
+                        android:background="@drawable/style_border_square_b"
+                        android:layout_alignParentEnd="true"
+                        android:layout_weight="0.45" />
+                </LinearLayout>
+                <android.support.v4.widget.Space
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp" />
             </LinearLayout>
         </RelativeLayout>
     </ScrollView>

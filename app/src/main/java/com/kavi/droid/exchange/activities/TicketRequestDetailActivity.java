@@ -6,7 +6,6 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -18,7 +17,6 @@ import com.facebook.share.model.ShareHashtag;
 import com.facebook.share.model.SharePhoto;
 import com.facebook.share.model.SharePhotoContent;
 import com.facebook.share.widget.ShareDialog;
-import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.kavi.droid.exchange.Constants;
@@ -28,9 +26,6 @@ import com.kavi.droid.exchange.models.TicketRequest;
 import com.kavi.droid.exchange.services.imageLoader.ImageLoadingManager;
 import com.kavi.droid.exchange.services.sharedPreferences.SharedPreferenceManager;
 import com.kavi.droid.exchange.utils.CommonUtils;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by kavi707 on 10/8/17.
@@ -103,15 +98,15 @@ public class TicketRequestDetailActivity extends ExchangeBaseActivity {
         if (ticketRequest.getReqType() == TicketRequest.I_HAVE) {
             ticketRequestDetailHolder.setBackgroundColor(getResources().getColor(R.color.i_have));
             contactNumberButton.setTextColor(getResources().getColor(R.color.i_have));
-            contactNumberButton.setBackground(getResources().getDrawable(R.drawable.style_border_button_b));
+            contactNumberButton.setBackground(getResources().getDrawable(R.drawable.style_border_button_ihave));
             emailButton.setTextColor(getResources().getColor(R.color.i_have));
-            emailButton.setBackground(getResources().getDrawable(R.drawable.style_border_button_b));
+            emailButton.setBackground(getResources().getDrawable(R.drawable.style_border_button_ihave));
         } else if (ticketRequest.getReqType() == TicketRequest.I_NEED) {
             ticketRequestDetailHolder.setBackgroundColor(getResources().getColor(R.color.i_need));
             contactNumberButton.setTextColor(getResources().getColor(R.color.i_need));
-            contactNumberButton.setBackground(getResources().getDrawable(R.drawable.style_border_button_g));
+            contactNumberButton.setBackground(getResources().getDrawable(R.drawable.style_border_button_ineed));
             emailButton.setTextColor(getResources().getColor(R.color.i_need));
-            emailButton.setBackground(getResources().getDrawable(R.drawable.style_border_button_g));
+            emailButton.setBackground(getResources().getDrawable(R.drawable.style_border_button_ineed));
         }
         qtyTextView.setText(ticketRequest.getQty() + " ticket(s)");
         startToEndTextView.setText(commonUtils.getDestinationFromInt(ticketRequest.getStartToEnd()));
