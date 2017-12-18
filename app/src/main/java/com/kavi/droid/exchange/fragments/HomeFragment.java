@@ -170,7 +170,7 @@ public class HomeFragment extends Fragment {
                 SharedPreferenceManager.setIsINeedTypeSelected(getActivity(), true);
                 iNeedBtn.setTextSize(18);
                 iNeedBtn.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD_ITALIC));
-                iHaveBtn.setTextSize(15);
+                iHaveBtn.setTextSize(14);
                 iHaveBtn.setTypeface(Typeface.defaultFromStyle(Typeface.ITALIC));
 
                 updateTiketList(commonUtils.getINeedTicketList(ticketRequestList));
@@ -182,7 +182,7 @@ public class HomeFragment extends Fragment {
             public void onClick(View view) {
                 isINeedSelected = false;
                 SharedPreferenceManager.setIsINeedTypeSelected(getActivity(), false);
-                iNeedBtn.setTextSize(15);
+                iNeedBtn.setTextSize(14);
                 iNeedBtn.setTypeface(Typeface.defaultFromStyle(Typeface.ITALIC));
                 iHaveBtn.setTextSize(18);
                 iHaveBtn.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD_ITALIC));
