@@ -322,4 +322,28 @@ public class CommonUtils {
 
         return ticketRequestList;
     }
+
+    public List<TicketRequest> getINeedTicketList(List<TicketRequest> fullTicketRequestList) {
+        List<TicketRequest> ticketRequestList = new ArrayList<>();
+
+        for (TicketRequest ticketRequest : fullTicketRequestList) {
+            if (ticketRequest.getReqType() == TicketRequest.I_NEED) {
+                ticketRequestList.add(ticketRequest);
+            }
+        }
+
+        return ticketRequestList;
+    }
+
+    public List<TicketRequest> getIHaveTicketList(List<TicketRequest> fullTicketRequestList) {
+        List<TicketRequest> ticketRequestList = new ArrayList<>();;
+
+        for (TicketRequest ticketRequest : fullTicketRequestList) {
+            if (ticketRequest.getReqType() == TicketRequest.I_HAVE) {
+                ticketRequestList.add(ticketRequest);
+            }
+        }
+
+        return ticketRequestList;
+    }
 }

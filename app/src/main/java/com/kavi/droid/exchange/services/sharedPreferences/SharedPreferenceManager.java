@@ -19,6 +19,7 @@ public class SharedPreferenceManager {
     private static final String NODEGRID_AUTH_TOKEN = "NODEGRID_AUTH_TOKEN";
     private static final String FB_USER_DATA = "FB_USER_DATA";
     private static final String IS_USER_DATA_CAPTURED = "IS_USER_DATA_CAPTURED";
+    private static final String IS_I_NEED_SELECTED = "IS_I_NEED_SELECTED";
     private static final String LOGGED_USER_NAME = "LOGGED_USER_NAME";
     private static final String LOGGED_USER_EMAIL = "LOGGED_USER_EMAIL";
     private static final String LOGGED_USER_IMAGE_URL = "LOGGED_USER_IMAGE_URL";
@@ -169,5 +170,13 @@ public class SharedPreferenceManager {
 
     public static String getFCMPushToken(Context context){
         return readStringSharePreference(context, FCM_PUSH_TOKEN);
+    }
+
+    public static void setIsINeedTypeSelected(Context context, boolean value){
+        writeBooleanSharePreference(context, IS_I_NEED_SELECTED, value);
+    }
+
+    public static boolean isINeedTypeSelected(Context context){
+        return readBooleanSharePreference(context, IS_I_NEED_SELECTED);
     }
 }
