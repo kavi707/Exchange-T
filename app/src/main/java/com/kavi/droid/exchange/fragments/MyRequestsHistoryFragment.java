@@ -19,6 +19,7 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.kavi.droid.exchange.Constants;
 import com.kavi.droid.exchange.R;
+import com.kavi.droid.exchange.activities.LandingActivity;
 import com.kavi.droid.exchange.activities.TicketRequestDetailActivity;
 import com.kavi.droid.exchange.adapters.RequestItemAdapter;
 import com.kavi.droid.exchange.utils.CommonDialogBuilderUtil;
@@ -65,6 +66,7 @@ public class MyRequestsHistoryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_my_request_history, container, false);
         setUpView(rootView);
+        ((LandingActivity) getActivity()).showFloatingActionButton();
 
         return rootView;
     }

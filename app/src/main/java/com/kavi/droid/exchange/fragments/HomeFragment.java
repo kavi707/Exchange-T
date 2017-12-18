@@ -31,6 +31,7 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.kavi.droid.exchange.Constants;
 import com.kavi.droid.exchange.R;
+import com.kavi.droid.exchange.activities.LandingActivity;
 import com.kavi.droid.exchange.activities.SignInActivity;
 import com.kavi.droid.exchange.activities.SplashActivity;
 import com.kavi.droid.exchange.activities.TicketRequestDetailActivity;
@@ -98,6 +99,7 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_home, container, false);
         setUpView(rootView);
+        ((LandingActivity) getActivity()).showFloatingActionButton();
 
         return rootView;
     }

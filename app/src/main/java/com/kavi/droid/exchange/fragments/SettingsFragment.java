@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.kavi.droid.exchange.R;
+import com.kavi.droid.exchange.activities.LandingActivity;
 
 /**
  * Created by kavi707 on 12/3/17.
@@ -26,6 +27,7 @@ public class SettingsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_settings, container, false);
         setUpView(rootView);
+        ((LandingActivity) getActivity()).hideFloatingActionButton();
 
         return rootView;
     }

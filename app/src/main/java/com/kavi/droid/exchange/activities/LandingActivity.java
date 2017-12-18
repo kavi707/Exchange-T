@@ -40,6 +40,7 @@ public class LandingActivity extends AppCompatActivity
     private ImageView profilePicImageView;
     private TextView userNameTextView;
     private TextView userEmailTextView;
+    private FloatingActionButton fab;
 
     private Context context = this;
     private ImageLoadingManager imageLoadingManager;
@@ -57,7 +58,7 @@ public class LandingActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -166,4 +167,12 @@ public class LandingActivity extends AppCompatActivity
         //getMenuInflater().inflate(R.menu.activity_icon_menu, menu);
         return true;
     }
+
+    public void showFloatingActionButton() {
+        fab.show();
+    };
+
+    public void hideFloatingActionButton() {
+        fab.hide();
+    };
 }
