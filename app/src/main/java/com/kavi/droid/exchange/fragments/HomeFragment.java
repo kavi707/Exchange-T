@@ -109,8 +109,15 @@ public class HomeFragment extends Fragment {
         super.onResume();
 
         isINeedSelected = SharedPreferenceManager.isINeedTypeSelected(getActivity());
-        ticketRequestList.clear();
-        getAllTicketRequest();
+        if (filteredTicketRequestList != null && filteredTicketRequestList.size() > 0) {
+            if (isINeedSelected)
+                updateTiketList(commonUtils.getINeedTicketList(filteredTicketRequestList));
+            else
+                updateTiketList(commonUtils.getIHaveTicketList(filteredTicketRequestList));
+        } else {
+            ticketRequestList.clear();
+            getAllTicketRequest();
+        }
     }
 
     @Override
@@ -172,6 +179,7 @@ public class HomeFragment extends Fragment {
                 iNeedBtn.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD_ITALIC));
                 iHaveBtn.setTextSize(14);
                 iHaveBtn.setTypeface(Typeface.defaultFromStyle(Typeface.ITALIC));
+                filteredTicketRequestList.clear();
 
                 updateTiketList(commonUtils.getINeedTicketList(ticketRequestList));
             }
@@ -186,6 +194,7 @@ public class HomeFragment extends Fragment {
                 iNeedBtn.setTypeface(Typeface.defaultFromStyle(Typeface.ITALIC));
                 iHaveBtn.setTextSize(18);
                 iHaveBtn.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD_ITALIC));
+                filteredTicketRequestList.clear();
 
                 updateTiketList(commonUtils.getIHaveTicketList(ticketRequestList));
             }
