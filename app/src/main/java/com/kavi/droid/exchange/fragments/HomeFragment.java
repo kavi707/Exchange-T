@@ -9,6 +9,8 @@ import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -36,6 +38,7 @@ import com.kavi.droid.exchange.activities.SignInActivity;
 import com.kavi.droid.exchange.activities.SplashActivity;
 import com.kavi.droid.exchange.activities.TicketRequestDetailActivity;
 import com.kavi.droid.exchange.adapters.RequestItemAdapter;
+import com.kavi.droid.exchange.adapters.RequestItemRecycleViewAdapter;
 import com.kavi.droid.exchange.dialogs.FilteringDialog;
 import com.kavi.droid.exchange.dialogs.LoadingProgressBarDialog;
 import com.kavi.droid.exchange.models.TicketRequest;
@@ -63,7 +66,9 @@ import cz.msebera.android.httpclient.Header;
 public class HomeFragment extends Fragment {
 
     private View rootView;
-    private ListView ticketRequestListView;
+    //private ListView ticketRequestListView;
+    private RecyclerView ticketRequestRecycleView;
+    private LinearLayoutManager llm;
     private RelativeLayout noContentRelativeLayout;
     private TextView listErrorTextView;
 
@@ -74,7 +79,7 @@ public class HomeFragment extends Fragment {
 
     private ProgressDialog progress;
 
-    private RequestItemAdapter requestItemAdapter;
+    //private RequestItemAdapter requestItemAdapter;
     private List<TicketRequest> ticketRequestList = new ArrayList<>();
     private List<TicketRequest> presentingTicketRequestList = new ArrayList<>();
     private List<TicketRequest> filteredTicketRequestList = new ArrayList<>();
@@ -147,17 +152,21 @@ public class HomeFragment extends Fragment {
 
     private void setUpView(View upView) {
 
-        ticketRequestListView = (ListView) upView.findViewById(R.id.ticketRequestListView);
+        //ticketRequestListView = (ListView) upView.findViewById(R.id.ticketRequestListView);
+        ticketRequestRecycleView = (RecyclerView) upView.findViewById(R.id.ticketRequestRecycleView);
         noContentRelativeLayout = (RelativeLayout) upView.findViewById(R.id.noContentRelativeLayout);
         listErrorTextView = (TextView) upView.findViewById(R.id.listErrorTextView);
-        iNeedBtn = upView.findViewById(R.id.iNeedBtn);
-        iHaveBtn = upView.findViewById(R.id.iHaveBtn);
+        iNeedBtn = (Button) upView.findViewById(R.id.iNeedBtn);
+        iHaveBtn = (Button) upView.findViewById(R.id.iHaveBtn);
+
+        llm = new LinearLayoutManager(getActivity());
+        ticketRequestRecycleView.setLayoutManager(llm);
 
         // Google Ads
         ticketListAdView = (AdView) upView.findViewById(R.id.ticketListAdView);
         ticketListAdView.loadAd(new AdRequest.Builder().build());
 
-        ticketRequestListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        /*ticketRequestListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (!presentingTicketRequestList.get(position).getId().equals(DEFAULT_SPACE_VIEW_ID)) {
@@ -168,7 +177,7 @@ public class HomeFragment extends Fragment {
                             .go();
                 }
             }
-        });
+        });*/
 
         iNeedBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -282,8 +291,11 @@ public class HomeFragment extends Fragment {
             ticketRequests.add(lastSpace);
 
             noContentRelativeLayout.setVisibility(View.INVISIBLE);
-            requestItemAdapter = new RequestItemAdapter(ticketRequests, getActivity());
-            ticketRequestListView.setAdapter(requestItemAdapter);
+            //requestItemAdapter = new RequestItemAdapter(ticketRequests, getActivity());
+            //ticketRequestListView.setAdapter(requestItemAdapter);
+
+            RequestItemRecycleViewAdapter requestItemRecycleViewAdapter = new RequestItemRecycleViewAdapter(ticketRequests, getActivity());
+            ticketRequestRecycleView.setAdapter(requestItemRecycleViewAdapter);
         } else {
             noContentRelativeLayout.setVisibility(View.VISIBLE);
             listErrorTextView.setText(getResources().getString(R.string.list_msg_empty));
