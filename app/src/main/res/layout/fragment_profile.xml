@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:padding="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.gms.ads.AdView
+            xmlns:ads="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/myProfileAdView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentTop="true"
+            ads:adSize="BANNER"
+            ads:adUnitId="@string/ad_mob_test_ad_unit_id">
+        </com.google.android.gms.ads.AdView>
+
+        <RelativeLayout
+            android:background="@drawable/style_border_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/firstNameEditText"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="25dp">
+
+            <ImageView
+                android:id="@+id/userImageView"
+                android:gravity="center"
+                android:layout_margin="5dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp" />
+
+        </RelativeLayout>
+
+        <EditText
+            android:id="@+id/firstNameEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:backgroundTint="@color/colorPrimary"
+            android:hint="First Name"
+            android:textColor="@color/colorPrimary"
+            android:textColorHint="@color/i_have"
+            android:gravity="center"
+            android:layout_above="@+id/lastNameEditText"
+            android:layout_marginBottom="20dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true" />
+
+        <EditText
+            android:id="@+id/lastNameEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:backgroundTint="@color/colorPrimary"
+            android:textColor="@color/colorPrimary"
+            android:textColorHint="@color/i_have"
+            android:hint="Last Name"
+            android:gravity="center"
+            android:layout_above="@+id/emailEditText"
+            android:layout_marginBottom="20dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true" />
+
+        <EditText
+            android:id="@+id/emailEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Email"
+            android:backgroundTint="@color/colorPrimary"
+            android:textColor="@color/colorPrimary"
+            android:textColorHint="@color/i_have"
+            android:gravity="center"
+            android:inputType="textEmailAddress"
+            android:layout_above="@+id/numberEditText"
+            android:layout_marginBottom="20dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true" />
+
+        <EditText
+            android:id="@+id/numberEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Phone Number"
+            android:textColor="@color/colorPrimary"
+            android:textColorHint="@color/i_have"
+            android:gravity="center"
+            android:inputType="phone"
+            android:backgroundTint="@color/colorPrimary"
+            android:layout_above="@+id/buttonPanel"
+            android:layout_marginBottom="40dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true" />
+
+        <LinearLayout
+            android:id="@+id/buttonPanel"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="1"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="30dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true">
+
+            <Button
+                android:id="@+id/cancelBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:text="Cancel"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"
+                android:background="@drawable/style_border_square_b"
+                android:layout_weight="0.45" />
+
+            <Button
+                android:id="@+id/saveDataBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="Save"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"
+                android:background="@drawable/style_border_square_b"
+                android:layout_weight="0.45" />
+        </LinearLayout>
+    </RelativeLayout>
+
+</LinearLayout>

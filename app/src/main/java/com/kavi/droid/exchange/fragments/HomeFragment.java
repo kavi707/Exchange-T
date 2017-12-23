@@ -150,8 +150,8 @@ public class HomeFragment extends Fragment {
         ticketRequestListView = (ListView) upView.findViewById(R.id.ticketRequestListView);
         noContentRelativeLayout = (RelativeLayout) upView.findViewById(R.id.noContentRelativeLayout);
         listErrorTextView = (TextView) upView.findViewById(R.id.listErrorTextView);
-        iNeedBtn = upView.findViewById(R.id.iNeedBtn);
-        iHaveBtn = upView.findViewById(R.id.iHaveBtn);
+        iNeedBtn = (Button) upView.findViewById(R.id.iNeedBtn);
+        iHaveBtn = (Button) upView.findViewById(R.id.iHaveBtn);
 
         // Google Ads
         ticketListAdView = (AdView) upView.findViewById(R.id.ticketListAdView);

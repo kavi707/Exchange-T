@@ -5,25 +5,24 @@ import android.app.FragmentManager;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.kavi.droid.exchange.Constants;
 import com.kavi.droid.exchange.R;
 import com.kavi.droid.exchange.fragments.HomeFragment;
 import com.kavi.droid.exchange.fragments.MyRequestsHistoryFragment;
 import com.kavi.droid.exchange.fragments.NotificationFragment;
+import com.kavi.droid.exchange.fragments.ProfileFragment;
 import com.kavi.droid.exchange.fragments.SettingsFragment;
 import com.kavi.droid.exchange.services.imageLoader.ImageLoadingManager;
 import com.kavi.droid.exchange.services.sharedPreferences.SharedPreferenceManager;
@@ -120,6 +119,7 @@ public class LandingActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
+            navigationView.getMenu().getItem(0).setChecked(true);
             super.onBackPressed();
         }
     }
@@ -138,6 +138,9 @@ public class LandingActivity extends AppCompatActivity
         } else if (id == R.id.nav_history) {
             fragment = new MyRequestsHistoryFragment();
             fragmentTag = Constants.HISTORY_FRAGMENT_TAG;
+        } else if (id == R.id.nav_profile) {
+            fragment = new ProfileFragment();
+            fragmentTag = Constants.PROFILE_FRAGMENT_TAG;
         } else if (id == R.id.nav_notifications) {
             fragment = new NotificationFragment();
             fragmentTag = Constants.NOTIFICATION_FRAGMENT_TAG;
@@ -148,8 +151,15 @@ public class LandingActivity extends AppCompatActivity
 
         if (fragment != null) {
             FragmentManager fragmentManager = getFragmentManager();
-            fragmentManager.beginTransaction()
-                    .replace(R.id.frame_container, fragment, fragmentTag).commit();
+            if (fragment instanceof HomeFragment)
+                fragmentManager.beginTransaction()
+                    .replace(R.id.frame_container, fragment, fragmentTag)
+                    .commit();
+            else
+                fragmentManager.beginTransaction()
+                        .replace(R.id.frame_container, fragment, fragmentTag)
+                        .addToBackStack(Constants.HOME_FRAGMENT_TAG)
+                        .commit();
 
             DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
             drawer.closeDrawer(GravityCompat.START);

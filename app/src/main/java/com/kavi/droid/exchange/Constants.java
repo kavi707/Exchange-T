@@ -20,6 +20,7 @@ public class Constants {
 
     public static final String HOME_FRAGMENT_TAG = "HOME_FRAGMENT";
     public static final String HISTORY_FRAGMENT_TAG = "HISTORY_FRAGMENT";
+    public static final String PROFILE_FRAGMENT_TAG = "PROFILE_FRAGMENT";
     public static final String NOTIFICATION_FRAGMENT_TAG = "NOTIFICATION_FRAGMENT";
     public static final String SETTINGS_FRAGMENT_TAG = "SETTINGS_FRAGMENT";
 
