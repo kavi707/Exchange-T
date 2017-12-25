@@ -91,7 +91,7 @@ public class HomeFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        isINeedSelected = true;
+        isINeedSelected = false;
     }
 
     @Nullable
