@@ -109,6 +109,7 @@ public class HomeFragment extends Fragment {
         super.onResume();
 
         isINeedSelected = SharedPreferenceManager.isINeedTypeSelected(getActivity());
+        initTabSetup();
         if (filteredTicketRequestList != null && filteredTicketRequestList.size() > 0) {
             if (isINeedSelected)
                 updateTiketList(commonUtils.getINeedTicketList(filteredTicketRequestList));
@@ -199,6 +200,21 @@ public class HomeFragment extends Fragment {
                 updateTiketList(commonUtils.getIHaveTicketList(ticketRequestList));
             }
         });
+    }
+
+    private void initTabSetup() {
+
+        if (isINeedSelected) {
+            iNeedBtn.setTextSize(18);
+            iNeedBtn.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD_ITALIC));
+            iHaveBtn.setTextSize(14);
+            iHaveBtn.setTypeface(Typeface.defaultFromStyle(Typeface.ITALIC));
+        } else {
+            iNeedBtn.setTextSize(14);
+            iNeedBtn.setTypeface(Typeface.defaultFromStyle(Typeface.ITALIC));
+            iHaveBtn.setTextSize(18);
+            iHaveBtn.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD_ITALIC));
+        }
     }
 
     private void getAllTicketRequest() {
