@@ -1,21 +1,35 @@
 package com.kavi.droid.exchange.fragments;
 
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.kavi.droid.exchange.Constants;
 import com.kavi.droid.exchange.R;
 import com.kavi.droid.exchange.activities.LandingActivity;
+import com.kavi.droid.exchange.dialogs.LoadingProgressBarDialog;
+import com.kavi.droid.exchange.services.connections.ApiCalls;
+import com.kavi.droid.exchange.services.connections.dto.UpdateUserAdditionDataReq;
+import com.kavi.droid.exchange.services.connections.dto.UpdateUserReq;
 import com.kavi.droid.exchange.services.imageLoader.ImageLoadingManager;
 import com.kavi.droid.exchange.services.sharedPreferences.SharedPreferenceManager;
+import com.kavi.droid.exchange.utils.CommonUtils;
+import com.loopj.android.http.JsonHttpResponseHandler;
+
+import org.json.JSONObject;
+
+import cz.msebera.android.httpclient.Header;
 
 /**
  * Created by kaviDroid on 12/23/17.
@@ -34,8 +48,10 @@ public class ProfileFragment extends Fragment {
     private EditText lastNameEditText;
     private EditText emailEditText;
     private EditText numberEditText;
+    private ProgressDialog progress;
 
     private ImageLoadingManager imageLoadingManager;
+    private CommonUtils commonUtils = new CommonUtils();
 
     public ProfileFragment() {
     }
@@ -75,7 +91,7 @@ public class ProfileFragment extends Fragment {
         saveDataBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                updateProfileData();
             }
         });
 
@@ -121,8 +137,15 @@ public class ProfileFragment extends Fragment {
 
         String[] name = SharedPreferenceManager.getLoggedUserName(getActivity()).split(" ");
 
-        firstNameEditText.setText(name[0]);
-        lastNameEditText.setText(name[1]);
+        switch (name.length) {
+            case 1:
+                firstNameEditText.setText(name[0]);
+                break;
+            case 2:
+                firstNameEditText.setText(name[0]);
+                lastNameEditText.setText(name[1]);
+                break;
+        }
         emailEditText.setText(SharedPreferenceManager.getLoggedUserEmail(getActivity()));
         numberEditText.setText(SharedPreferenceManager.getLoggedUserNumber(getActivity()));
 
@@ -135,9 +158,16 @@ public class ProfileFragment extends Fragment {
         boolean isDirty = false;
         String name[] = SharedPreferenceManager.getLoggedUserName(getActivity()).split(" ");
 
-        if (!name[0].endsWith(firstNameEditText.getText().toString())) isDirty = true;
-
-        if (!name[1].endsWith(lastNameEditText.getText().toString())) isDirty = true;
+        switch (name.length) {
+            case 0:
+            case 1:
+                isDirty = true;
+                break;
+            case 2:
+                if (!name[0].endsWith(firstNameEditText.getText().toString())) isDirty = true;
+                if (!name[1].endsWith(lastNameEditText.getText().toString())) isDirty = true;
+                break;
+        }
 
         if (!SharedPreferenceManager.getLoggedUserEmail(getActivity())
                 .endsWith(emailEditText.getText().toString())) isDirty = true;
@@ -167,14 +197,70 @@ public class ProfileFragment extends Fragment {
         }
     }
 
-    private void saveProfileNewData() {
+    private void updateProfileData() {
 
-        String newName = firstNameEditText.getText().toString() + " " + lastNameEditText.getText().toString();
-        String newEmail = emailEditText.getText().toString();
-        String newPhoneNumber = numberEditText.getText().toString();
+        final String newName = firstNameEditText.getText().toString() + " " + lastNameEditText.getText().toString();
+        final String newEmail = emailEditText.getText().toString();
+        final String newPhoneNumber = numberEditText.getText().toString();
 
-        SharedPreferenceManager.setLoggedUserName(getActivity(), newName);
-        SharedPreferenceManager.setLoggedUserEmail(getActivity(), newEmail);
-        SharedPreferenceManager.setLoggedUserNumber(getActivity(), newPhoneNumber);
+        UpdateUserAdditionDataReq updateUserAdditionDataReq = new UpdateUserAdditionDataReq(
+                newPhoneNumber,
+                SharedPreferenceManager.getLoggedUserImageUrl(getActivity()),
+                SharedPreferenceManager.getFBUserId(getActivity())
+        );
+
+        final UpdateUserReq updateUserReq = new UpdateUserReq(
+                newEmail,
+                newName,
+                updateUserAdditionDataReq
+        );
+
+        if (commonUtils.isOnline(getActivity())) {
+
+            if (progress == null) {
+                progress = LoadingProgressBarDialog.createProgressDialog(getActivity());
+            }
+            progress.show();
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    new ApiCalls().updateUser(getActivity(), Constants.SYNC_METHOD,
+                            SharedPreferenceManager.getUserId(getActivity()), updateUserReq,
+                            new JsonHttpResponseHandler() {
+                                @Override
+                                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+
+                                    SharedPreferenceManager.setLoggedUserName(getActivity(), newName);
+                                    SharedPreferenceManager.setLoggedUserEmail(getActivity(), newEmail);
+                                    SharedPreferenceManager.setLoggedUserNumber(getActivity(), newPhoneNumber);
+
+                                    getActivity().runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            progress.dismiss();
+                                            enableDisableSaveBtn(false);
+                                            Toast.makeText(getActivity(), "Successfully updated the user profile.", Toast.LENGTH_LONG).show();
+                                        }
+                                    });
+                                }
+
+                                @Override
+                                public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                                    getActivity().runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            progress.dismiss();
+                                            enableDisableSaveBtn(true);
+                                            Toast.makeText(getActivity(), "Issue in user updating. Please try again from while", Toast.LENGTH_LONG).show();
+                                        }
+                                    });
+                                }
+                            });
+                }
+            }).start();
+        } else {
+            Toast.makeText(getActivity(), "Please check device Internet connection.", Toast.LENGTH_SHORT).show();
+        }
     }
 }

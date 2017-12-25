@@ -7,6 +7,7 @@ import com.kavi.droid.exchange.Constants;
 import com.kavi.droid.exchange.models.TicketRequest;
 import com.kavi.droid.exchange.models.User;
 import com.kavi.droid.exchange.services.connections.dto.FilterTicketReq;
+import com.kavi.droid.exchange.services.connections.dto.UpdateUserReq;
 import com.kavi.droid.exchange.services.sharedPreferences.SharedPreferenceManager;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -297,6 +298,54 @@ public class ApiCalls {
         } else if (taskMethod.equals(Constants.ASYNC_METHOD)) {
             asyncHttpClient.addHeader(HEADER_AUTHORIZATION, authToken);
             asyncHttpClient.delete(url, null, responseHandler);
+        }
+    }
+
+    public void updateUser(Context context, String taskMethod, String userId, UpdateUserReq updateUserReq,
+                           JsonHttpResponseHandler responseHandler) {
+
+        String url = Constants.BASE_URL + Constants.UPDATE_USER +
+                "/" + userId;
+        Log.d(TAG, "updateUserFromId: PUT: url -> " + url);
+
+        JSONObject reqObj = new JSONObject();
+        JSONObject dateReqObj = new JSONObject();
+
+        try {
+
+            if (updateUserReq.getEmail() != null)
+                reqObj.put("username", updateUserReq.getEmail());
+
+            if (updateUserReq.getName() != null)
+                reqObj.put("name", updateUserReq.getName());
+
+            if (updateUserReq.getUpdateUserAdditionDataReq() != null) {
+                if (updateUserReq.getUpdateUserAdditionDataReq().getPhoneNumber() != null)
+                    dateReqObj.put("phoneNumber", updateUserReq.getUpdateUserAdditionDataReq().getPhoneNumber());
+                if (updateUserReq.getUpdateUserAdditionDataReq().getProfilePicUrl() != null)
+                    dateReqObj.put("profilePicUrl", updateUserReq.getUpdateUserAdditionDataReq().getProfilePicUrl());
+                if (updateUserReq.getUpdateUserAdditionDataReq().getFbUserId() != null)
+                    dateReqObj.put("fbUserId", updateUserReq.getUpdateUserAdditionDataReq().getFbUserId());
+
+                reqObj.put("additionalData", dateReqObj);
+            }
+
+            String authToken = SharedPreferenceManager.getNodegridAuthToken(context);
+
+            String reqJsonString = reqObj.toString();
+            Log.d(TAG, "filterTicketRequest: reqJsonString -> " + reqJsonString);
+
+            if (taskMethod.equals(Constants.SYNC_METHOD)) {
+                syncHttpClient.addHeader(HEADER_AUTHORIZATION, authToken);
+                syncHttpClient.put(context, url, new StringEntity(reqJsonString), APPLICATION_JSON, responseHandler);
+            } else if (taskMethod.equals(Constants.ASYNC_METHOD)) {
+                asyncHttpClient.addHeader(HEADER_AUTHORIZATION, authToken);
+                asyncHttpClient.put(context, url, new StringEntity(reqJsonString), APPLICATION_JSON, responseHandler);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
         }
     }
 }

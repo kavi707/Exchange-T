@@ -88,11 +88,13 @@ public class RegisterActivity extends ExchangeBaseActivity {
                                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
 
                                     SharedPreferenceManager.setIsUserDataCaptured(context, true);
-                                    SharedPreferenceManager.setLoggedUserName(context, firstNameEditText.getText().toString());
+                                    SharedPreferenceManager.setLoggedUserName(context, firstNameEditText.getText().toString()
+                                            + " " + lastNameEditText.getText().toString());
                                     SharedPreferenceManager.setLoggedUserEmail(context, emailEditText.getText().toString());
                                     SharedPreferenceManager.setLoggedUserImageUrl(context, user.getProfilePicUrl());
                                     SharedPreferenceManager.setLoggedUserNumber(context, numberEditText.getText().toString());
                                     SharedPreferenceManager.setFBUserId(context, user.getFbUserId());
+                                    SharedPreferenceManager.setUserId(context, commonUtils.getUserIdFromResponse(response));
 
                                     generateAuthToken(user.getEmail(), user.getFbUserId());
 

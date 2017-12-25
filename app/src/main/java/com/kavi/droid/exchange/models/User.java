@@ -7,12 +7,21 @@ package com.kavi.droid.exchange.models;
 
 public class User {
 
+    private String id;
     private String fbUserId;
     private String firstName;
     private String lastName;
     private String email;
     private String phoneNumber;
     private String profilePicUrl;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getFbUserId() {
         return fbUserId;
