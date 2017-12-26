@@ -1,5 +1,6 @@
 package com.kavi.droid.exchange.activities;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -15,6 +16,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.share.model.ShareHashtag;
 import com.facebook.share.model.SharePhoto;
@@ -24,6 +26,7 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.kavi.droid.exchange.Constants;
 import com.kavi.droid.exchange.R;
+import com.kavi.droid.exchange.dialogs.LoadingProgressBarDialog;
 import com.kavi.droid.exchange.models.EmailData;
 import com.kavi.droid.exchange.models.TicketRequest;
 import com.kavi.droid.exchange.services.imageLoader.ImageLoadingManager;
@@ -55,6 +58,7 @@ public class TicketRequestDetailActivity extends ExchangeBaseActivity {
     private ImageButton fbShareButton;
     private AdView ticketDetailsAdView;
     private FloatingActionButton ticketStatusChangeFabIcon;
+    private ProgressDialog progress;
 
     private Context context = this;
     private ImageLoadingManager imageLoadingManager;
@@ -109,7 +113,11 @@ public class TicketRequestDetailActivity extends ExchangeBaseActivity {
         ticketStatusChangeFabIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                if (ticketRequest.getTicketStatus() == TicketRequest.AVAILABLE) {
+                    setFabToExchanged();
+                } else  if (ticketRequest.getTicketStatus() == TicketRequest.EXCHANGED) {
+                    setFabToAvailable();
+                }
             }
         });
 
@@ -288,5 +296,25 @@ public class TicketRequestDetailActivity extends ExchangeBaseActivity {
 
         ticketStatusChangeFabIcon.setImageDrawable(pinkCross);
         ticketStatusChangeFabIcon.setBackgroundTintList(getResources().getColorStateList(R.color.colorAccent));
+    }
+
+    private void updateTicketStatus(int newTicketStatus) {
+
+        if (commonUtils.isOnline(context)) {
+
+            if (progress == null) {
+                progress = LoadingProgressBarDialog.createProgressDialog(context);
+            }
+            progress.show();
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    // Todo - Need to create service call to update ticket status
+                }
+            }).start();
+        } else {
+            Toast.makeText(context, "Please check device Internet connection.", Toast.LENGTH_SHORT).show();
+        }
     }
 }
