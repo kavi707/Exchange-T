@@ -313,6 +313,7 @@ public class CommonUtils {
                 ticketRequest.setTicketTime(entityObj.getString("ticketTime"));
                 ticketRequest.setTicketDay(entityObj.getString("ticketDay"));
                 ticketRequest.setReqDescription(entityObj.getString("reqNote"));
+                ticketRequest.setTicketStatus(entityObj.getInt("ticketStatus"));
 
                 ticketRequestList.add(ticketRequest);
             }

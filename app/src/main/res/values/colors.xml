@@ -11,6 +11,7 @@
     <color name="grey">#a1a1a1</color>
     <color name="grey_dark">#7e7e7e</color>
     <color name="light_green">#a6e1aa</color>
+    <color name="bright_green">#00E676</color>
     <color name="primaryGreenDark">#009688</color>
     <color name="primaryGreen">#B2DFDB</color>
     <color name="primaryBlue">#b2d4df</color>

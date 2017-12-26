@@ -12,6 +12,10 @@ public class TicketRequest {
     public static final int I_NEED = 0;
     public static final int I_HAVE = 1;
 
+    public static final int AVAILABLE = 0;
+    public static final int EXCHANGED = 1;
+    public static final int DRAFTED = 2;
+
     public static final int COLOMBO_KANDY = 0;
     public static final int KANDY_COLOMBO = 1;
     public static final int COLOMBO_BADULLA = 2;
@@ -40,7 +44,7 @@ public class TicketRequest {
     private String ticketDay;
     private String fbId;
     private String userPicUrl;
-    private int status;
+    private int ticketStatus;
 
     public String getId() {
         return id;
@@ -154,11 +158,11 @@ public class TicketRequest {
         this.userPicUrl = userPicUrl;
     }
 
-    public int getStatus() {
-        return status;
+    public int getTicketStatus() {
+        return ticketStatus;
     }
 
-    public void setStatus(int status) {
-        this.status = status;
+    public void setTicketStatus(int ticketStatus) {
+        this.ticketStatus = ticketStatus;
     }
 }

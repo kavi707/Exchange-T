@@ -239,10 +239,10 @@ public class AddRequestActivity extends ExchangeBaseActivity {
                     // Create default note
                     if (reqNote == null || reqNote.equals("")) {
                         if (commonUtils.getTypeFromName(type) == TicketRequest.I_NEED) {
-                            reqNote = type + " " + qty + " for " + selectedDestination + " on " + ticketDate + " @ " +
+                            reqNote = type + " " + qty + " ticket(s) for " + selectedDestination + " on " + ticketDate + " @ " +
                                     ticketTime + " Train. Is there anyone have tickets?";
                         } else {
-                            reqNote = type + " " + qty + " for " + selectedDestination + " on " + ticketDate + " @ " +
+                            reqNote = type + " " + qty + " ticket(s) for " + selectedDestination + " on " + ticketDate + " @ " +
                                     ticketTime + " Train. Is there anyone interested?";
                         }
                     }
@@ -266,6 +266,7 @@ public class AddRequestActivity extends ExchangeBaseActivity {
                     ticketRequest.setTicketDay(reqDay);
                     ticketRequest.setPhoneNo(contactNum);
                     ticketRequest.setEmail(email);
+                    ticketRequest.setTicketStatus(TicketRequest.AVAILABLE);
 
                     if (!qty.equals("Select Qty")) {
                         int ticketQty = Integer.parseInt(qty);

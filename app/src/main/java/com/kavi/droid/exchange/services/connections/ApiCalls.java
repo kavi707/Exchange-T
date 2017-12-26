@@ -128,6 +128,7 @@ public class ApiCalls {
             reqObj.put("ticketTime", ticketRequest.getTicketTime());
             reqObj.put("ticketDay", ticketRequest.getTicketDay());
             reqObj.put("reqNote", ticketRequest.getReqDescription());
+            reqObj.put("ticketStatus", ticketRequest.getTicketStatus());
 
             String reqJsonString = reqObj.toString();
             Log.d(TAG, "createTicketRequest: reqJsonString -> " + reqJsonString);

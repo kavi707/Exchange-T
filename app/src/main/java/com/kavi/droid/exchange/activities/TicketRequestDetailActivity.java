@@ -3,9 +3,12 @@ package com.kavi.droid.exchange.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -26,6 +29,7 @@ import com.kavi.droid.exchange.models.TicketRequest;
 import com.kavi.droid.exchange.services.imageLoader.ImageLoadingManager;
 import com.kavi.droid.exchange.services.sharedPreferences.SharedPreferenceManager;
 import com.kavi.droid.exchange.utils.CommonUtils;
+import com.kavi.droid.exchange.utils.NavigationUtil;
 
 /**
  * Created by kavi707 on 10/8/17.
@@ -50,6 +54,7 @@ public class TicketRequestDetailActivity extends ExchangeBaseActivity {
     private Button emailButton;
     private ImageButton fbShareButton;
     private AdView ticketDetailsAdView;
+    private FloatingActionButton ticketStatusChangeFabIcon;
 
     private Context context = this;
     private ImageLoadingManager imageLoadingManager;
@@ -85,10 +90,28 @@ public class TicketRequestDetailActivity extends ExchangeBaseActivity {
         contactNumberButton = (Button) findViewById(R.id.contactNumberButton);
         emailButton = (Button) findViewById(R.id.emailButton);
         fbShareButton = (ImageButton) findViewById(R.id.fbShareButton);
+        ticketStatusChangeFabIcon = (FloatingActionButton) findViewById(R.id.ticketStatusChangeFabIcon);
 
         // Google Ads
         ticketDetailsAdView = (AdView) findViewById(R.id.ticketDetailsAdView);
         ticketDetailsAdView.loadAd(new AdRequest.Builder().build());
+
+        if (ticketRequest.getTicketStatus() == TicketRequest.AVAILABLE) {
+            setFabToAvailable();
+        } else if (ticketRequest.getTicketStatus() == TicketRequest.EXCHANGED) {
+            setFabToExchanged();
+        } else if (ticketRequest.getTicketStatus() == TicketRequest.DRAFTED) {
+            // Todo - This will coming soon
+        } else {
+            setFabToAvailable();
+        }
+
+        ticketStatusChangeFabIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
 
         contactRelativeLayout.setVisibility(View.GONE);
         requestedNameTextView.setText("Me, " + ticketRequest.getName());
@@ -124,13 +147,25 @@ public class TicketRequestDetailActivity extends ExchangeBaseActivity {
 
         RelativeLayout.LayoutParams dataLayoutParams = (RelativeLayout.LayoutParams) dataContentRelativeLayout.getLayoutParams();
         if (isThisMyRequest()) {
+            // Floating Btn
+            ticketStatusChangeFabIcon.setVisibility(View.VISIBLE);
+
+            // FB share Btn
             fbShareButton.setVisibility(View.VISIBLE);
+
+            // Contact Details
             contactRelativeLayout.setVisibility(View.GONE);
             dataLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0);
             dataLayoutParams.setMargins(0, 0, 0, 0);
             dataLayoutParams.addRule(RelativeLayout.CENTER_VERTICAL);
         } else {
+            // Floating Btn
+            ticketStatusChangeFabIcon.setVisibility(View.GONE);
+
+            // FB share Btn
             fbShareButton.setVisibility(View.GONE);
+
+            // Contact Details
             contactRelativeLayout.setVisibility(View.VISIBLE);
             dataLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
             dataLayoutParams.setMargins(0, 40, 0, 0);
@@ -235,5 +270,23 @@ public class TicketRequestDetailActivity extends ExchangeBaseActivity {
                 .build();
 
         ShareDialog.show(TicketRequestDetailActivity.this, sharePhotoContent);
+    }
+
+    private void setFabToAvailable() {
+
+        //copy it in a new one
+        Drawable greenDone = getResources().getDrawable(R.drawable.e_done_icon).getConstantState().newDrawable();
+
+        ticketStatusChangeFabIcon.setImageDrawable(greenDone);
+        ticketStatusChangeFabIcon.setBackgroundTintList(getResources().getColorStateList(R.color.bright_green));
+    }
+
+    private void setFabToExchanged() {
+
+        //copy it in a new one
+        Drawable pinkCross = getResources().getDrawable(R.drawable.e_cross_icon);
+
+        ticketStatusChangeFabIcon.setImageDrawable(pinkCross);
+        ticketStatusChangeFabIcon.setBackgroundTintList(getResources().getColorStateList(R.color.colorAccent));
     }
 }
