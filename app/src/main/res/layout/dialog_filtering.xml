@@ -65,7 +65,7 @@
                     android:layout_marginRight="15dp"
                     android:textColor="@color/light_red"
                     android:textColorHint="@color/light_red"
-                    android:hint="Ticket Time"
+                    android:hint="Ticket Date"
                     android:textSize="16dp" />
 
                 <TextView

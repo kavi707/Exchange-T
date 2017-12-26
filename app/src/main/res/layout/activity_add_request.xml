@@ -177,21 +177,11 @@
                     android:background="@color/primaryGreen">
 
                     <TextView
-                        android:id="@+id/dateTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="10dp"
-                        android:hint="Date: "
-                        android:textSize="16dp"
-                        android:textStyle="bold" />
-
-                    <TextView
                         android:id="@+id/ticketDateTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_toEndOf="@+id/dateTextView"
+                        android:layout_marginLeft="10dp"
                         android:hint="Ticket Date"
                         android:textSize="16dp" />
 
@@ -206,16 +196,6 @@
                         android:inputType="textPersonName"
                         android:textSize="16dp" />
 
-                    <TextView
-                        android:id="@+id/timeTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_toStartOf="@+id/ticketTimeTextView"
-                        android:hint="Time: "
-                        android:inputType="textPersonName"
-                        android:textSize="16dp"
-                        android:textStyle="bold" />
                 </RelativeLayout>
 
                 <RelativeLayout
