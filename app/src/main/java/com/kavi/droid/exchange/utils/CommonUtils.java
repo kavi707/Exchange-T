@@ -158,10 +158,10 @@ public class CommonUtils {
             return TicketRequest.COLOMBO_ANURADHAPURA;
         } else if (destination.equals("ANURADHAPURA - COLOMBO")) {
             return TicketRequest.ANURADHAPURA_COLOMBO;
-        } else if (destination.equals("COLOMBO - JAFNA")) {
-            return TicketRequest.COLOMBO_JAFNA;
-        } else if (destination.equals("JAFNA - COLOMBO")) {
-            return TicketRequest.JAFNA_COLOMBO;
+        } else if (destination.equals("COLOMBO - JAFFNA")) {
+            return TicketRequest.COLOMBO_JAFFNA;
+        } else if (destination.equals("JAFFNA - COLOMBO")) {
+            return TicketRequest.JAFFNA_COLOMBO;
         } else if (destination.equals("COLOMBO - VAUNIYA")) {
             return TicketRequest.COLOMBO_VAUNIYA;
         } else if (destination.equals("VAUNIYA - COLOMBO")) {
@@ -189,9 +189,9 @@ public class CommonUtils {
             return "COLOMBO - ANURADHAPURA";
         } else if (destination == TicketRequest.ANURADHAPURA_COLOMBO) {
             return "ANURADHAPURA - COLOMBO";
-        } else if (destination == TicketRequest.COLOMBO_JAFNA) {
-            return "COLOMBO - JAFNA";
-        } else if (destination == TicketRequest.JAFNA_COLOMBO) {
+        } else if (destination == TicketRequest.COLOMBO_JAFFNA) {
+            return "COLOMBO - JAFFNA";
+        } else if (destination == TicketRequest.JAFFNA_COLOMBO) {
             return "JAFNA - COLOMBO";
         } else if (destination == TicketRequest.COLOMBO_VAUNIYA) {
             return "COLOMBO - VAUNIYA";
@@ -215,8 +215,8 @@ public class CommonUtils {
         destinationNameList.add("KURUNEGALA - COLOMBO");
         destinationNameList.add("COLOMBO - ANURADHAPURA");
         destinationNameList.add("ANURADHAPURA - COLOMBO");
-        destinationNameList.add("COLOMBO - JAFNA");
-        destinationNameList.add("JAFNA - COLOMBO");
+        destinationNameList.add("COLOMBO - JAFFNA");
+        destinationNameList.add("JAFFNA - COLOMBO");
         destinationNameList.add("COLOMBO - VAUNIYA");
         destinationNameList.add("VAUNIYA - COLOMBO");
 

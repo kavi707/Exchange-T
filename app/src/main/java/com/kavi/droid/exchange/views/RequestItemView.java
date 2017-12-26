@@ -21,7 +21,7 @@ public class RequestItemView extends RelativeLayout {
     private ImageView userPicImageView;
     private TextView reqTypeTextView;
     private TextView reqStartEndTextView;
-    private TextView reqDescriptionTextView;
+    private TextView reqQtyTextView;
     private TextView timeAgoTextView;
     private TextView ticketDateTextView;
     private TextView ticketDayTextView;
@@ -43,7 +43,7 @@ public class RequestItemView extends RelativeLayout {
         userPicImageView = (ImageView) findViewById(R.id.userImageView);
         reqTypeTextView = (TextView) findViewById(R.id.reqTypeTextView);
         reqStartEndTextView = (TextView) findViewById(R.id.reqStartEndTextView);
-        reqDescriptionTextView = (TextView) findViewById(R.id.reqDescriptionTextView);
+        reqQtyTextView = (TextView) findViewById(R.id.reqQtyTextView);
         timeAgoTextView = (TextView) findViewById(R.id.timeAgoTextView);
         ticketDateTextView = (TextView) findViewById(R.id.ticketDateTextView);
         ticketDayTextView = (TextView) findViewById(R.id.ticketDayTextView);
@@ -86,17 +86,14 @@ public class RequestItemView extends RelativeLayout {
             reqStartEndTextView.setText("COLOMBO - VAUNIYA");
         } else if (ticketRequest.getStartToEnd() == TicketRequest.VAUNIYA_COLOMBO) {
             reqStartEndTextView.setText("VAUNIYA - COLOMBO");
-        } else if (ticketRequest.getStartToEnd() == TicketRequest.COLOMBO_JAFNA) {
-            reqStartEndTextView.setText("COLOMBO - JAFNA");
-        } else if (ticketRequest.getStartToEnd() == TicketRequest.JAFNA_COLOMBO) {
-            reqStartEndTextView.setText("JAFNA - COLOMBO");
+        } else if (ticketRequest.getStartToEnd() == TicketRequest.COLOMBO_JAFFNA) {
+            reqStartEndTextView.setText("COLOMBO - JAFFNA");
+        } else if (ticketRequest.getStartToEnd() == TicketRequest.JAFFNA_COLOMBO) {
+            reqStartEndTextView.setText("JAFFNA - COLOMBO");
         }
 
-        if (ticketRequest.getReqDescription() != null && !ticketRequest.getReqDescription().equals("")) {
-            reqDescriptionTextView.setText(ticketRequest.getReqDescription());
-        } else {
-            reqDescriptionTextView.setVisibility(INVISIBLE);
-        }
+
+        reqQtyTextView.setText(ticketRequest.getQty() + " Ticket(s)");
         ticketDateTextView.setText(ticketRequest.getTicketDate());
         ticketDayTextView.setText(ticketRequest.getTicketDay());
         ticketTimeTextView.setText(ticketRequest.getTicketTime());

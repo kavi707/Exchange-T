@@ -21,8 +21,8 @@ public class TicketRequest {
     public static final int KURUNEGALA_COLOMBO = 5;
     public static final int COLOMBO_ANURADHAPURA = 6;
     public static final int ANURADHAPURA_COLOMBO = 7;
-    public static final int COLOMBO_JAFNA = 8;
-    public static final int JAFNA_COLOMBO = 9;
+    public static final int COLOMBO_JAFFNA = 8;
+    public static final int JAFFNA_COLOMBO = 9;
     public static final int COLOMBO_VAUNIYA = 10;
     public static final int VAUNIYA_COLOMBO = 11;
 
@@ -40,6 +40,7 @@ public class TicketRequest {
     private String ticketDay;
     private String fbId;
     private String userPicUrl;
+    private int status;
 
     public String getId() {
         return id;
@@ -151,5 +152,13 @@ public class TicketRequest {
 
     public void setUserPicUrl(String userPicUrl) {
         this.userPicUrl = userPicUrl;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }
