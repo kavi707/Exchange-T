@@ -297,10 +297,12 @@ public class HomeFragment extends Fragment {
             lastSpace.setReqType(DEFAULT_SPACE_VIEW_TYPE);
             ticketRequests.add(lastSpace);
 
+            ticketRequestListView.setVisibility(View.VISIBLE);
             noContentRelativeLayout.setVisibility(View.INVISIBLE);
             requestItemAdapter = new RequestItemAdapter(ticketRequests, getActivity());
             ticketRequestListView.setAdapter(requestItemAdapter);
         } else {
+            ticketRequestListView.setVisibility(View.INVISIBLE);
             noContentRelativeLayout.setVisibility(View.VISIBLE);
             listErrorTextView.setText(getResources().getString(R.string.list_msg_empty));
         }
