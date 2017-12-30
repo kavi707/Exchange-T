@@ -80,7 +80,7 @@ public class FilteringDialog extends Dialog {
         ticketFromDateTextView = (TextView) findViewById(R.id.ticketFromDateTextView);
         ticketToDateTextView = (TextView) findViewById(R.id.ticketToDateTextView);
         ticketToDateTextView.setEnabled(false);
-        ticketToDateTextView.setHintTextColor(context.getResources().getColor(R.color.light_red));
+        ticketToDateTextView.setHintTextColor(context.getResources().getColor(R.color.grey));
         filterActionButton = (Button) findViewById(R.id.filterActionButton);
 
         destinationSpinner = (Spinner) findViewById(R.id.destinationSpinner);
@@ -104,7 +104,7 @@ public class FilteringDialog extends Dialog {
                         isDateFilterSet = true;
 
                         ticketToDateTextView.setEnabled(true);
-                        ticketToDateTextView.setHintTextColor(context.getResources().getColor(R.color.light_green));
+                        ticketToDateTextView.setHintTextColor(context.getResources().getColor(R.color.white));
                     }
                 }, selectedYear, selectedMonth, selectedDay).show();
             }
