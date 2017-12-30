@@ -19,9 +19,9 @@
             android:icon="@drawable/nav_notifications"
             android:title="Notifications" />
         <item
-            android:id="@+id/nav_settings"
-            android:icon="@drawable/nav_settings"
-            android:title="Settings" />
+            android:id="@+id/nav_language"
+            android:icon="@drawable/nav_language"
+            android:title="Languages" />
     </group>
 
 </menu>
