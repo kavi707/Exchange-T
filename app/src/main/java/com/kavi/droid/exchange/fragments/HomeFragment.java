@@ -140,7 +140,6 @@ public class HomeFragment extends Fragment {
                 filteringDialog.setFilterDialogResult(new FilteringDialog.OnFilteringDialogResult() {
                     @Override
                     public void filter(FilterTicketReq filterTicketReq) {
-                        SharedPreferenceManager.setLastFilterObject(getActivity(), filterTicketReq);
                         filterTicketRequest(filterTicketReq);
                     }
                 });
@@ -334,6 +333,7 @@ public class HomeFragment extends Fragment {
                             if (statusCode == 200) {
                                 filteredTicketRequestList.clear();
                                 filteredTicketRequestList = commonUtils.getTicketRequestList(response);
+                                SharedPreferenceManager.setLastFilterObject(getActivity(), filterTicketReq);
 
                                 getActivity().runOnUiThread(new Runnable() {
                                     @Override
