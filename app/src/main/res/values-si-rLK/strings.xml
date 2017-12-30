@@ -11,6 +11,7 @@
     <string name="e_label_cancel">අවලංගු කරන්න</string>
 
     <string name="e_nav_home">නිවස</string>
+    <string name="e_nav_request">ටිකට් හුවමාරු</string>
     <string name="e_nav_my_requests">මගේ හුවමාරු</string>
     <string name="e_nav_my_profile">මාගේ ගිණුම</string>
     <string name="e_nav_notifications">දැනුම්දීම්</string>
@@ -51,8 +52,8 @@
     <string name="e_hint_to_date">දින දක්වා</string>
     <string name="e_label_search">සොයන්න</string>
 
-    <string name="e_label_i_need">මට අවශ්යයි</string>
-    <string name="e_label_i_have">මට තියෙනවා</string>
+    <string name="e_label_i_need">අවශ්යයි</string>
+    <string name="e_label_i_have">හුවමාරුවට තිබේ</string>
     <string name="e_label_no_new_exchanges_msg">නව ටිකට් හුවමාරු නොමැත</string>
 
     <string name="e_label_notifications_coming_soon">Notifications Coming Soon</string>

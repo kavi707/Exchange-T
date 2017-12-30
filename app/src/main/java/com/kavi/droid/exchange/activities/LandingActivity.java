@@ -91,10 +91,15 @@ public class LandingActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         // Remove app title from the action bar
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        //getSupportActionBar().setDisplayShowTitleEnabled(false);
+        setActionBarTitle("Different Test");
 
         setInitialView();
         slideMenuHeaderSetup();
+    }
+
+    public void setActionBarTitle(String title){
+        getSupportActionBar().setTitle(title);
     }
 
     private void slideMenuHeaderSetup() {

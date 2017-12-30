@@ -54,6 +54,8 @@ public class LanguageFragment extends Fragment {
     public void onResume() {
         super.onResume();
         init();
+        // Set Action bar title
+        ((LandingActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.e_nav_languages));
     }
 
     public void setUpView(View upView) {

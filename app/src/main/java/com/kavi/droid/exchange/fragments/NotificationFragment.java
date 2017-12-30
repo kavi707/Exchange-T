@@ -32,6 +32,13 @@ public class NotificationFragment extends Fragment {
         return rootView;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Set Action bar title
+        ((LandingActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.e_nav_notifications));
+    }
+
     public void setUpView(View upView) {
         // TODO - Notification View content
     }

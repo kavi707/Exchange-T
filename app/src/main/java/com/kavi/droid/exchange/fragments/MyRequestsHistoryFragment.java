@@ -77,6 +77,9 @@ public class MyRequestsHistoryFragment extends Fragment {
 
         myTicketRequestList.clear();
         getTicketRequestAsync();
+
+        // Set Action bar title
+        ((LandingActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.e_nav_my_requests));
     }
 
     @Override

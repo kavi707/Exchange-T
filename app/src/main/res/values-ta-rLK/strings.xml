@@ -11,6 +11,7 @@
     <string name="e_label_cancel">ரத்து</string>
 
     <string name="e_nav_home">முகப்பு</string>
+    <string name="e_nav_request">டிக்கட் பரிமாற்றம்</string>
     <string name="e_nav_my_requests">நான் அதை பரிமாறி</string>
     <string name="e_nav_my_profile">என் கணக்கு</string>
     <string name="e_nav_notifications">அறிவிப்புகள்</string>
@@ -51,8 +52,8 @@
     <string name="e_hint_to_date">தேதி</string>
     <string name="e_label_search">தேடல்</string>
 
-    <string name="e_label_i_need">எனக்கு வேண்டும்</string>
-    <string name="e_label_i_have">என்னிடம் உள்ளது</string>
+    <string name="e_label_i_need">தேவை</string>
+    <string name="e_label_i_have">ஈடாக</string>
     <string name="e_label_no_new_exchanges_msg">புதிய டிக்கெட் பரிமாற்றங்கள் இல்லை</string>
 
     <string name="e_label_notifications_coming_soon">Notifications Coming Soon</string>

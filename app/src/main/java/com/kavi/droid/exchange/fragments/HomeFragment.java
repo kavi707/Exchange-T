@@ -124,6 +124,9 @@ public class HomeFragment extends Fragment {
             getAllTicketRequest();
         }
         SharedPreferenceManager.setIsTicketStatusUpdated(getActivity(), false);
+
+        // Set Action bar title
+        ((LandingActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.e_nav_request));
     }
 
     @Override

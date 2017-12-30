@@ -66,6 +66,13 @@ public class ProfileFragment extends Fragment {
         return rootView;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Set Action bar title
+        ((LandingActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.e_nav_my_profile));
+    }
+
     public void setUpView(View upView) {
 
         imageLoadingManager = new ImageLoadingManager(getActivity());

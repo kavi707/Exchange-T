@@ -52,6 +52,7 @@
     <string name="e_label_cancel">Cancel</string>
 
     <string name="e_nav_home">Home</string>
+    <string name="e_nav_request">Ticket Requests</string>
     <string name="e_nav_my_requests">My Requests</string>
     <string name="e_nav_my_profile">My Profile</string>
     <string name="e_nav_notifications">Notifications</string>
@@ -92,8 +93,8 @@
     <string name="e_hint_to_date">To Date</string>
     <string name="e_label_search">Search</string>
 
-    <string name="e_label_i_need">I Need</string>
-    <string name="e_label_i_have">I Have</string>
+    <string name="e_label_i_need">Need</string>
+    <string name="e_label_i_have">Have</string>
     <string name="e_label_no_new_exchanges_msg">No new ticket exchanges available</string>
 
     <string name="e_label_notifications_coming_soon">Notifications Coming Soon</string>
