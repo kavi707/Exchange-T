@@ -171,7 +171,7 @@ public class LandingActivity extends AppCompatActivity
             else
                 fragmentManager.beginTransaction()
                         .replace(R.id.frame_container, fragment, fragmentTag)
-                        .addToBackStack(Constants.HOME_FRAGMENT_TAG)
+                        //.addToBackStack(Constants.HOME_FRAGMENT_TAG)
                         .commit();
 
             DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
