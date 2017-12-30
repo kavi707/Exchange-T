@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="e_label_english">English</string>
+    <string name="e_label_sinhala">සිංහල</string>
+    <string name="e_label_tamil">தமிழ்</string>
+
+    <string name="e_label_yes">ඔව්</string>
+    <string name="e_label_no">නැත</string>
+    <string name="e_label_submit">ඉදිරිපත් කරන්න</string>
+    <string name="e_label_save">සුරකින්න</string>
+    <string name="e_label_cancel">අවලංගු කරන්න</string>
+
+    <string name="e_nav_home">නිවස</string>
+    <string name="e_nav_my_requests">මගේ හුවමාරු</string>
+    <string name="e_nav_my_profile">මාගේ ගිණුම</string>
+    <string name="e_nav_notifications">දැනුම්දීම්</string>
+    <string name="e_nav_languages">භාෂා</string>
+
+    <string name="list_msg_empty">නව ටිකට් හුවමාරු නොමැත</string>
+    <string name="list_msg_issue">ටිකට් හුවමාරු ලබාගැනීමට මේ මොහොතේ අපහසුය.</string>
+    <string name="list_msg_offline">අන්තර්ජාල සම්බන්ධතාවයක් නැත</string>
+
+    <string name="e_label_sign_in">ඇතුල් වන්න</string>
+    <string name="e_label_sign_in_msg"> <b>ටිකට්</b> ඇනවුම් කිරීමට මගහැරුනිද? \n හෝ \n ඔබේ <b>මුදල්</b> ඔබට අහිමි වෙන්න යනවද?</string>
+
+    <string name="et_add_request_error_msg_1">Some details are missing in \n\'Ticket info\' section.\n\nPlease double check and re-submit your request.</string>
+
+    <string name="e_label_me">මම</string>
+    <string name="e_label_name">නම</string>
+    <string name="e_label_contact_info">ඇමතුම් විස්තර:</string>
+    <string name="e_hint_phone_number">දුරකතන අංකය</string>
+    <string name="e_hint_email_address">විද්යුත් තැපැල</string>
+    <string name="e_label_ticket_info">ටිකට් තොරතුරු:</string>
+    <string name="e_label_ticket_date">ටිකට් දිනය</string>
+    <string name="e_label_ticket_time">ටිකට් වෙලාව</string>
+    <string name="e_label_note">සටහන:</string>
+
+    <string name="e_hint_first_name">මුල් නම</string>
+    <string name="e_hint_last_name">අවසන් නම</string>
+    <string name="e_hint_email">විද්යුත් තැපැල</string>
+    <string name="e_label_register">ලියාපදිංචි වන්න</string>
+
+    <string name="e_label_for">for</string>
+    <string name="e_label_on">on</string>
+    <string name="e_label_at">at</string>
+    <string name="e_label_contact_details">ඇමතුම් විස්තර</string>
+    <string name="e_label_call_me">මට අමතන්න</string>
+    <string name="e_label_email_me">මට ඊමේල් කරන්න</string>
+
+    <string name="e_hint_from_date">දින සිට</string>
+    <string name="e_hint_to_date">දින දක්වා</string>
+    <string name="e_label_search">සොයන්න</string>
+
+    <string name="e_label_i_need">මට අවශ්යයි</string>
+    <string name="e_label_i_have">මට තියෙනවා</string>
+    <string name="e_label_no_new_exchanges_msg">නව ටිකට් හුවමාරු නොමැත</string>
+
+    <string name="e_label_notifications_coming_soon">Notifications Coming Soon</string>
+</resources>

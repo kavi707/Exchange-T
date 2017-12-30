@@ -20,7 +20,7 @@
 
         <TextView
             android:id="@+id/listErrorTextView"
-            android:text="No new ticket exchanges available"
+            android:text="@string/e_label_no_new_exchanges_msg"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:layout_margin="40dp"

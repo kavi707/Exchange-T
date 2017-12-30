@@ -20,7 +20,7 @@
                 android:id="@+id/iNeedBtn"
                 android:background="@drawable/style_border_square_w"
                 android:textColor="@color/white"
-                android:text="I Need"
+                android:text="@string/e_label_i_need"
                 android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp" />
@@ -28,7 +28,7 @@
                 android:id="@+id/iHaveBtn"
                 android:background="@drawable/style_border_square_w"
                 android:textColor="@color/white"
-                android:text="I Have"
+                android:text="@string/e_label_i_have"
                 android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp" />
@@ -50,7 +50,7 @@
 
         <TextView
             android:id="@+id/listErrorTextView"
-            android:text="No new ticket exchanges available"
+            android:text="@string/e_label_no_new_exchanges_msg"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:layout_margin="40dp"

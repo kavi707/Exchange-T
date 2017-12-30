@@ -31,6 +31,7 @@ public class SharedPreferenceManager {
     private static final String FCM_PUSH_TOKEN = "FCM_PUSH_TOKEN";
     private static final String LAST_FILTER_OBJECT = "LAST_FILTER_OBJECT";
     private static final String IS_TICKET_STATUS_UPDATED = "IS_TICKET_STATUS_UPDATED";
+    private static final String SELECTED_LOCAL = "SELECTED_LOCAL";
 
     /**
      * Store boolean shared preference value
@@ -243,5 +244,13 @@ public class SharedPreferenceManager {
 
     public static boolean isTicketStatusUpdated(Context context){
         return readBooleanSharePreference(context, IS_TICKET_STATUS_UPDATED);
+    }
+
+    public static void setSelectedLocal(Context context, String value) {
+        writeStringSharePreference(context, SELECTED_LOCAL, value);
+    }
+
+    public static String getSelectedLocal(Context context){
+        return readStringSharePreference(context, SELECTED_LOCAL);
     }
 }

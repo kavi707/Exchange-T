@@ -26,6 +26,7 @@ import com.kavi.droid.exchange.fragments.ProfileFragment;
 import com.kavi.droid.exchange.fragments.LanguageFragment;
 import com.kavi.droid.exchange.services.imageLoader.ImageLoadingManager;
 import com.kavi.droid.exchange.services.sharedPreferences.SharedPreferenceManager;
+import com.kavi.droid.exchange.utils.CommonUtils;
 import com.kavi.droid.exchange.utils.NavigationUtil;
 
 /**
@@ -43,13 +44,23 @@ public class LandingActivity extends AppCompatActivity
 
     private Context context = this;
     private ImageLoadingManager imageLoadingManager;
+    private CommonUtils commonUtils = new CommonUtils();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Init local
+        commonUtils.setLocal(this);
         setContentView(R.layout.activity_landing);
 
         setUpViews();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Init local
+        commonUtils.setLocal(this);
     }
 
     private void setUpViews() {
@@ -128,6 +139,7 @@ public class LandingActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
+        commonUtils.setLocal(this);
         // Handle navigation view item clicks here.
         Fragment fragment = null;
         String fragmentTag = null;

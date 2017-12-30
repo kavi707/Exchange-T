@@ -1,6 +1,8 @@
 package com.kavi.droid.exchange.utils;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
@@ -22,6 +24,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by kavi707 on 9/9/17.
@@ -45,6 +48,25 @@ public class CommonUtils {
         }
 
         return false;
+    }
+
+    public void setLocal(Activity activity) {
+
+        String languageToLoad;
+        String selectedLocal = SharedPreferenceManager.getSelectedLocal(activity);
+        if (!selectedLocal.equals("NULL")) {
+            languageToLoad = selectedLocal;
+        } else {
+            SharedPreferenceManager.setSelectedLocal(activity, "en");
+            languageToLoad = "en";
+        }
+
+        Locale locale = new Locale(languageToLoad);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        activity.getBaseContext().getResources().updateConfiguration(config,
+                activity.getBaseContext().getResources().getDisplayMetrics());
     }
 
     public void logoutApplication(Context context, boolean isAlsoFromFB) {
