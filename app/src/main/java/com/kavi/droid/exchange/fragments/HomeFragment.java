@@ -111,14 +111,19 @@ public class HomeFragment extends Fragment {
         isINeedSelected = SharedPreferenceManager.isINeedTypeSelected(getActivity());
         initTabSetup();
         if (filteredTicketRequestList != null && filteredTicketRequestList.size() > 0) {
-            if (isINeedSelected)
-                updateTiketList(commonUtils.getINeedTicketList(filteredTicketRequestList));
-            else
-                updateTiketList(commonUtils.getIHaveTicketList(filteredTicketRequestList));
+            if (SharedPreferenceManager.isTicketStatusUpdated(getActivity())) {
+                filterTicketRequest(SharedPreferenceManager.getLastFilterObject(getActivity()));
+            } else {
+                if (isINeedSelected)
+                    updateTiketList(commonUtils.getINeedTicketList(filteredTicketRequestList));
+                else
+                    updateTiketList(commonUtils.getIHaveTicketList(filteredTicketRequestList));
+            }
         } else {
             ticketRequestList.clear();
             getAllTicketRequest();
         }
+        SharedPreferenceManager.setIsTicketStatusUpdated(getActivity(), false);
     }
 
     @Override
@@ -135,6 +140,7 @@ public class HomeFragment extends Fragment {
                 filteringDialog.setFilterDialogResult(new FilteringDialog.OnFilteringDialogResult() {
                     @Override
                     public void filter(FilterTicketReq filterTicketReq) {
+                        SharedPreferenceManager.setLastFilterObject(getActivity(), filterTicketReq);
                         filterTicketRequest(filterTicketReq);
                     }
                 });

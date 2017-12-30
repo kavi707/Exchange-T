@@ -126,6 +126,7 @@ public class TicketRequestDetailActivity extends ExchangeBaseActivity {
                     setFabToAvailable();
                     updateTicketStatus(TicketRequest.AVAILABLE);
                 }
+                SharedPreferenceManager.setIsTicketStatusUpdated(context, true);
             }
         });
 
