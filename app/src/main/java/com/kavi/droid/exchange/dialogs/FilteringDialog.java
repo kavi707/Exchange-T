@@ -154,14 +154,14 @@ public class FilteringDialog extends Dialog {
                 if (isDateFilterSet) {
                     FilterTicketReqDate filterTicketReqDate = new FilterTicketReqDate();
 
-                    if (!ticketFromDateString.equals("Ticket Date")) {
-                        filterTicketReqDate.setFromDateTimestamp(commonUtils.getTimestampFromDate(ticketFromDateString));
+                    if (!ticketFromDateString.equals("")) {
+                        filterTicketReqDate.setFromDateTimestamp(commonUtils.getTimestampFromDateTime(ticketFromDateString + " 00:00:00"));
                     } else {
                         filterTicketReqDate.setToDateTimestamp(-1);
                     }
 
-                    if (!ticketToDateString.equals("Ticket Date")) {
-                        filterTicketReqDate.setToDateTimestamp(commonUtils.getTimestampFromDate(ticketToDateString));
+                    if (!ticketToDateString.equals("")) {
+                        filterTicketReqDate.setToDateTimestamp(commonUtils.getTimestampFromDateTime(ticketToDateString + " 23:59:59"));
                     } else {
                         filterTicketReqDate.setToDateTimestamp(-1);
                     }

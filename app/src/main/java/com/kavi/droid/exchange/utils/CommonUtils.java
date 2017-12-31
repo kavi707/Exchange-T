@@ -306,6 +306,20 @@ public class CommonUtils {
         return dateTimestamp;
     }
 
+    public long getTimestampFromDateTime(String date) {
+        long dateTimestamp = 0;
+        try {
+            DateFormat dateFormat = new SimpleDateFormat("MMM-dd-yyyy HH:mm:ss", Locale.ENGLISH);
+
+            Date gotDate = dateFormat.parse(date);
+            dateTimestamp = gotDate.getTime() / 1000L;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return dateTimestamp;
+    }
+
     public List<TicketRequest> getTicketRequestList(JSONObject jsonData) {
 
         List<TicketRequest> ticketRequestList = null;
