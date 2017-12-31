@@ -45,11 +45,14 @@
     <string name="e_label_sinhala">සිංහල</string>
     <string name="e_label_tamil">தமிழ்</string>
 
+    <string name="e_label_ok">Ok</string>
     <string name="e_label_yes">Yes</string>
     <string name="e_label_no">No</string>
     <string name="e_label_submit">Submit</string>
     <string name="e_label_save">Save</string>
     <string name="e_label_cancel">Cancel</string>
+    <string name="e_label_delete">Delete</string>
+    <string name="e_label_keep">Keep</string>
 
     <string name="e_nav_home">Home</string>
     <string name="e_nav_request">Ticket Requests</string>
@@ -98,4 +101,19 @@
     <string name="e_label_no_new_exchanges_msg">No new ticket exchanges available</string>
 
     <string name="e_label_notifications_coming_soon">Notifications Coming Soon</string>
+
+    <string name="e_toast_device_internet_error">Please check device Internet connection.</string>
+    <string name="e_toast_request_submit_success">Successfully submitted your Exchange Ticket request.</string>
+    <string name="e_toast_request_submit_error">There was an error while submitting your request. Please try again from while.</string>
+    <string name="e_toast_user_registration_error">Issue in user registration. Please try again from while.</string>
+    <string name="e_toast_sign_in_error">Issue in sign-in. Please try again from while.</string>
+    <string name="e_toast_common_service_error">There was an error while making your request. Please try again from while.</string>
+    <string name="e_toast_delete_request_success">Successfully deleted your ticket request.</string>
+    <string name="e_toast_user_update_success">Successfully updated the user profile.</string>
+    <string name="e_toast_user_update_error">Issue in user updating. Please try again from while.</string>
+
+    <string name="e_dialog_missing_info">Missing information</string>
+    <string name="e_dialog_delete_req_heading">Are you sure?</string>
+    <string name="e_dialog_delete_req_msg">You are going to delete the selected ticket request.\n\nAre you sure, you want to delete it?</string>
+
 </resources>

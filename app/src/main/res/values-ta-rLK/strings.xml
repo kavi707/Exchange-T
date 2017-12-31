@@ -4,11 +4,14 @@
     <string name="e_label_sinhala">සිංහල</string>
     <string name="e_label_tamil">தமிழ்</string>
 
+    <string name="e_label_ok">சரி</string>
     <string name="e_label_yes">ஆம்</string>
     <string name="e_label_no">இல்லை</string>
     <string name="e_label_submit">சமர்ப்பி</string>
     <string name="e_label_save">சேமி</string>
     <string name="e_label_cancel">ரத்து</string>
+    <string name="e_label_delete">அழி</string>
+    <string name="e_label_keep">வை</string>
 
     <string name="e_nav_home">முகப்பு</string>
     <string name="e_nav_request">டிக்கட் பரிமாற்றம்</string>
@@ -57,4 +60,18 @@
     <string name="e_label_no_new_exchanges_msg">புதிய டிக்கெட் பரிமாற்றங்கள் இல்லை</string>
 
     <string name="e_label_notifications_coming_soon">Notifications Coming Soon</string>
+
+    <string name="e_toast_device_internet_error">இணைய இணைப்பு சரிபார்க்கவும்.</string>
+    <string name="e_toast_request_submit_success">உங்கள் பரிவர்த்தனை டிக்கெட் கோரிக்கை வெற்றிகரமாக சமர்ப்பிக்கப்பட்டது.</string>
+    <string name="e_toast_request_submit_error">உங்கள் கோரிக்கையைச் சமர்ப்பிப்பதில் பிழை ஏற்பட்டது. தயவுசெய்து மீண்டும் முயற்சிக்கவும்.</string>
+    <string name="e_toast_user_registration_error">பயனர் பதிவு வெளியீடு. தயவுசெய்து மீண்டும் முயற்சிக்கவும்.</string>
+    <string name="e_toast_sign_in_error">உள்நுழைவில் வெளியீடு. தயவுசெய்து மீண்டும் முயற்சிக்கவும்.</string>
+    <string name="e_toast_common_service_error">உங்கள் கோரிக்கையை செய்யும் போது ஒரு பிழை ஏற்பட்டது. தயவுசெய்து மீண்டும் முயற்சிக்கவும்.</string>
+    <string name="e_toast_delete_request_success">உங்கள் டிக்கெட் கோரிக்கையை வெற்றிகரமாக நீக்கியது.</string>
+    <string name="e_toast_user_update_success">பயனர் சுயவிவரத்தை வெற்றிகரமாக புதுப்பிக்கப்பட்டது.</string>
+    <string name="e_toast_user_update_error">பயனர் புதுப்பிப்பதில் வெளியீடு. தயவுசெய்து மீண்டும் முயற்சிக்கவும்.</string>
+
+    <string name="e_dialog_missing_info">விடுபட்ட தகவல்</string>
+    <string name="e_dialog_delete_req_heading">நீ சொல்வது உறுதியா?</string>
+    <string name="e_dialog_delete_req_msg">நீங்கள் தேர்ந்தெடுத்த டிக்கெட் கோரிக்கையை நீக்கப் போகிறீர்கள்.\n\nநிச்சயமாக, நீங்கள் அதை நீக்க வேண்டும்?</string>
 </resources>

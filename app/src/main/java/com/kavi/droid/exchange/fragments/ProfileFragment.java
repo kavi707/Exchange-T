@@ -247,7 +247,7 @@ public class ProfileFragment extends Fragment {
                                         public void run() {
                                             progress.dismiss();
                                             enableDisableSaveBtn(false);
-                                            Toast.makeText(getActivity(), "Successfully updated the user profile.", Toast.LENGTH_LONG).show();
+                                            Toast.makeText(getActivity(), getResources().getString(R.string.e_toast_user_update_success), Toast.LENGTH_LONG).show();
                                         }
                                     });
                                 }
@@ -259,7 +259,7 @@ public class ProfileFragment extends Fragment {
                                         public void run() {
                                             progress.dismiss();
                                             enableDisableSaveBtn(true);
-                                            Toast.makeText(getActivity(), "Issue in user updating. Please try again from while", Toast.LENGTH_LONG).show();
+                                            Toast.makeText(getActivity(), getResources().getString(R.string.e_toast_user_update_error), Toast.LENGTH_LONG).show();
                                         }
                                     });
                                 }
@@ -267,7 +267,7 @@ public class ProfileFragment extends Fragment {
                 }
             }).start();
         } else {
-            Toast.makeText(getActivity(), "Please check device Internet connection.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), getResources().getString(R.string.e_toast_device_internet_error), Toast.LENGTH_SHORT).show();
         }
     }
 }

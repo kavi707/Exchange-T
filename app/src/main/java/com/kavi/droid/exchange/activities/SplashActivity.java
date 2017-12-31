@@ -106,7 +106,7 @@ public class SplashActivity extends ExchangeBaseActivity {
                     }
                 }).start();
             } else {
-                Toast.makeText(context, "Please check device Internet connection.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, getResources().getString(R.string.e_toast_device_internet_error), Toast.LENGTH_SHORT).show();
             }
         } else {
             new Handler().postDelayed(new Runnable() {

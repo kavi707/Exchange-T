@@ -116,16 +116,15 @@ public class MyRequestsHistoryFragment extends Fragment {
             public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
 
                 new CommonDialogBuilderUtil(getActivity())
-                        .title("Are you sure?")
-                        .content("Your are going to delete the selected ticket request. " +
-                                "\n\nAre you sure, you want to delete it?")
-                        .setFirstActionListener("Delete", new CommonDialogBuilderUtil.FirstActionInterface() {
+                        .title(getString(R.string.e_dialog_delete_req_heading))
+                        .content(getString(R.string.e_dialog_delete_req_msg))
+                        .setFirstActionListener(getString(R.string.e_label_delete), new CommonDialogBuilderUtil.FirstActionInterface() {
                             @Override
                             public void firstAction() {
                                 deleteTicketRequestFromId(myTicketRequestList.get(position).getId());
                             }
                         })
-                        .setSecondActionListener("Keep", null).build().show();
+                        .setSecondActionListener(getString(R.string.e_label_keep), null).build().show();
                 return true;
             }
         });
@@ -148,7 +147,7 @@ public class MyRequestsHistoryFragment extends Fragment {
         } else {
             noContentRelativeLayout.setVisibility(View.VISIBLE);
             listErrorTextView.setText(getResources().getString(R.string.list_msg_offline));
-            Toast.makeText(getActivity(), "Please check device Internet connection.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), getResources().getString(R.string.e_toast_device_internet_error), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -195,7 +194,7 @@ public class MyRequestsHistoryFragment extends Fragment {
                         progress.dismiss();
                         noContentRelativeLayout.setVisibility(View.VISIBLE);
                         listErrorTextView.setText(getResources().getString(R.string.list_msg_issue));
-                        Toast.makeText(getActivity(), "There was an error while making your request. Please try again from while.",
+                        Toast.makeText(getActivity(), getResources().getString(R.string.e_toast_common_service_error),
                                 Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -223,7 +222,7 @@ public class MyRequestsHistoryFragment extends Fragment {
                                     getActivity().runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
-                                            Toast.makeText(getActivity(), "Successfully deleted your ticket request.",
+                                            Toast.makeText(getActivity(), getResources().getString(R.string.e_toast_delete_request_success),
                                                     Toast.LENGTH_SHORT).show();
                                         }
                                     });
@@ -238,7 +237,7 @@ public class MyRequestsHistoryFragment extends Fragment {
                                         @Override
                                         public void run() {
                                             progress.dismiss();
-                                            Toast.makeText(getActivity(), "There was an error while making your request. Please try again from while.",
+                                            Toast.makeText(getActivity(), getResources().getString(R.string.e_toast_common_service_error),
                                                     Toast.LENGTH_SHORT).show();
                                         }
                                     });
@@ -247,7 +246,7 @@ public class MyRequestsHistoryFragment extends Fragment {
                 }
             }).start();
         } else {
-            Toast.makeText(getActivity(), "Please check device Internet connection.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), getResources().getString(R.string.e_toast_device_internet_error), Toast.LENGTH_SHORT).show();
         }
     }
 }

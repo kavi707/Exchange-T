@@ -167,7 +167,7 @@ public class SignInActivity extends ExchangeBaseActivity {
                                                 .go();
 
                                     } else {
-                                        Toast.makeText(context, "Issue in user registration. Please try again from while", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(context, getResources().getString(R.string.e_toast_sign_in_error), Toast.LENGTH_LONG).show();
                                     }
                                 }
                             });
@@ -176,7 +176,7 @@ public class SignInActivity extends ExchangeBaseActivity {
                 }
             }).start();
         } else {
-            Toast.makeText(context, "Please check device Internet connection.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, getResources().getString(R.string.e_toast_device_internet_error), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -235,7 +235,7 @@ public class SignInActivity extends ExchangeBaseActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(context, "Issue in user registration. Please try again from while", Toast.LENGTH_LONG).show();
+                        Toast.makeText(context, getResources().getString(R.string.e_toast_sign_in_error), Toast.LENGTH_LONG).show();
                         progress.dismiss();
                     }
                 });

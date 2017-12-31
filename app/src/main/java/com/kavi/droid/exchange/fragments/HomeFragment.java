@@ -276,7 +276,7 @@ public class HomeFragment extends Fragment {
                                     } else {
                                         noContentRelativeLayout.setVisibility(View.VISIBLE);
                                         listErrorTextView.setText(getResources().getString(R.string.list_msg_issue));
-                                        Toast.makeText(getActivity(), "There was an error while making your request. Please try again from while.",
+                                        Toast.makeText(getActivity(), getResources().getString(R.string.e_toast_common_service_error),
                                                 Toast.LENGTH_SHORT).show();
                                     }
                                 }
@@ -288,7 +288,7 @@ public class HomeFragment extends Fragment {
         } else {
             noContentRelativeLayout.setVisibility(View.VISIBLE);
             listErrorTextView.setText(getResources().getString(R.string.list_msg_offline));
-            Toast.makeText(getActivity(), "Please check device Internet connection.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), getResources().getString(R.string.e_toast_device_internet_error), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -369,7 +369,7 @@ public class HomeFragment extends Fragment {
                                     } else {
                                         noContentRelativeLayout.setVisibility(View.VISIBLE);
                                         listErrorTextView.setText(getResources().getString(R.string.list_msg_issue));
-                                        Toast.makeText(getActivity(), "There was an error while making your request. Please try again from while.",
+                                        Toast.makeText(getActivity(), getResources().getString(R.string.e_toast_common_service_error),
                                                 Toast.LENGTH_SHORT).show();
                                     }
                                 }
@@ -381,7 +381,7 @@ public class HomeFragment extends Fragment {
         } else {
             noContentRelativeLayout.setVisibility(View.VISIBLE);
             listErrorTextView.setText(getResources().getString(R.string.list_msg_offline));
-            Toast.makeText(getActivity(), "Please check device Internet connection.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), getResources().getString(R.string.e_toast_device_internet_error), Toast.LENGTH_SHORT).show();
         }
     }
 }
