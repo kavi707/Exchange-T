@@ -18,6 +18,7 @@ import com.kavi.droid.exchange.services.imageLoader.ImageLoadingManager;
 public class RequestItemView extends RelativeLayout {
 
     private RelativeLayout requestTileHolder;
+    private RelativeLayout requestDoneStatusOverlay;
     private ImageView userPicImageView;
     private TextView reqTypeTextView;
     private TextView reqStartEndTextView;
@@ -40,6 +41,7 @@ public class RequestItemView extends RelativeLayout {
         super.onFinishInflate();
 
         requestTileHolder = (RelativeLayout) findViewById(R.id.requestTileHolder);
+        requestDoneStatusOverlay = (RelativeLayout) findViewById(R.id.requestDoneStatusOverlay);
         userPicImageView = (ImageView) findViewById(R.id.userImageView);
         reqTypeTextView = (TextView) findViewById(R.id.reqTypeTextView);
         reqStartEndTextView = (TextView) findViewById(R.id.reqStartEndTextView);
@@ -98,6 +100,12 @@ public class RequestItemView extends RelativeLayout {
         ticketDayTextView.setText(ticketRequest.getTicketDay());
         ticketTimeTextView.setText(ticketRequest.getTicketTime());
         timeAgoTextView.setText(getTimeDiffString(ticketRequest.getReqDate()));
+
+        if (ticketRequest.getTicketStatus() == TicketRequest.EXCHANGED) {
+            requestDoneStatusOverlay.setVisibility(VISIBLE);
+        } else {
+            requestDoneStatusOverlay.setVisibility(INVISIBLE);
+        }
     }
 
     private String getTimeDiffString(long reqDateTime) {
