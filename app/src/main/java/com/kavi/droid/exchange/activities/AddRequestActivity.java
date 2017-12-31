@@ -38,6 +38,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -249,9 +250,9 @@ public class AddRequestActivity extends ExchangeBaseActivity {
 
                     String reqDay = null;
                     try {
-                        SimpleDateFormat simpleDateformat = new SimpleDateFormat("MMM-dd-yyyy");
+                        SimpleDateFormat simpleDateformat = new SimpleDateFormat("MMM-dd-yyyy", Locale.ENGLISH);
                         Date dt = simpleDateformat.parse(ticketDate);
-                        simpleDateformat = new SimpleDateFormat("EEEE");
+                        simpleDateformat = new SimpleDateFormat("EEEE", Locale.ENGLISH);
                         reqDay = simpleDateformat.format(dt);
                     } catch (ParseException e) {
                         e.printStackTrace();

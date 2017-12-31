@@ -283,7 +283,7 @@ public class CommonUtils {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             Date date = dateFormat.parse(givenDate);
 
-            dateFormat = new SimpleDateFormat("MMM-dd-yyyy");
+            dateFormat = new SimpleDateFormat("MMM-dd-yyyy", Locale.ENGLISH);
 
             dateString = dateFormat.format(date);
         } catch (ParseException e) {
@@ -296,7 +296,7 @@ public class CommonUtils {
     public long getTimestampFromDate(String date) {
         long dateTimestamp = 0;
         try {
-            DateFormat dateFormat = new SimpleDateFormat("MMM-dd-yyyy");
+            DateFormat dateFormat = new SimpleDateFormat("MMM-dd-yyyy", Locale.ENGLISH);
             Date gotDate = dateFormat.parse(date);
             dateTimestamp = gotDate.getTime() / 1000L;
         } catch (ParseException e) {
