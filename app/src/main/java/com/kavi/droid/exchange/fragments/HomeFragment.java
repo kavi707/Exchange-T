@@ -58,7 +58,6 @@ import cz.msebera.android.httpclient.Header;
 
 /**
  * Created by kwijewardana on 9/14/17.
- *
  * @author Kavimal Wijewardana <kavi707@gmail.com>
  */
 
@@ -113,14 +112,22 @@ public class HomeFragment extends Fragment {
         isINeedSelected = SharedPreferenceManager.isINeedTypeSelected(getActivity());
         initTabSetup();
         if (filteredTicketRequestList != null && filteredTicketRequestList.size() > 0) {
-            if (isINeedSelected)
-                updateTiketList(commonUtils.getINeedTicketList(filteredTicketRequestList));
-            else
-                updateTiketList(commonUtils.getIHaveTicketList(filteredTicketRequestList));
+            if (SharedPreferenceManager.isTicketStatusUpdated(getActivity())) {
+                filterTicketRequest(SharedPreferenceManager.getLastFilterObject(getActivity()));
+            } else {
+                if (isINeedSelected)
+                    updateTiketList(commonUtils.getINeedTicketList(filteredTicketRequestList));
+                else
+                    updateTiketList(commonUtils.getIHaveTicketList(filteredTicketRequestList));
+            }
         } else {
             ticketRequestList.clear();
             getAllTicketRequest();
         }
+        SharedPreferenceManager.setIsTicketStatusUpdated(getActivity(), false);
+
+        // Set Action bar title
+        ((LandingActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.e_nav_request));
     }
 
     @Override
@@ -288,7 +295,7 @@ public class HomeFragment extends Fragment {
 
                                     noContentRelativeLayout.setVisibility(View.VISIBLE);
                                     listErrorTextView.setText(getResources().getString(R.string.list_msg_issue));
-                                    Toast.makeText(getActivity(), "There was an error while making your request. Please try again from while.",
+                                    Toast.makeText(getActivity(), getResources().getString(R.string.e_toast_common_service_error),
                                             Toast.LENGTH_SHORT).show();
                                 }
                             });
@@ -303,7 +310,7 @@ public class HomeFragment extends Fragment {
 
                                     noContentRelativeLayout.setVisibility(View.VISIBLE);
                                     listErrorTextView.setText(getResources().getString(R.string.list_msg_issue));
-                                    Toast.makeText(getActivity(), "There was an error while making your request. Please try again from while.",
+                                    Toast.makeText(getActivity(), getResources().getString(R.string.e_toast_common_service_error),
                                             Toast.LENGTH_SHORT).show();
                                 }
                             });
@@ -314,7 +321,7 @@ public class HomeFragment extends Fragment {
         } else {
             noContentRelativeLayout.setVisibility(View.VISIBLE);
             listErrorTextView.setText(getResources().getString(R.string.list_msg_offline));
-            Toast.makeText(getActivity(), "Please check device Internet connection.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), getResources().getString(R.string.e_toast_device_internet_error), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -331,10 +338,12 @@ public class HomeFragment extends Fragment {
             lastSpace.setReqType(DEFAULT_SPACE_VIEW_TYPE);
             ticketRequests.add(lastSpace);
 
+            ticketRequestListView.setVisibility(View.VISIBLE);
             noContentRelativeLayout.setVisibility(View.INVISIBLE);
             requestItemAdapter = new RequestItemAdapter(ticketRequests, getActivity());
             ticketRequestListView.setAdapter(requestItemAdapter);
         } else {
+            ticketRequestListView.setVisibility(View.INVISIBLE);
             noContentRelativeLayout.setVisibility(View.VISIBLE);
             listErrorTextView.setText(getResources().getString(R.string.list_msg_empty));
         }
@@ -360,6 +369,7 @@ public class HomeFragment extends Fragment {
                             if (statusCode == 200) {
                                 filteredTicketRequestList.clear();
                                 filteredTicketRequestList = commonUtils.getTicketRequestList(response);
+                                SharedPreferenceManager.setLastFilterObject(getActivity(), filterTicketReq);
 
                                 getActivity().runOnUiThread(new Runnable() {
                                     @Override
@@ -392,7 +402,7 @@ public class HomeFragment extends Fragment {
                                     } else {
                                         noContentRelativeLayout.setVisibility(View.VISIBLE);
                                         listErrorTextView.setText(getResources().getString(R.string.list_msg_issue));
-                                        Toast.makeText(getActivity(), "There was an error while making your request. Please try again from while.",
+                                        Toast.makeText(getActivity(), getResources().getString(R.string.e_toast_common_service_error),
                                                 Toast.LENGTH_SHORT).show();
                                     }
                                 }
@@ -404,7 +414,7 @@ public class HomeFragment extends Fragment {
         } else {
             noContentRelativeLayout.setVisibility(View.VISIBLE);
             listErrorTextView.setText(getResources().getString(R.string.list_msg_offline));
-            Toast.makeText(getActivity(), "Please check device Internet connection.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), getResources().getString(R.string.e_toast_device_internet_error), Toast.LENGTH_SHORT).show();
         }
     }
 }

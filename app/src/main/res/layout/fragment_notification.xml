@@ -13,7 +13,7 @@
 
         <TextView
             android:id="@+id/listErrorTextView"
-            android:text="Notifications Coming Soon"
+            android:text="@string/e_label_notifications_coming_soon"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:layout_margin="40dp"

@@ -375,7 +375,39 @@ public class ApiCalls {
             String authToken = SharedPreferenceManager.getNodegridAuthToken(context);
 
             String reqJsonString = reqObj.toString();
-            Log.d(TAG, "filterTicketRequest: reqJsonString -> " + reqJsonString);
+            Log.d(TAG, "updateUser: reqJsonString -> " + reqJsonString);
+
+            if (taskMethod.equals(Constants.SYNC_METHOD)) {
+                syncHttpClient.addHeader(HEADER_AUTHORIZATION, authToken);
+                syncHttpClient.put(context, url, new StringEntity(reqJsonString), APPLICATION_JSON, responseHandler);
+            } else if (taskMethod.equals(Constants.ASYNC_METHOD)) {
+                asyncHttpClient.addHeader(HEADER_AUTHORIZATION, authToken);
+                asyncHttpClient.put(context, url, new StringEntity(reqJsonString), APPLICATION_JSON, responseHandler);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateTicketStatus(Context context, String taskMethod, String ticketId, int newStatus,
+                                   JsonHttpResponseHandler responseHandler) {
+
+        String url = Constants.BASE_URL + Constants.UPDATE_TICKET_REQUEST +
+                "/" + ticketId;
+        Log.d(TAG, "updateUserFromId: PUT: url -> " + url);
+
+        JSONObject reqObj = new JSONObject();
+
+        try {
+
+            reqObj.put("ticketStatus", newStatus);
+
+            String authToken = SharedPreferenceManager.getNodegridAuthToken(context);
+
+            String reqJsonString = reqObj.toString();
+            Log.d(TAG, "updateTicketStatus: reqJsonString -> " + reqJsonString);
 
             if (taskMethod.equals(Constants.SYNC_METHOD)) {
                 syncHttpClient.addHeader(HEADER_AUTHORIZATION, authToken);

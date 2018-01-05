@@ -1,6 +1,8 @@
 package com.kavi.droid.exchange.utils;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
@@ -22,6 +24,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by kavi707 on 9/9/17.
@@ -45,6 +48,25 @@ public class CommonUtils {
         }
 
         return false;
+    }
+
+    public void setLocal(Activity activity) {
+
+        String languageToLoad;
+        String selectedLocal = SharedPreferenceManager.getSelectedLocal(activity);
+        if (!selectedLocal.equals("NULL")) {
+            languageToLoad = selectedLocal;
+        } else {
+            SharedPreferenceManager.setSelectedLocal(activity, "en");
+            languageToLoad = "en";
+        }
+
+        Locale locale = new Locale(languageToLoad);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        activity.getBaseContext().getResources().updateConfiguration(config,
+                activity.getBaseContext().getResources().getDisplayMetrics());
     }
 
     public void logoutApplication(Context context, boolean isAlsoFromFB) {
@@ -261,7 +283,7 @@ public class CommonUtils {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             Date date = dateFormat.parse(givenDate);
 
-            dateFormat = new SimpleDateFormat("MMM-dd-yyyy");
+            dateFormat = new SimpleDateFormat("MMM-dd-yyyy", Locale.ENGLISH);
 
             dateString = dateFormat.format(date);
         } catch (ParseException e) {
@@ -274,7 +296,21 @@ public class CommonUtils {
     public long getTimestampFromDate(String date) {
         long dateTimestamp = 0;
         try {
-            DateFormat dateFormat = new SimpleDateFormat("MMM-dd-yyyy");
+            DateFormat dateFormat = new SimpleDateFormat("MMM-dd-yyyy", Locale.ENGLISH);
+            Date gotDate = dateFormat.parse(date);
+            dateTimestamp = gotDate.getTime() / 1000L;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return dateTimestamp;
+    }
+
+    public long getTimestampFromDateTime(String date) {
+        long dateTimestamp = 0;
+        try {
+            DateFormat dateFormat = new SimpleDateFormat("MMM-dd-yyyy HH:mm:ss", Locale.ENGLISH);
+
             Date gotDate = dateFormat.parse(date);
             dateTimestamp = gotDate.getTime() / 1000L;
         } catch (ParseException e) {

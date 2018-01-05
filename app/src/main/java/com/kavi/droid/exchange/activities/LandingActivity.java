@@ -23,9 +23,10 @@ import com.kavi.droid.exchange.fragments.HomeFragment;
 import com.kavi.droid.exchange.fragments.MyRequestsHistoryFragment;
 import com.kavi.droid.exchange.fragments.NotificationFragment;
 import com.kavi.droid.exchange.fragments.ProfileFragment;
-import com.kavi.droid.exchange.fragments.SettingsFragment;
+import com.kavi.droid.exchange.fragments.LanguageFragment;
 import com.kavi.droid.exchange.services.imageLoader.ImageLoadingManager;
 import com.kavi.droid.exchange.services.sharedPreferences.SharedPreferenceManager;
+import com.kavi.droid.exchange.utils.CommonUtils;
 import com.kavi.droid.exchange.utils.NavigationUtil;
 
 /**
@@ -43,13 +44,23 @@ public class LandingActivity extends AppCompatActivity
 
     private Context context = this;
     private ImageLoadingManager imageLoadingManager;
+    private CommonUtils commonUtils = new CommonUtils();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Init local
+        commonUtils.setLocal(this);
         setContentView(R.layout.activity_landing);
 
         setUpViews();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Init local
+        commonUtils.setLocal(this);
     }
 
     private void setUpViews() {
@@ -80,10 +91,15 @@ public class LandingActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         // Remove app title from the action bar
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        //getSupportActionBar().setDisplayShowTitleEnabled(false);
+        setActionBarTitle("Different Test");
 
         setInitialView();
         slideMenuHeaderSetup();
+    }
+
+    public void setActionBarTitle(String title){
+        getSupportActionBar().setTitle(title);
     }
 
     private void slideMenuHeaderSetup() {
@@ -128,6 +144,7 @@ public class LandingActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
+        commonUtils.setLocal(this);
         // Handle navigation view item clicks here.
         Fragment fragment = null;
         String fragmentTag = null;
@@ -145,8 +162,8 @@ public class LandingActivity extends AppCompatActivity
         } else if (id == R.id.nav_notifications) {
             fragment = new NotificationFragment();
             fragmentTag = Constants.NOTIFICATION_FRAGMENT_TAG;
-        } else if (id == R.id.nav_settings) {
-            fragment = new SettingsFragment();
+        } else if (id == R.id.nav_language) {
+            fragment = new LanguageFragment();
             fragmentTag = Constants.SETTINGS_FRAGMENT_TAG;
         }
 
@@ -159,7 +176,7 @@ public class LandingActivity extends AppCompatActivity
             else
                 fragmentManager.beginTransaction()
                         .replace(R.id.frame_container, fragment, fragmentTag)
-                        .addToBackStack(Constants.HOME_FRAGMENT_TAG)
+                        //.addToBackStack(Constants.HOME_FRAGMENT_TAG)
                         .commit();
 
             DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

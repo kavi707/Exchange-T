@@ -38,6 +38,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -249,9 +250,9 @@ public class AddRequestActivity extends ExchangeBaseActivity {
 
                     String reqDay = null;
                     try {
-                        SimpleDateFormat simpleDateformat = new SimpleDateFormat("MMM-dd-yyyy");
+                        SimpleDateFormat simpleDateformat = new SimpleDateFormat("MMM-dd-yyyy", Locale.ENGLISH);
                         Date dt = simpleDateformat.parse(ticketDate);
-                        simpleDateformat = new SimpleDateFormat("EEEE");
+                        simpleDateformat = new SimpleDateFormat("EEEE", Locale.ENGLISH);
                         reqDay = simpleDateformat.format(dt);
                     } catch (ParseException e) {
                         e.printStackTrace();
@@ -300,7 +301,7 @@ public class AddRequestActivity extends ExchangeBaseActivity {
                                                 progress.dismiss();
 
                                                 if (getStatusCode == 200) {
-                                                    Toast.makeText(context, "Successfully submitted your Exchange Ticket request.",
+                                                    Toast.makeText(context, getResources().getString(R.string.e_toast_request_submit_success),
                                                             Toast.LENGTH_SHORT).show();
                                                     finish();
                                                 }
@@ -314,7 +315,7 @@ public class AddRequestActivity extends ExchangeBaseActivity {
                                             @Override
                                             public void run() {
                                                 progress.dismiss();
-                                                Toast.makeText(context, "There was an error while submitting your request. Please try again from while.",
+                                                Toast.makeText(context, getResources().getString(R.string.e_toast_request_submit_error),
                                                         Toast.LENGTH_SHORT).show();
                                             }
                                         });
@@ -323,13 +324,13 @@ public class AddRequestActivity extends ExchangeBaseActivity {
                             }
                         }).start();
                     } else {
-                        Toast.makeText(context, "Please check device Internet connection.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, getResources().getString(R.string.e_toast_device_internet_error), Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     new CommonDialogBuilderUtil(context)
-                            .title("Missing information")
+                            .title(getString(R.string.e_dialog_missing_info))
                             .content(getResources().getString(R.string.et_add_request_error_msg_1))
-                            .setFirstActionListener("Ok", null).build().show();
+                            .setFirstActionListener(getString(R.string.e_label_ok), null).build().show();
                 }
             }
         });

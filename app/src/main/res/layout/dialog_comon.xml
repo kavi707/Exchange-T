@@ -43,7 +43,7 @@
 
         <Button
             android:id="@+id/firstActionButton"
-            android:text="Yes"
+            android:text="@string/e_label_yes"
             android:textSize="16dp"
             android:textColor="@color/primaryGreenDark"
             android:background="@android:color/transparent"
@@ -52,7 +52,7 @@
 
         <Button
             android:id="@+id/secondActionButton"
-            android:text="No"
+            android:text="@string/e_label_no"
             android:textSize="16dp"
             android:textColor="@color/primaryGreenDark"
             android:background="@android:color/transparent"

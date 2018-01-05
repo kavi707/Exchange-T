@@ -29,10 +29,16 @@ import com.kavi.droid.exchange.R;
 import com.kavi.droid.exchange.dialogs.LoadingProgressBarDialog;
 import com.kavi.droid.exchange.models.EmailData;
 import com.kavi.droid.exchange.models.TicketRequest;
+import com.kavi.droid.exchange.services.connections.ApiCalls;
 import com.kavi.droid.exchange.services.imageLoader.ImageLoadingManager;
 import com.kavi.droid.exchange.services.sharedPreferences.SharedPreferenceManager;
 import com.kavi.droid.exchange.utils.CommonUtils;
 import com.kavi.droid.exchange.utils.NavigationUtil;
+import com.loopj.android.http.JsonHttpResponseHandler;
+
+import org.json.JSONObject;
+
+import cz.msebera.android.httpclient.Header;
 
 /**
  * Created by kavi707 on 10/8/17.
@@ -115,9 +121,12 @@ public class TicketRequestDetailActivity extends ExchangeBaseActivity {
             public void onClick(View view) {
                 if (ticketRequest.getTicketStatus() == TicketRequest.AVAILABLE) {
                     setFabToExchanged();
+                    updateTicketStatus(TicketRequest.EXCHANGED);
                 } else  if (ticketRequest.getTicketStatus() == TicketRequest.EXCHANGED) {
                     setFabToAvailable();
+                    updateTicketStatus(TicketRequest.AVAILABLE);
                 }
+                SharedPreferenceManager.setIsTicketStatusUpdated(context, true);
             }
         });
 
@@ -298,7 +307,7 @@ public class TicketRequestDetailActivity extends ExchangeBaseActivity {
         ticketStatusChangeFabIcon.setBackgroundTintList(getResources().getColorStateList(R.color.colorAccent));
     }
 
-    private void updateTicketStatus(int newTicketStatus) {
+    private void updateTicketStatus(final int newTicketStatus) {
 
         if (commonUtils.isOnline(context)) {
 
@@ -310,11 +319,32 @@ public class TicketRequestDetailActivity extends ExchangeBaseActivity {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    // Todo - Need to create service call to update ticket status
+                    new ApiCalls().updateTicketStatus(context, Constants.SYNC_METHOD, ticketRequest.getId(),
+                            newTicketStatus, new JsonHttpResponseHandler(){
+                                @Override
+                                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            progress.dismiss();
+                                        }
+                                    });
+                                }
+
+                                @Override
+                                public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            progress.dismiss();
+                                        }
+                                    });
+                                }
+                            });
                 }
             }).start();
         } else {
-            Toast.makeText(context, "Please check device Internet connection.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, getResources().getString(R.string.e_toast_device_internet_error), Toast.LENGTH_SHORT).show();
         }
     }
 }

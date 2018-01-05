@@ -80,7 +80,7 @@ public class FilteringDialog extends Dialog {
         ticketFromDateTextView = (TextView) findViewById(R.id.ticketFromDateTextView);
         ticketToDateTextView = (TextView) findViewById(R.id.ticketToDateTextView);
         ticketToDateTextView.setEnabled(false);
-        ticketToDateTextView.setHintTextColor(context.getResources().getColor(R.color.light_red));
+        ticketToDateTextView.setHintTextColor(context.getResources().getColor(R.color.grey));
         filterActionButton = (Button) findViewById(R.id.filterActionButton);
 
         destinationSpinner = (Spinner) findViewById(R.id.destinationSpinner);
@@ -104,7 +104,7 @@ public class FilteringDialog extends Dialog {
                         isDateFilterSet = true;
 
                         ticketToDateTextView.setEnabled(true);
-                        ticketToDateTextView.setHintTextColor(context.getResources().getColor(R.color.light_green));
+                        ticketToDateTextView.setHintTextColor(context.getResources().getColor(R.color.white));
                     }
                 }, selectedYear, selectedMonth, selectedDay).show();
             }
@@ -154,14 +154,14 @@ public class FilteringDialog extends Dialog {
                 if (isDateFilterSet) {
                     FilterTicketReqDate filterTicketReqDate = new FilterTicketReqDate();
 
-                    if (!ticketFromDateString.equals("Ticket Date")) {
-                        filterTicketReqDate.setFromDateTimestamp(commonUtils.getTimestampFromDate(ticketFromDateString));
+                    if (!ticketFromDateString.equals("")) {
+                        filterTicketReqDate.setFromDateTimestamp(commonUtils.getTimestampFromDateTime(ticketFromDateString + " 00:00:00"));
                     } else {
                         filterTicketReqDate.setToDateTimestamp(-1);
                     }
 
-                    if (!ticketToDateString.equals("Ticket Date")) {
-                        filterTicketReqDate.setToDateTimestamp(commonUtils.getTimestampFromDate(ticketToDateString));
+                    if (!ticketToDateString.equals("")) {
+                        filterTicketReqDate.setToDateTimestamp(commonUtils.getTimestampFromDateTime(ticketToDateString + " 23:59:59"));
                     } else {
                         filterTicketReqDate.setToDateTimestamp(-1);
                     }
