@@ -2,13 +2,18 @@ package com.kavi.droid.exchange.services.connections;
 
 import android.content.Context;
 import android.util.Log;
+import android.view.View;
+import android.widget.Toast;
 
 import com.kavi.droid.exchange.Constants;
+import com.kavi.droid.exchange.R;
+import com.kavi.droid.exchange.activities.SignInActivity;
 import com.kavi.droid.exchange.models.TicketRequest;
 import com.kavi.droid.exchange.models.User;
 import com.kavi.droid.exchange.services.connections.dto.FilterTicketReq;
 import com.kavi.droid.exchange.services.connections.dto.UpdateUserReq;
 import com.kavi.droid.exchange.services.sharedPreferences.SharedPreferenceManager;
+import com.kavi.droid.exchange.utils.NavigationUtil;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -20,6 +25,8 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
 
+import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.conn.ConnectTimeoutException;
 import cz.msebera.android.httpclient.entity.StringEntity;
 
 /**
@@ -37,6 +44,39 @@ public class ApiCalls {
 
     private AsyncHttpClient asyncHttpClient = new AsyncHttpClient();
     private SyncHttpClient syncHttpClient = new SyncHttpClient();
+
+    /**
+     * Create JsonHttpResponseHandler object
+     * @param onApiCallResponse OnApiCallResponse object
+     * @return JsonHttpResponseHandler
+     */
+    private JsonHttpResponseHandler getJsonHttpResponseHandler(final OnApiCallResponse onApiCallResponse) {
+        JsonHttpResponseHandler responseHandler = new JsonHttpResponseHandler() {
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                onApiCallResponse.onSuccess(statusCode, response);
+            }
+
+            @Override
+            public void onFailure(final int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+
+                if (throwable.getCause() instanceof ConnectTimeoutException) {
+                    onApiCallResponse.onNoInternet();
+                } else {
+                    if (statusCode == 500) {
+                        onApiCallResponse.onServiceError(errorResponse, throwable);
+                    } if (statusCode == 401) {
+                        onApiCallResponse.onUnAuthorized(errorResponse, throwable);
+                    } else {
+                        onApiCallResponse.onNonSuccess(statusCode, errorResponse, throwable);
+                    }
+                }
+            }
+        };
+
+        return responseHandler;
+    }
 
     public void addNewUser(Context context, String taskMethod, User user, JsonHttpResponseHandler responseHandler) {
 
@@ -147,7 +187,7 @@ public class ApiCalls {
         }
     }
 
-    public void getTicketRequest(Context context, String taskMethod, JsonHttpResponseHandler responseHandler) {
+    public void getTicketRequest(Context context, String taskMethod, final OnApiCallResponse onApiCallResponse) {
 
         // Add filter for get latest month ticket request list
         Calendar calendar = Calendar.getInstance();
@@ -159,6 +199,7 @@ public class ApiCalls {
         Log.d(TAG, "getTicketRequest: GET: url -> " + url);
 
         String authToken = SharedPreferenceManager.getNodegridAuthToken(context);
+        JsonHttpResponseHandler responseHandler = getJsonHttpResponseHandler(onApiCallResponse);
 
         if (taskMethod.equals(Constants.SYNC_METHOD)) {
             syncHttpClient.addHeader(HEADER_AUTHORIZATION, authToken);

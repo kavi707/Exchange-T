@@ -40,6 +40,7 @@ import com.kavi.droid.exchange.dialogs.FilteringDialog;
 import com.kavi.droid.exchange.dialogs.LoadingProgressBarDialog;
 import com.kavi.droid.exchange.models.TicketRequest;
 import com.kavi.droid.exchange.services.connections.ApiCalls;
+import com.kavi.droid.exchange.services.connections.OnApiCallResponse;
 import com.kavi.droid.exchange.services.connections.dto.FilterTicketReq;
 import com.kavi.droid.exchange.services.connections.dto.FilterTicketReqDate;
 import com.kavi.droid.exchange.services.sharedPreferences.SharedPreferenceManager;
@@ -57,6 +58,7 @@ import cz.msebera.android.httpclient.Header;
 
 /**
  * Created by kwijewardana on 9/14/17.
+ *
  * @author Kavimal Wijewardana <kavi707@gmail.com>
  */
 
@@ -229,48 +231,80 @@ public class HomeFragment extends Fragment {
                 @Override
                 public void run() {
 
-                    new ApiCalls().getTicketRequest(getActivity(), Constants.SYNC_METHOD, new JsonHttpResponseHandler(){
-
+                    new ApiCalls().getTicketRequest(getActivity(), Constants.SYNC_METHOD, new OnApiCallResponse() {
                         @Override
-                        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                        public void onSuccess(int statusCode, JSONObject response) {
+                            ticketRequestList = commonUtils.getTicketRequestList(response);
 
-                            if (statusCode == 200) {
-                                ticketRequestList = commonUtils.getTicketRequestList(response);
-
-                                getActivity().runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        progress.dismiss();
-                                        if (isINeedSelected)
-                                            updateTiketList(commonUtils.getINeedTicketList(ticketRequestList));
-                                        else
-                                            updateTiketList(commonUtils.getIHaveTicketList(ticketRequestList));
-                                    }
-                                });
-                            } else {
-                                noContentRelativeLayout.setVisibility(View.VISIBLE);
-                                listErrorTextView.setText(getResources().getString(R.string.list_msg_issue));
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(final int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                             getActivity().runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
                                     progress.dismiss();
 
-                                    if (statusCode == 401) {
-                                        new NavigationUtil(getActivity())
-                                                .to(SignInActivity.class)
-                                                .finish()
-                                                .go();
+                                    if (ticketRequestList.size() > 0) {
+                                        if (isINeedSelected)
+                                            updateTiketList(commonUtils.getINeedTicketList(ticketRequestList));
+                                        else
+                                            updateTiketList(commonUtils.getIHaveTicketList(ticketRequestList));
                                     } else {
                                         noContentRelativeLayout.setVisibility(View.VISIBLE);
                                         listErrorTextView.setText(getResources().getString(R.string.list_msg_issue));
-                                        Toast.makeText(getActivity(), "There was an error while making your request. Please try again from while.",
-                                                Toast.LENGTH_SHORT).show();
                                     }
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void onNoInternet() {
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    progress.dismiss();
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void onUnAuthorized(JSONObject response, Throwable throwable) {
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    progress.dismiss();
+
+                                    new NavigationUtil(getActivity())
+                                            .to(SignInActivity.class)
+                                            .finish()
+                                            .go();
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void onNonSuccess(int statusCode, JSONObject response, Throwable throwable) {
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    progress.dismiss();
+
+                                    noContentRelativeLayout.setVisibility(View.VISIBLE);
+                                    listErrorTextView.setText(getResources().getString(R.string.list_msg_issue));
+                                    Toast.makeText(getActivity(), "There was an error while making your request. Please try again from while.",
+                                            Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void onServiceError(JSONObject response, Throwable throwable) {
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    progress.dismiss();
+
+                                    noContentRelativeLayout.setVisibility(View.VISIBLE);
+                                    listErrorTextView.setText(getResources().getString(R.string.list_msg_issue));
+                                    Toast.makeText(getActivity(), "There was an error while making your request. Please try again from while.",
+                                            Toast.LENGTH_SHORT).show();
                                 }
                             });
                         }
@@ -318,7 +352,7 @@ public class HomeFragment extends Fragment {
                 @Override
                 public void run() {
 
-                    new ApiCalls().filterTicketRequest(getActivity(), Constants.SYNC_METHOD, filterTicketReq, new JsonHttpResponseHandler(){
+                    new ApiCalls().filterTicketRequest(getActivity(), Constants.SYNC_METHOD, filterTicketReq, new JsonHttpResponseHandler() {
 
                         @Override
                         public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
