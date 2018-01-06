@@ -13,9 +13,9 @@
     <string name="e_label_delete">මකන්න</string>
     <string name="e_label_keep">තබා ගන්න</string>
 
-    <string name="e_nav_home">නිවස</string>
+    <string name="e_nav_home">හුවමාරු</string>
     <string name="e_nav_request">ටිකට් හුවමාරු</string>
-    <string name="e_nav_my_requests">මගේ හුවමාරු</string>
+    <string name="e_nav_my_requests">මාගේ හුවමාරු</string>
     <string name="e_nav_my_profile">මාගේ ගිණුම</string>
     <string name="e_nav_notifications">දැනුම්දීම්</string>
     <string name="e_nav_languages">භාෂා</string>
