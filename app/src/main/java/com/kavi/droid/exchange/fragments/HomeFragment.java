@@ -1,9 +1,7 @@
 package com.kavi.droid.exchange.fragments;
 
-import android.app.DatePickerDialog;
 import android.app.Fragment;
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
@@ -15,15 +13,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.DatePicker;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,16 +26,18 @@ import com.kavi.droid.exchange.Constants;
 import com.kavi.droid.exchange.R;
 import com.kavi.droid.exchange.activities.LandingActivity;
 import com.kavi.droid.exchange.activities.SignInActivity;
-import com.kavi.droid.exchange.activities.SplashActivity;
 import com.kavi.droid.exchange.activities.TicketRequestDetailActivity;
 import com.kavi.droid.exchange.adapters.RequestItemAdapter;
 import com.kavi.droid.exchange.dialogs.FilteringDialog;
 import com.kavi.droid.exchange.dialogs.LoadingProgressBarDialog;
 import com.kavi.droid.exchange.models.TicketRequest;
+import com.kavi.droid.exchange.services.connections.ApiCallResponseHandler;
 import com.kavi.droid.exchange.services.connections.ApiCalls;
-import com.kavi.droid.exchange.services.connections.OnApiCallResponse;
 import com.kavi.droid.exchange.services.connections.dto.FilterTicketReq;
-import com.kavi.droid.exchange.services.connections.dto.FilterTicketReqDate;
+import com.kavi.droid.exchange.services.connections.exceptions.ExNoInternetException;
+import com.kavi.droid.exchange.services.connections.exceptions.ExNonSuccessException;
+import com.kavi.droid.exchange.services.connections.exceptions.ExServerErrorException;
+import com.kavi.droid.exchange.services.connections.exceptions.ExUnAuthorizedException;
 import com.kavi.droid.exchange.services.sharedPreferences.SharedPreferenceManager;
 import com.kavi.droid.exchange.utils.CommonUtils;
 import com.kavi.droid.exchange.utils.NavigationUtil;
@@ -51,7 +46,6 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
@@ -238,7 +232,7 @@ public class HomeFragment extends Fragment {
                 @Override
                 public void run() {
 
-                    new ApiCalls().getTicketRequest(getActivity(), Constants.SYNC_METHOD, new OnApiCallResponse() {
+                    new ApiCalls().getTicketRequest(getActivity(), Constants.SYNC_METHOD, new ApiCallResponseHandler() {
                         @Override
                         public void onSuccess(int statusCode, JSONObject response) {
                             ticketRequestList = commonUtils.getTicketRequestList(response);
@@ -262,56 +256,28 @@ public class HomeFragment extends Fragment {
                         }
 
                         @Override
-                        public void onNoInternet() {
-                            getActivity().runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    progress.dismiss();
-                                }
-                            });
-                        }
-
-                        @Override
-                        public void onUnAuthorized(JSONObject response, Throwable throwable) {
+                        public void onNonSuccess(int statusCode, JSONObject response, final Throwable throwable) {
                             getActivity().runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
                                     progress.dismiss();
 
-                                    new NavigationUtil(getActivity())
-                                            .to(SignInActivity.class)
-                                            .finish()
-                                            .go();
-                                }
-                            });
-                        }
-
-                        @Override
-                        public void onNonSuccess(int statusCode, JSONObject response, Throwable throwable) {
-                            getActivity().runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    progress.dismiss();
-
-                                    noContentRelativeLayout.setVisibility(View.VISIBLE);
-                                    listErrorTextView.setText(getResources().getString(R.string.list_msg_issue));
-                                    Toast.makeText(getActivity(), getResources().getString(R.string.e_toast_common_service_error),
-                                            Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                        }
-
-                        @Override
-                        public void onServiceError(JSONObject response, Throwable throwable) {
-                            getActivity().runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    progress.dismiss();
-
-                                    noContentRelativeLayout.setVisibility(View.VISIBLE);
-                                    listErrorTextView.setText(getResources().getString(R.string.list_msg_issue));
-                                    Toast.makeText(getActivity(), getResources().getString(R.string.e_toast_common_service_error),
-                                            Toast.LENGTH_SHORT).show();
+                                    if (throwable instanceof ExServerErrorException ||
+                                            throwable instanceof ExNonSuccessException) {
+                                        noContentRelativeLayout.setVisibility(View.VISIBLE);
+                                        listErrorTextView.setText(getResources().getString(R.string.list_msg_issue));
+                                    } else if (throwable instanceof ExNoInternetException) {
+                                        noContentRelativeLayout.setVisibility(View.VISIBLE);
+                                        listErrorTextView.setText(getResources().getString(R.string.list_msg_offline));
+                                    } else if (throwable instanceof ExUnAuthorizedException) {
+                                        new NavigationUtil(getActivity())
+                                                .to(SignInActivity.class)
+                                                .finish()
+                                                .go();
+                                    } else {
+                                        noContentRelativeLayout.setVisibility(View.VISIBLE);
+                                        listErrorTextView.setText(getResources().getString(R.string.list_msg_issue));
+                                    }
                                 }
                             });
                         }

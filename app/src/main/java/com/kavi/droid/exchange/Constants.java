@@ -24,6 +24,11 @@ public class Constants {
     public static final String NOTIFICATION_FRAGMENT_TAG = "NOTIFICATION_FRAGMENT";
     public static final String SETTINGS_FRAGMENT_TAG = "SETTINGS_FRAGMENT";
 
+    public static final String NO_INTERNET_EXCEPTION_MSG = "NO_INTERNET_EXCEPTION_MSG";
+    public static final String NON_SUCCESS_EXCEPTION_MSG = "NON_SUCCESS_EXCEPTION_MSG";
+    public static final String SERVER_ERROR_EXCEPTION_MSG = "SERVER_ERROR_EXCEPTION_MSG";
+    public static final String UNAUTHORIZED_EXCEPTION_MSG = "UNAUTHORIZED_EXCEPTION_MSG";
+
     // For Emulator
     //public static final String BASE_URL = "http://10.0.2.2:8000";
 

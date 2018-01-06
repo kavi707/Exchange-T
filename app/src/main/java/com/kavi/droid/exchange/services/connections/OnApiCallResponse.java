@@ -8,7 +8,7 @@ import org.json.JSONObject;
 
 public interface OnApiCallResponse {
     void onSuccess(int statusCode, JSONObject response);
-    void onNoInternet();
+    void onNoInternet(Throwable throwable);
     void onUnAuthorized(JSONObject response, Throwable throwable);
     void onNonSuccess(int statusCode, JSONObject response, Throwable throwable);
     void onServiceError(JSONObject response, Throwable throwable);
