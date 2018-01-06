@@ -59,7 +59,7 @@
     <string name="e_label_i_have">ஈடாக</string>
     <string name="e_label_no_new_exchanges_msg">புதிய டிக்கெட் பரிமாற்றங்கள் இல்லை</string>
 
-    <string name="e_label_notifications_coming_soon">Notifications Coming Soon</string>
+    <string name="e_label_notifications_coming_soon">Notifications are Coming Soon</string>
 
     <string name="e_toast_device_internet_error">இணைய இணைப்பு சரிபார்க்கவும்.</string>
     <string name="e_toast_request_submit_success">உங்கள் பரிவர்த்தனை டிக்கெட் கோரிக்கை வெற்றிகரமாக சமர்ப்பிக்கப்பட்டது.</string>

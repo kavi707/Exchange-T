@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     android:padding="16dp"
     android:background="@color/white"
+    android:focusableInTouchMode="true"
     tools:context="com.kavi.droid.exchange.activities.RegisterActivity">
 
     <ImageView

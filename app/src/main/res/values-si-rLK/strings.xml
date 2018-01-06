@@ -59,7 +59,7 @@
     <string name="e_label_i_have">හුවමාරුවට තිබේ</string>
     <string name="e_label_no_new_exchanges_msg">නව ටිකට් හුවමාරු නොමැත</string>
 
-    <string name="e_label_notifications_coming_soon">Notifications Coming Soon</string>
+    <string name="e_label_notifications_coming_soon">Notifications are Coming Soon</string>
 
     <string name="e_toast_device_internet_error">කරුණාකර අන්තර්ජාල සම්බන්ධතාව පරීක්ෂා කරන්න.</string>
     <string name="e_toast_request_submit_success">ඔබගේ ටිකට් හුවමාරු පත්රය සාර්ථකව ඉදිරිපත් කරන ලදි.</string>

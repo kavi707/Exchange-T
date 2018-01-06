@@ -94,7 +94,7 @@
     <string name="e_label_i_have">Have</string>
     <string name="e_label_no_new_exchanges_msg">No new ticket exchanges available</string>
 
-    <string name="e_label_notifications_coming_soon">Notifications Coming Soon</string>
+    <string name="e_label_notifications_coming_soon">Notifications are Coming Soon</string>
 
     <string name="e_toast_device_internet_error">Please check device Internet connection.</string>
     <string name="e_toast_request_submit_success">Successfully submitted your Exchange Ticket request.</string>

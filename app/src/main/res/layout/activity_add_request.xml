@@ -66,6 +66,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignStart="@+id/profilePicImageView"
                 android:layout_below="@+id/profilePicImageView"
+                android:focusableInTouchMode="true"
                 android:layout_marginRight="20dp"
                 android:layout_marginTop="20dp">
 
