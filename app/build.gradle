@@ -2,6 +2,20 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 
 android {
+    signingConfigs {
+        prodRelease {
+            keyAlias 'EXCHANGER'
+            keyPassword 'ex123#'
+            storeFile file('keystore/exchanger-sign-key.jks')
+            storePassword 'ex123#'
+        }
+        devRelease {
+            keyAlias 'androiddebugkey'
+            storeFile file('keystore/debug.keystore')
+            keyPassword 'android'
+            storePassword 'android'
+        }
+    }
     compileSdkVersion 27
     buildToolsVersion "27.0.1"
     defaultConfig {
@@ -35,14 +49,22 @@ android {
         }
     }
     productFlavors {
+        def prodSign = signingConfigs.prodRelease
+        def devSign = signingConfigs.devRelease
         prod {
+            signingConfig prodSign
             // Prod server
             buildConfigField "String", "SERVER_URL", '"http://18.217.205.19:8000"'
         }
         dev {
+            signingConfig devSign
             // Dev server
             buildConfigField "String", "SERVER_URL", '"http://13.59.85.152:8000"'
         }
+    }
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
     }
     useLibrary 'org.apache.http.legacy'
 }
