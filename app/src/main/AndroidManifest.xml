@@ -59,11 +59,11 @@
         <activity
             android:name=".activities.LandingActivity"
             android:theme="@style/AppTheme"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize|adjustPan"/>
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
         <activity android:name=".activities.RegisterActivity"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize|adjustPan"/>
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
         <activity android:name=".activities.AddRequestActivity"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize|adjustPan"/>
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
         <activity android:name=".activities.TicketRequestDetailActivity" />
     </application>
 
