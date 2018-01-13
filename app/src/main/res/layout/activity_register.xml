@@ -1,100 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
     android:background="@color/white"
     android:focusableInTouchMode="true"
+    android:padding="16dp"
     tools:context="com.kavi.droid.exchange.activities.RegisterActivity">
 
-    <ImageView
-        android:src="@drawable/e_app_icon_name"
-        android:gravity="center"
-        android:layout_above="@+id/firstNameEditText"
-        android:layout_marginBottom="40dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/firstNameEditText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:backgroundTint="@color/colorPrimary"
-        android:hint="@string/e_hint_first_name"
-        android:textColor="@color/colorPrimary"
-        android:textColorHint="@color/i_have"
-        android:gravity="center"
-        android:layout_above="@+id/lastNameEditText"
-        android:layout_marginBottom="20dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/lastNameEditText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:backgroundTint="@color/colorPrimary"
-        android:textColor="@color/colorPrimary"
-        android:textColorHint="@color/i_have"
-        android:hint="@string/e_hint_last_name"
-        android:gravity="center"
-        android:layout_above="@+id/emailEditText"
-        android:layout_marginBottom="20dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="40dp"
+                android:gravity="center"
+                android:src="@drawable/e_app_icon_name" />
 
-    <EditText
-        android:id="@+id/emailEditText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="@string/e_hint_email"
-        android:backgroundTint="@color/colorPrimary"
-        android:textColor="@color/colorPrimary"
-        android:textColorHint="@color/i_have"
-        android:gravity="center"
-        android:inputType="textEmailAddress"
-        android:layout_above="@+id/numberEditText"
-        android:layout_marginBottom="20dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true" />
+            <EditText
+                android:id="@+id/firstNameEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:backgroundTint="@color/colorPrimary"
+                android:ems="10"
+                android:gravity="center"
+                android:hint="@string/e_hint_first_name"
+                android:inputType="textPersonName"
+                android:textColor="@color/colorPrimary"
+                android:textColorHint="@color/i_have" />
 
-    <EditText
-        android:id="@+id/numberEditText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="@string/e_hint_phone_number"
-        android:textColor="@color/colorPrimary"
-        android:textColorHint="@color/i_have"
-        android:gravity="center"
-        android:inputType="phone"
-        android:backgroundTint="@color/colorPrimary"
-        android:layout_above="@+id/saveDataBtn"
-        android:layout_marginBottom="40dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true" />
+            <EditText
+                android:id="@+id/lastNameEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:backgroundTint="@color/colorPrimary"
+                android:ems="10"
+                android:gravity="center"
+                android:hint="@string/e_hint_last_name"
+                android:inputType="textPersonName"
+                android:textColor="@color/colorPrimary"
+                android:textColorHint="@color/i_have" />
 
-    <Button
-        android:id="@+id/saveDataBtn"
-        android:background="@drawable/style_border_square_b"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="30dp"
-        android:text="@string/e_label_register"
-        android:textSize="18dp"
-        android:textStyle="bold"
-        android:textColor="@color/colorPrimary"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true" />
+            <EditText
+                android:id="@+id/emailEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:backgroundTint="@color/colorPrimary"
+                android:ems="10"
+                android:gravity="center"
+                android:hint="@string/e_hint_email"
+                android:inputType="textEmailAddress"
+                android:textColor="@color/colorPrimary"
+                android:textColorHint="@color/i_have" />
+
+            <EditText
+                android:id="@+id/numberEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="40dp"
+                android:backgroundTint="@color/colorPrimary"
+                android:ems="10"
+                android:gravity="center"
+                android:hint="@string/e_hint_phone_number"
+                android:inputType="phone"
+                android:textColor="@color/colorPrimary"
+                android:textColorHint="@color/i_have" />
+
+            <Button
+                android:id="@+id/saveDataBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp"
+                android:background="@drawable/style_border_square_b"
+                android:text="@string/e_label_register"
+                android:textColor="@color/colorPrimary"
+                android:textSize="18dp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </ScrollView>
 </RelativeLayout>

@@ -10,6 +10,7 @@
     <string name="e_label_submit">ඉදිරිපත් කරන්න</string>
     <string name="e_label_save">සුරකින්න</string>
     <string name="e_label_cancel">අවලංගු කරන්න</string>
+    <string name="e_label_reset">නැවත පිහිටුවන්න</string>
     <string name="e_label_delete">මකන්න</string>
     <string name="e_label_keep">තබා ගන්න</string>
 

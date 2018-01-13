@@ -10,6 +10,7 @@
     <string name="e_label_submit">சமர்ப்பி</string>
     <string name="e_label_save">சேமி</string>
     <string name="e_label_cancel">ரத்து</string>
+    <string name="e_label_reset">மீட்டமை</string>
     <string name="e_label_delete">அழி</string>
     <string name="e_label_keep">வை</string>
 

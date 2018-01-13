@@ -45,6 +45,7 @@
     <string name="e_label_submit">Submit</string>
     <string name="e_label_save">Save</string>
     <string name="e_label_cancel">Cancel</string>
+    <string name="e_label_reset">Reset</string>
     <string name="e_label_delete">Delete</string>
     <string name="e_label_keep">Keep</string>
 

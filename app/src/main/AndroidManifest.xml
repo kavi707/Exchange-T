@@ -58,9 +58,12 @@
         <activity android:name=".activities.SignInActivity" />
         <activity
             android:name=".activities.LandingActivity"
-            android:theme="@style/AppTheme" />
-        <activity android:name=".activities.RegisterActivity"/>
-        <activity android:name=".activities.AddRequestActivity" />
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize|adjustPan"/>
+        <activity android:name=".activities.RegisterActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize|adjustPan"/>
+        <activity android:name=".activities.AddRequestActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize|adjustPan"/>
         <activity android:name=".activities.TicketRequestDetailActivity" />
     </application>
 

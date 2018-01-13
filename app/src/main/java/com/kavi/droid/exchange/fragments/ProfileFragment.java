@@ -105,7 +105,7 @@ public class ProfileFragment extends Fragment {
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getActivity().onBackPressed();
+                loadDataFromPreferences();
             }
         });
     }
