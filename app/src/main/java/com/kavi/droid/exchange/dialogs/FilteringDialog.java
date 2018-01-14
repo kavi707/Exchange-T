@@ -132,7 +132,7 @@ public class FilteringDialog extends Dialog {
                 String ticketToDateString = ticketToDateTextView.getText().toString();
 
                 FilterTicketReq filterTicketReq = new FilterTicketReq();
-                if (!qty.equals("Select Qty")) {
+                if (!qty.equals("Select Quantity")) {
                     int ticketQty = Integer.parseInt(qty);
                     filterTicketReq.setQtyFilter(ticketQty);
                 } else {

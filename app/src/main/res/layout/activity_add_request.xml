@@ -150,7 +150,7 @@
 
                     <TextView
                         android:id="@+id/midTexView"
-                        android:layout_width="40dp"
+                        android:layout_width="15dp"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
                         android:layout_centerVertical="true" />

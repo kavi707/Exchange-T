@@ -269,7 +269,7 @@ public class AddRequestActivity extends ExchangeBaseActivity {
                     ticketRequest.setEmail(email);
                     ticketRequest.setTicketStatus(TicketRequest.AVAILABLE);
 
-                    if (!qty.equals("Select Qty")) {
+                    if (!qty.equals("Select Quantity")) {
                         int ticketQty = Integer.parseInt(qty);
                         ticketRequest.setQty(ticketQty);
                     }
@@ -359,7 +359,7 @@ public class AddRequestActivity extends ExchangeBaseActivity {
             return false;
         }
 
-        if (qty.equals("Select Qty")) {
+        if (qty.equals("Select Quantity")) {
             return false;
         }
 

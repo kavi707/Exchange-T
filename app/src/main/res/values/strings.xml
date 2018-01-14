@@ -22,7 +22,7 @@
     </string-array>
 
     <string-array name="tickets_qty_array">
-        <item>Select Qty</item>
+        <item>Select Quantity</item>
         <item>01</item>
         <item>02</item>
         <item>03</item>

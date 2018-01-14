@@ -260,7 +260,7 @@ public class CommonUtils {
 
         List<String> qtyList = new ArrayList<>();
 
-        qtyList.add("Select Qty");
+        qtyList.add("Select Quantity");
         qtyList.add("01");
         qtyList.add("02");
         qtyList.add("03");
