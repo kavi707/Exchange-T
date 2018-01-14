@@ -33,17 +33,32 @@
                 android:layout_below="@+id/ticketsInfoTextView"
                 android:layout_marginTop="20dp">
 
-                <TextView
-                    android:id="@+id/ticketFromDateTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:textColor="@color/white"
-                    android:textColorHint="@color/white"
+                <LinearLayout
+                    android:id="@+id/fromDateLinearLayout"
+                    android:orientation="horizontal"
                     android:layout_marginLeft="20dp"
-                    android:hint="@string/e_hint_from_date"
-                    android:textStyle="bold"
-                    android:textSize="16dp" />
+                    android:gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:src="@drawable/e_calendar_icon"
+                        android:layout_width="14dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="3dp"/>
+
+                    <TextView
+                        android:id="@+id/ticketFromDateTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white"
+                        android:hint="@string/e_hint_from_date"
+                        android:textStyle="bold"
+                        android:textSize="16dp" />
+
+                </LinearLayout>
 
                 <TextView
                     android:text="--"
@@ -54,18 +69,33 @@
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"/>
 
-                <TextView
-                    android:id="@+id/ticketToDateTextView"
+                <LinearLayout
+                    android:id="@+id/toDataLinearLayout"
+                    android:orientation="horizontal"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="20dp"
-                    android:textColor="@color/white"
-                    android:textColorHint="@color/grey"
-                    android:hint="@string/e_hint_to_date"
-                    android:textStyle="bold"
-                    android:textSize="16dp" />
+                    android:layout_marginRight="20dp">
+
+                    <ImageView
+                        android:src="@drawable/e_calendar_icon"
+                        android:layout_width="14dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="3dp"/>
+
+                    <TextView
+                        android:id="@+id/ticketToDateTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/grey"
+                        android:hint="@string/e_hint_to_date"
+                        android:textStyle="bold"
+                        android:textSize="16dp" />
+
+                </LinearLayout>
 
             </RelativeLayout>
 
