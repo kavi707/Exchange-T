@@ -41,14 +41,11 @@ import com.kavi.droid.exchange.services.connections.exceptions.ExUnAuthorizedExc
 import com.kavi.droid.exchange.services.sharedPreferences.SharedPreferenceManager;
 import com.kavi.droid.exchange.utils.CommonUtils;
 import com.kavi.droid.exchange.utils.NavigationUtil;
-import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import cz.msebera.android.httpclient.Header;
 
 /**
  * Created by kwijewardana on 9/14/17.
@@ -110,9 +107,9 @@ public class HomeFragment extends Fragment {
                 filterTicketRequest(SharedPreferenceManager.getLastFilterObject(getActivity()));
             } else {
                 if (isINeedSelected)
-                    updateTiketList(commonUtils.getINeedTicketList(filteredTicketRequestList));
+                    updateTicketList(commonUtils.getINeedTicketList(filteredTicketRequestList));
                 else
-                    updateTiketList(commonUtils.getIHaveTicketList(filteredTicketRequestList));
+                    updateTicketList(commonUtils.getIHaveTicketList(filteredTicketRequestList));
             }
         } else {
             ticketRequestList.clear();
@@ -185,7 +182,7 @@ public class HomeFragment extends Fragment {
                 iHaveBtn.setTypeface(Typeface.defaultFromStyle(Typeface.ITALIC));
                 filteredTicketRequestList.clear();
 
-                updateTiketList(commonUtils.getINeedTicketList(ticketRequestList));
+                updateTicketList(commonUtils.getINeedTicketList(ticketRequestList));
             }
         });
 
@@ -200,7 +197,7 @@ public class HomeFragment extends Fragment {
                 iHaveBtn.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD_ITALIC));
                 filteredTicketRequestList.clear();
 
-                updateTiketList(commonUtils.getIHaveTicketList(ticketRequestList));
+                updateTicketList(commonUtils.getIHaveTicketList(ticketRequestList));
             }
         });
     }
@@ -244,10 +241,11 @@ public class HomeFragment extends Fragment {
 
                                     if (ticketRequestList.size() > 0) {
                                         if (isINeedSelected)
-                                            updateTiketList(commonUtils.getINeedTicketList(ticketRequestList));
+                                            updateTicketList(commonUtils.getINeedTicketList(ticketRequestList));
                                         else
-                                            updateTiketList(commonUtils.getIHaveTicketList(ticketRequestList));
+                                            updateTicketList(commonUtils.getIHaveTicketList(ticketRequestList));
                                     } else {
+                                        ticketRequestListView.setVisibility(View.INVISIBLE);
                                         noContentRelativeLayout.setVisibility(View.VISIBLE);
                                         listErrorTextView.setText(getResources().getString(R.string.list_msg_issue));
                                     }
@@ -264,9 +262,11 @@ public class HomeFragment extends Fragment {
 
                                     if (throwable instanceof ExServerErrorException ||
                                             throwable instanceof ExNonSuccessException) {
+                                        ticketRequestListView.setVisibility(View.INVISIBLE);
                                         noContentRelativeLayout.setVisibility(View.VISIBLE);
                                         listErrorTextView.setText(getResources().getString(R.string.list_msg_issue));
                                     } else if (throwable instanceof ExNoInternetException) {
+                                        ticketRequestListView.setVisibility(View.INVISIBLE);
                                         noContentRelativeLayout.setVisibility(View.VISIBLE);
                                         listErrorTextView.setText(getResources().getString(R.string.list_msg_offline));
                                     } else if (throwable instanceof ExUnAuthorizedException) {
@@ -275,6 +275,7 @@ public class HomeFragment extends Fragment {
                                                 .finish()
                                                 .go();
                                     } else {
+                                        ticketRequestListView.setVisibility(View.INVISIBLE);
                                         noContentRelativeLayout.setVisibility(View.VISIBLE);
                                         listErrorTextView.setText(getResources().getString(R.string.list_msg_issue));
                                     }
@@ -285,13 +286,14 @@ public class HomeFragment extends Fragment {
                 }
             }).start();
         } else {
+            ticketRequestListView.setVisibility(View.INVISIBLE);
             noContentRelativeLayout.setVisibility(View.VISIBLE);
             listErrorTextView.setText(getResources().getString(R.string.list_msg_offline));
             Toast.makeText(getActivity(), getResources().getString(R.string.e_toast_device_internet_error), Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void updateTiketList(List<TicketRequest> ticketRequests) {
+    private void updateTicketList(List<TicketRequest> ticketRequests) {
 
         if (ticketRequests != null && ticketRequests.size() > 0) {
 
@@ -327,10 +329,11 @@ public class HomeFragment extends Fragment {
                 @Override
                 public void run() {
 
-                    new ApiCalls().filterTicketRequest(getActivity(), Constants.SYNC_METHOD, filterTicketReq, new JsonHttpResponseHandler() {
+                    new ApiCalls().filterTicketRequest(getActivity(), Constants.SYNC_METHOD, filterTicketReq,
+                            new ApiCallResponseHandler() {
 
                         @Override
-                        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                        public void onSuccess(int statusCode, JSONObject response) {
 
                             if (statusCode == 200) {
                                 filteredTicketRequestList.clear();
@@ -342,30 +345,32 @@ public class HomeFragment extends Fragment {
                                     public void run() {
                                         progress.dismiss();
                                         if (isINeedSelected)
-                                            updateTiketList(commonUtils.getINeedTicketList(filteredTicketRequestList));
+                                            updateTicketList(commonUtils.getINeedTicketList(filteredTicketRequestList));
                                         else
-                                            updateTiketList(commonUtils.getIHaveTicketList(filteredTicketRequestList));
+                                            updateTicketList(commonUtils.getIHaveTicketList(filteredTicketRequestList));
                                     }
                                 });
                             } else {
+                                ticketRequestListView.setVisibility(View.INVISIBLE);
                                 noContentRelativeLayout.setVisibility(View.VISIBLE);
                                 listErrorTextView.setText(getResources().getString(R.string.list_msg_issue));
                             }
                         }
 
                         @Override
-                        public void onFailure(final int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                        public void onNonSuccess(int statusCode, JSONObject response, final Throwable throwable) {
                             getActivity().runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
                                     progress.dismiss();
 
-                                    if (statusCode == 401) {
+                                    if (throwable instanceof ExUnAuthorizedException) {
                                         new NavigationUtil(getActivity())
                                                 .to(SignInActivity.class)
                                                 .finish()
                                                 .go();
                                     } else {
+                                        ticketRequestListView.setVisibility(View.INVISIBLE);
                                         noContentRelativeLayout.setVisibility(View.VISIBLE);
                                         listErrorTextView.setText(getResources().getString(R.string.list_msg_issue));
                                         Toast.makeText(getActivity(), getResources().getString(R.string.e_toast_common_service_error),
@@ -378,6 +383,7 @@ public class HomeFragment extends Fragment {
                 }
             }).start();
         } else {
+            ticketRequestListView.setVisibility(View.INVISIBLE);
             noContentRelativeLayout.setVisibility(View.VISIBLE);
             listErrorTextView.setText(getResources().getString(R.string.list_msg_offline));
             Toast.makeText(getActivity(), getResources().getString(R.string.e_toast_device_internet_error), Toast.LENGTH_SHORT).show();

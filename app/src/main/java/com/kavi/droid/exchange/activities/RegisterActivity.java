@@ -14,6 +14,7 @@ import com.kavi.droid.exchange.Constants;
 import com.kavi.droid.exchange.R;
 import com.kavi.droid.exchange.dialogs.LoadingProgressBarDialog;
 import com.kavi.droid.exchange.models.User;
+import com.kavi.droid.exchange.services.connections.ApiCallResponseHandler;
 import com.kavi.droid.exchange.services.connections.ApiCalls;
 import com.kavi.droid.exchange.services.sharedPreferences.SharedPreferenceManager;
 import com.kavi.droid.exchange.utils.CommonUtils;
@@ -83,10 +84,9 @@ public class RegisterActivity extends ExchangeBaseActivity {
                         @Override
                         public void run() {
 
-                            new ApiCalls().addNewUser(context, Constants.SYNC_METHOD, user, new JsonHttpResponseHandler() {
+                            new ApiCalls().addNewUser(context, Constants.SYNC_METHOD, user, new ApiCallResponseHandler() {
                                 @Override
-                                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-
+                                public void onSuccess(int statusCode, JSONObject response) {
                                     SharedPreferenceManager.setIsUserDataCaptured(context, true);
                                     SharedPreferenceManager.setLoggedUserName(context, firstNameEditText.getText().toString()
                                             + " " + lastNameEditText.getText().toString());
@@ -117,7 +117,7 @@ public class RegisterActivity extends ExchangeBaseActivity {
                                 }
 
                                 @Override
-                                public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                                public void onNonSuccess(int statusCode, JSONObject response, Throwable throwable) {
                                     runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
@@ -138,10 +138,10 @@ public class RegisterActivity extends ExchangeBaseActivity {
 
     private void generateAuthToken(String username, String password) {
 
-        new ApiCalls().generateAuthToken(Constants.SYNC_METHOD, username, password, new JsonHttpResponseHandler(){
+        new ApiCalls().generateAuthToken(Constants.SYNC_METHOD, username, password, new ApiCallResponseHandler(){
 
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+            public void onSuccess(int statusCode, JSONObject response) {
 
                 if (statusCode == 200) {
                     try {
@@ -159,14 +159,6 @@ public class RegisterActivity extends ExchangeBaseActivity {
                         e.printStackTrace();
                     }
                 }
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                super.onFailure(statusCode, headers, throwable, errorResponse);
-
-                Toast.makeText(context, getResources().getString(R.string.e_toast_user_registration_error), Toast.LENGTH_LONG).show();
-                progress.dismiss();
             }
         });
     }

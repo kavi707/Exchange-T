@@ -19,6 +19,7 @@ import com.kavi.droid.exchange.Constants;
 import com.kavi.droid.exchange.R;
 import com.kavi.droid.exchange.activities.LandingActivity;
 import com.kavi.droid.exchange.dialogs.LoadingProgressBarDialog;
+import com.kavi.droid.exchange.services.connections.ApiCallResponseHandler;
 import com.kavi.droid.exchange.services.connections.ApiCalls;
 import com.kavi.droid.exchange.services.connections.dto.UpdateUserAdditionDataReq;
 import com.kavi.droid.exchange.services.connections.dto.UpdateUserReq;
@@ -234,9 +235,9 @@ public class ProfileFragment extends Fragment {
                 public void run() {
                     new ApiCalls().updateUser(getActivity(), Constants.SYNC_METHOD,
                             SharedPreferenceManager.getUserId(getActivity()), updateUserReq,
-                            new JsonHttpResponseHandler() {
+                            new ApiCallResponseHandler() {
                                 @Override
-                                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                                public void onSuccess(int statusCode, JSONObject response) {
 
                                     SharedPreferenceManager.setLoggedUserName(getActivity(), newName);
                                     SharedPreferenceManager.setLoggedUserEmail(getActivity(), newEmail);
@@ -253,7 +254,7 @@ public class ProfileFragment extends Fragment {
                                 }
 
                                 @Override
-                                public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                                public void onNonSuccess(int statusCode, JSONObject response, final Throwable throwable) {
                                     getActivity().runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {

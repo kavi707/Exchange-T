@@ -19,6 +19,7 @@ import com.kavi.droid.exchange.Constants;
 import com.kavi.droid.exchange.R;
 import com.kavi.droid.exchange.dialogs.LoadingProgressBarDialog;
 import com.kavi.droid.exchange.models.User;
+import com.kavi.droid.exchange.services.connections.ApiCallResponseHandler;
 import com.kavi.droid.exchange.services.connections.ApiCalls;
 import com.kavi.droid.exchange.services.loginManagers.FBManager;
 import com.kavi.droid.exchange.services.sharedPreferences.SharedPreferenceManager;
@@ -117,9 +118,9 @@ public class SignInActivity extends ExchangeBaseActivity {
                 @Override
                 public void run() {
 
-                    new ApiCalls().getUserFromFBId(Constants.SYNC_METHOD, appUser.getFbUserId(), new JsonHttpResponseHandler() {
+                    new ApiCalls().getUserFromFBId(Constants.SYNC_METHOD, appUser.getFbUserId(), new ApiCallResponseHandler() {
                         @Override
-                        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                        public void onSuccess(int statusCode, JSONObject response) {
 
                             if (statusCode == 200) {
                                 persistUser(response);
@@ -146,8 +147,7 @@ public class SignInActivity extends ExchangeBaseActivity {
                         }
 
                         @Override
-                        public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                            super.onFailure(statusCode, headers, throwable, errorResponse);
+                        public void onNonSuccess(int statusCode, JSONObject response, Throwable throwable) {
 
                             final int getStatusCode = statusCode;
                             runOnUiThread(new Runnable() {
@@ -207,10 +207,10 @@ public class SignInActivity extends ExchangeBaseActivity {
 
     private void generateAuthToken(String username, String password) {
 
-        new ApiCalls().generateAuthToken(Constants.SYNC_METHOD, username, password, new JsonHttpResponseHandler(){
+        new ApiCalls().generateAuthToken(Constants.SYNC_METHOD, username, password, new ApiCallResponseHandler(){
 
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+            public void onSuccess(int statusCode, JSONObject response) {
 
                 if (statusCode == 200) {
                     try {
@@ -231,7 +231,7 @@ public class SignInActivity extends ExchangeBaseActivity {
             }
 
             @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+            public void onNonSuccess(int statusCode, JSONObject response, Throwable throwable) {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -249,15 +249,15 @@ public class SignInActivity extends ExchangeBaseActivity {
 
         new ApiCalls().submitPushToken(context, Constants.ASYNC_METHOD, fbUserId,
                 SharedPreferenceManager.getFCMPushToken(context),
-                new JsonHttpResponseHandler(){
+                new ApiCallResponseHandler(){
                     @Override
-                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                        super.onSuccess(statusCode, headers, response);
+                    public void onSuccess(int statusCode, JSONObject response) {
+                        // Push Token submitted successfully.
                     }
 
                     @Override
-                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                        super.onFailure(statusCode, headers, throwable, errorResponse);
+                    public void onNonSuccess(int statusCode, JSONObject response, final Throwable throwable) {
+                        super.onNonSuccess(statusCode, response, throwable);
                     }
                 });
     }

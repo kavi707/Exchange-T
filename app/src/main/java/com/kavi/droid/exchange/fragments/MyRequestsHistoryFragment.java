@@ -22,6 +22,7 @@ import com.kavi.droid.exchange.R;
 import com.kavi.droid.exchange.activities.LandingActivity;
 import com.kavi.droid.exchange.activities.TicketRequestDetailActivity;
 import com.kavi.droid.exchange.adapters.RequestItemAdapter;
+import com.kavi.droid.exchange.services.connections.ApiCallResponseHandler;
 import com.kavi.droid.exchange.utils.CommonDialogBuilderUtil;
 import com.kavi.droid.exchange.dialogs.LoadingProgressBarDialog;
 import com.kavi.droid.exchange.models.TicketRequest;
@@ -152,10 +153,10 @@ public class MyRequestsHistoryFragment extends Fragment {
     }
 
     private void getMyTicketRequest() {
-        new ApiCalls().getMyTicketRequests(getActivity(), Constants.SYNC_METHOD, new JsonHttpResponseHandler(){
+        new ApiCalls().getMyTicketRequests(getActivity(), Constants.SYNC_METHOD, new ApiCallResponseHandler(){
 
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+            public void onSuccess(int statusCode, JSONObject response) {
 
                 if (statusCode == 200) {
                     myTicketRequestList = commonUtils.getTicketRequestList(response);
@@ -187,7 +188,7 @@ public class MyRequestsHistoryFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+            public void onNonSuccess(int statusCode, JSONObject response, final Throwable throwable) {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -215,9 +216,9 @@ public class MyRequestsHistoryFragment extends Fragment {
                 public void run() {
 
                     new ApiCalls().deleteMyTicketRequestFromId(getActivity(), Constants.SYNC_METHOD, ticketReqId,
-                            new JsonHttpResponseHandler() {
+                            new ApiCallResponseHandler() {
                                 @Override
-                                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                                public void onSuccess(int statusCode, JSONObject response) {
 
                                     getActivity().runOnUiThread(new Runnable() {
                                         @Override
@@ -232,7 +233,7 @@ public class MyRequestsHistoryFragment extends Fragment {
                                 }
 
                                 @Override
-                                public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                                public void onNonSuccess(int statusCode, JSONObject response, final Throwable throwable) {
                                     getActivity().runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {

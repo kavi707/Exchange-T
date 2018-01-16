@@ -9,6 +9,7 @@ import android.widget.Toast;
 import com.google.android.gms.ads.MobileAds;
 import com.kavi.droid.exchange.Constants;
 import com.kavi.droid.exchange.R;
+import com.kavi.droid.exchange.services.connections.ApiCallResponseHandler;
 import com.kavi.droid.exchange.services.connections.ApiCalls;
 import com.kavi.droid.exchange.services.sharedPreferences.SharedPreferenceManager;
 import com.kavi.droid.exchange.utils.CommonUtils;
@@ -55,9 +56,9 @@ public class SplashActivity extends ExchangeBaseActivity {
                     @Override
                     public void run() {
                         new ApiCalls().checkCurrentTokenStatus(context, Constants.SYNC_METHOD,
-                                new JsonHttpResponseHandler() {
+                                new ApiCallResponseHandler() {
                                     @Override
-                                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                                    public void onSuccess(int statusCode, JSONObject response) {
                                         if (statusCode == 200) {
                                             List<Integer> flags = new ArrayList<>();
                                             flags.add(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -87,7 +88,7 @@ public class SplashActivity extends ExchangeBaseActivity {
                                     }
 
                                     @Override
-                                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                                    public void onNonSuccess(int statusCode, JSONObject response, final Throwable throwable) {
                                         // Logout from application - clear all persist data
                                         commonUtils.logoutApplication(context, true);
 

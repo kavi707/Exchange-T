@@ -55,11 +55,13 @@ public class ApiCalls {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                Log.d(TAG, "getJsonHttpResponseHandler: onSuccess: responseJsonString -> " + response.toString());
                 apiCallResponseHandler.onSuccess(statusCode, response);
             }
 
             @Override
             public void onFailure(final int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                Log.d(TAG, "getJsonHttpResponseHandler: onFailure: errorResponseJsonString -> " + errorResponse.toString());
 
                 Throwable connectionThrowable;
 
@@ -87,7 +89,7 @@ public class ApiCalls {
         return responseHandler;
     }
 
-    public void addNewUser(Context context, String taskMethod, User user, JsonHttpResponseHandler responseHandler) {
+    public void addNewUser(Context context, String taskMethod, User user, ApiCallResponseHandler apiCallResponseHandler) {
 
         String url = Constants.BASE_URL + Constants.ADD_USER;
         Log.d(TAG, "addNewUser: POST: url -> " + url);
@@ -110,6 +112,8 @@ public class ApiCalls {
             String reqJsonString = reqObj.toString();
             Log.d(TAG, "addNewUser: reqJsonString -> " + reqJsonString);
 
+            JsonHttpResponseHandler responseHandler = getJsonHttpResponseHandler(apiCallResponseHandler);
+
             if (taskMethod.equals(Constants.SYNC_METHOD)) {
                 syncHttpClient.post(context, url, new StringEntity(reqJsonString), APPLICATION_JSON, responseHandler);
             } else if (taskMethod.equals(Constants.ASYNC_METHOD)) {
@@ -121,13 +125,14 @@ public class ApiCalls {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-
     }
 
-    public void getUserFromFBId(String taskMethod, String fbUserId, JsonHttpResponseHandler responseHandler) {
+    public void getUserFromFBId(String taskMethod, String fbUserId, ApiCallResponseHandler apiCallResponseHandler) {
 
         String url = Constants.BASE_URL + Constants.GET_FB_USER + fbUserId;
         Log.d(TAG, "getUserFromFBId: GET: url -> " + url);
+
+        JsonHttpResponseHandler responseHandler = getJsonHttpResponseHandler(apiCallResponseHandler);
 
         if (taskMethod.equals(Constants.SYNC_METHOD))
             syncHttpClient.get(url, null, responseHandler);
@@ -136,7 +141,7 @@ public class ApiCalls {
         }
     }
 
-    public void generateAuthToken(String taskMethod, String username, String password, JsonHttpResponseHandler responseHandler) {
+    public void generateAuthToken(String taskMethod, String username, String password, ApiCallResponseHandler apiCallResponseHandler) {
 
         String url = Constants.BASE_URL + Constants.GENERATE_AUTH_TOKEN;
         Log.d(TAG, "generateAuthToken: POST: url -> " + url);
@@ -147,6 +152,8 @@ public class ApiCalls {
         requestParams.put("password", password);
         Log.d(TAG, "addNewUser: requestParams -> " + requestParams.toString());
 
+        JsonHttpResponseHandler responseHandler = getJsonHttpResponseHandler(apiCallResponseHandler);
+
         if (taskMethod.equals(Constants.SYNC_METHOD)) {
             syncHttpClient.post(url, requestParams, responseHandler);
         } else if (taskMethod.equals(Constants.ASYNC_METHOD)) {
@@ -155,7 +162,7 @@ public class ApiCalls {
     }
 
     public void createTicketRequest(Context context, String taskMethod, TicketRequest ticketRequest,
-                                    JsonHttpResponseHandler responseHandler) {
+                                    ApiCallResponseHandler apiCallResponseHandler) {
 
         String url = Constants.BASE_URL + Constants.ADD_TICKET_REQUEST;
         Log.d(TAG, "createTicketRequest: POST: url -> " + url);
@@ -181,6 +188,8 @@ public class ApiCalls {
 
             String reqJsonString = reqObj.toString();
             Log.d(TAG, "createTicketRequest: reqJsonString -> " + reqJsonString);
+
+            JsonHttpResponseHandler responseHandler = getJsonHttpResponseHandler(apiCallResponseHandler);
 
             if (taskMethod.equals(Constants.SYNC_METHOD)) {
                 syncHttpClient.addHeader(HEADER_AUTHORIZATION, authToken);
@@ -219,7 +228,7 @@ public class ApiCalls {
         }
     }
 
-    public void getMyTicketRequests(Context context, String taskMethod, JsonHttpResponseHandler responseHandler) {
+    public void getMyTicketRequests(Context context, String taskMethod, ApiCallResponseHandler apiCallResponseHandler) {
 
         String fbUserId = SharedPreferenceManager.getFBUserId(context);
 
@@ -228,6 +237,7 @@ public class ApiCalls {
         Log.d(TAG, "getMyTicketRequests: GET: url -> " + url);
 
         String authToken = SharedPreferenceManager.getNodegridAuthToken(context);
+        JsonHttpResponseHandler responseHandler = getJsonHttpResponseHandler(apiCallResponseHandler);
 
         if (taskMethod.equals(Constants.SYNC_METHOD)) {
             syncHttpClient.addHeader(HEADER_AUTHORIZATION, authToken);
@@ -238,7 +248,7 @@ public class ApiCalls {
         }
     }
 
-    public void submitPushToken(Context context, String taskMethod, String userId, String pushToken, JsonHttpResponseHandler responseHandler) {
+    public void submitPushToken(Context context, String taskMethod, String userId, String pushToken, ApiCallResponseHandler apiCallResponseHandler) {
 
         String url = Constants.BASE_URL + Constants.SUBMIT_FCM_PUSH_TOKEN;
         Log.d(TAG, "submitPushToken: POST: url -> " + url);
@@ -258,6 +268,7 @@ public class ApiCalls {
             Log.d(TAG, "submitPushToken: reqJsonString -> " + reqJsonString);
 
             String authToken = SharedPreferenceManager.getNodegridAuthToken(context);
+            JsonHttpResponseHandler responseHandler = getJsonHttpResponseHandler(apiCallResponseHandler);
 
             if (taskMethod.equals(Constants.SYNC_METHOD)) {
                 asyncHttpClient.addHeader(HEADER_AUTHORIZATION, authToken);
@@ -274,13 +285,15 @@ public class ApiCalls {
         }
     }
 
-    public void checkCurrentTokenStatus(Context context, String taskMethod, JsonHttpResponseHandler responseHandler) {
+    public void checkCurrentTokenStatus(Context context, String taskMethod, ApiCallResponseHandler apiCallResponseHandler) {
 
         String authToken = SharedPreferenceManager.getNodegridAuthToken(context);
 
         String url = Constants.BASE_URL + Constants.CHECK_ACCESS_TOKEN_STATUS +
                 "/" + authToken;
         Log.d(TAG, "checkCurrentTokenStatus: GET: url -> " + url);
+
+        JsonHttpResponseHandler responseHandler = getJsonHttpResponseHandler(apiCallResponseHandler);
 
         if (taskMethod.equals(Constants.SYNC_METHOD)) {
             syncHttpClient.get(url, null, responseHandler);
@@ -289,7 +302,8 @@ public class ApiCalls {
         }
     }
 
-    public void filterTicketRequest(Context context, String taskMethod, FilterTicketReq filterTicketReq, JsonHttpResponseHandler responseHandler) {
+    public void filterTicketRequest(Context context, String taskMethod, FilterTicketReq filterTicketReq,
+                                    ApiCallResponseHandler apiCallResponseHandler) {
 
         String url = Constants.BASE_URL + Constants.GET_FILTER_TICKET_REQUEST;
         Log.d(TAG, "filterTicketRequest: POST: url -> " + url);
@@ -318,6 +332,7 @@ public class ApiCalls {
             Log.d(TAG, "filterTicketRequest: reqJsonString -> " + reqJsonString);
 
             String authToken = SharedPreferenceManager.getNodegridAuthToken(context);
+            JsonHttpResponseHandler responseHandler = getJsonHttpResponseHandler(apiCallResponseHandler);
 
             if (taskMethod.equals(Constants.SYNC_METHOD)) {
                 syncHttpClient.addHeader(HEADER_AUTHORIZATION, authToken);
@@ -335,13 +350,14 @@ public class ApiCalls {
     }
 
     public void deleteMyTicketRequestFromId(Context context, String taskMethod, String requestId,
-                                            JsonHttpResponseHandler responseHandler) {
+                                            ApiCallResponseHandler apiCallResponseHandler) {
 
         String url = Constants.BASE_URL + Constants.DELETE_TICKET_REQUEST +
                 "/" + requestId;
         Log.d(TAG, "deleteMyTicketRequestFromId: DELETE: url -> " + url);
 
         String authToken = SharedPreferenceManager.getNodegridAuthToken(context);
+        JsonHttpResponseHandler responseHandler = getJsonHttpResponseHandler(apiCallResponseHandler);
 
         if (taskMethod.equals(Constants.SYNC_METHOD)) {
             syncHttpClient.addHeader(HEADER_AUTHORIZATION, authToken);
@@ -353,7 +369,7 @@ public class ApiCalls {
     }
 
     public void updateUser(Context context, String taskMethod, String userId, UpdateUserReq updateUserReq,
-                           JsonHttpResponseHandler responseHandler) {
+                           ApiCallResponseHandler apiCallResponseHandler) {
 
         String url = Constants.BASE_URL + Constants.UPDATE_USER +
                 "/" + userId;
@@ -382,6 +398,7 @@ public class ApiCalls {
             }
 
             String authToken = SharedPreferenceManager.getNodegridAuthToken(context);
+            JsonHttpResponseHandler responseHandler = getJsonHttpResponseHandler(apiCallResponseHandler);
 
             String reqJsonString = reqObj.toString();
             Log.d(TAG, "updateUser: reqJsonString -> " + reqJsonString);
@@ -401,7 +418,7 @@ public class ApiCalls {
     }
 
     public void updateTicketStatus(Context context, String taskMethod, String ticketId, int newStatus,
-                                   JsonHttpResponseHandler responseHandler) {
+                                   ApiCallResponseHandler apiCallResponseHandler) {
 
         String url = Constants.BASE_URL + Constants.UPDATE_TICKET_REQUEST +
                 "/" + ticketId;
@@ -414,6 +431,7 @@ public class ApiCalls {
             reqObj.put("ticketStatus", newStatus);
 
             String authToken = SharedPreferenceManager.getNodegridAuthToken(context);
+            JsonHttpResponseHandler responseHandler = getJsonHttpResponseHandler(apiCallResponseHandler);
 
             String reqJsonString = reqObj.toString();
             Log.d(TAG, "updateTicketStatus: reqJsonString -> " + reqJsonString);

@@ -29,6 +29,7 @@ import com.kavi.droid.exchange.R;
 import com.kavi.droid.exchange.dialogs.LoadingProgressBarDialog;
 import com.kavi.droid.exchange.models.EmailData;
 import com.kavi.droid.exchange.models.TicketRequest;
+import com.kavi.droid.exchange.services.connections.ApiCallResponseHandler;
 import com.kavi.droid.exchange.services.connections.ApiCalls;
 import com.kavi.droid.exchange.services.imageLoader.ImageLoadingManager;
 import com.kavi.droid.exchange.services.sharedPreferences.SharedPreferenceManager;
@@ -320,9 +321,9 @@ public class TicketRequestDetailActivity extends ExchangeBaseActivity {
                 @Override
                 public void run() {
                     new ApiCalls().updateTicketStatus(context, Constants.SYNC_METHOD, ticketRequest.getId(),
-                            newTicketStatus, new JsonHttpResponseHandler(){
+                            newTicketStatus, new ApiCallResponseHandler(){
                                 @Override
-                                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                                public void onSuccess(int statusCode, JSONObject response) {
                                     runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
@@ -332,7 +333,7 @@ public class TicketRequestDetailActivity extends ExchangeBaseActivity {
                                 }
 
                                 @Override
-                                public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                                public void onNonSuccess(int statusCode, JSONObject response, final Throwable throwable) {
                                     runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
