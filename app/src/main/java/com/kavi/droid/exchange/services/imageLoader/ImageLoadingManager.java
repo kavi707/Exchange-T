@@ -10,6 +10,7 @@ import android.os.AsyncTask;
 import android.widget.ImageView;
 
 import com.kavi.droid.exchange.utils.CommonUtils;
+import com.squareup.picasso.Picasso;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -25,7 +26,6 @@ public class ImageLoadingManager {
     private Context context;
     private String selectedImageUrl;
     private ImageView selectedImageView;
-    private boolean isRoundImage;
     private CommonUtils commonUtils = new CommonUtils();
 
     public ImageLoadingManager(Context context) {
@@ -42,74 +42,20 @@ public class ImageLoadingManager {
     public void loadImageToImageView (String imageUrl, ImageView imageView, boolean isRoundImage) {
         this.selectedImageUrl = imageUrl;
         this.selectedImageView = imageView;
-        this.isRoundImage = isRoundImage;
 
         if (selectedImageUrl != null && selectedImageView != null && commonUtils.isOnline(context)) {
-            new LoadImageTask().execute();
-        }
-    }
-
-    /**
-     * AsyncTask loadImageTask
-     * This load the image recipe from given url in background
-     */
-    private class LoadImageTask extends AsyncTask<Void, Void, Bitmap> {
-
-        @Override
-        protected Bitmap doInBackground(Void... voids) {
-            Bitmap bmp = null;
-            try {
-                URL url = new URL(selectedImageUrl);
-                bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            return bmp;
-        }
-
-        @Override
-        protected void onPostExecute(Bitmap bitmap) {
-            super.onPostExecute(bitmap);
             if (isRoundImage) {
-                selectedImageView.setImageBitmap(getRoundedShape(bitmap));
+                Picasso.with(context)
+                        .load(selectedImageUrl)
+                        .transform(new CircleTransform())
+                        .into(selectedImageView);
             } else {
-                selectedImageView.setImageBitmap(bitmap);
+                Picasso.with(context)
+                        .load(selectedImageUrl)
+                        .transform(new RoundedCornersTransform())
+                        .into(selectedImageView);
             }
-        }
 
-        /**
-         * Convert bitmap into round shape
-         * @param scaleBitmapImage
-         * @return Bitmap object
-         */
-        public Bitmap getRoundedShape(Bitmap scaleBitmapImage) {
-            int targetWidth = 125;
-            int targetHeight = 125;
-            Bitmap targetBitmap = Bitmap.createBitmap(targetWidth,
-                    targetHeight, Bitmap.Config.ARGB_8888);
-
-            Canvas canvas = new Canvas(targetBitmap);
-            Path path = new Path();
-            path.addCircle(((float) targetWidth - 1) / 2,
-                    ((float) targetHeight - 1) / 2,
-                    (Math.min(((float) targetWidth),
-                            ((float) targetHeight)) / 2),
-                    Path.Direction.CCW);
-
-            canvas.clipPath(path);
-            Bitmap sourceBitmap = scaleBitmapImage;
-            if (sourceBitmap != null) {
-                canvas.drawBitmap(sourceBitmap,
-                        new Rect(0, 0, sourceBitmap.getWidth(),
-                                sourceBitmap.getHeight()),
-                        new Rect(0, 0, targetWidth, targetHeight), null);
-            }
-            return targetBitmap;
         }
     }
 }

@@ -134,7 +134,7 @@ public class TicketRequestDetailActivity extends ExchangeBaseActivity {
         contactRelativeLayout.setVisibility(View.GONE);
         requestedNameTextView.setText("Me, " + ticketRequest.getName());
         imageLoadingManager.loadImageToImageView(ticketRequest.getUserPicUrl(),
-                reqUserImageView, true);
+                reqUserImageView, false);
         reqTypeTextView.setText(commonUtils.getTypeFromInt(ticketRequest.getReqType()));
         if (ticketRequest.getReqType() == TicketRequest.I_HAVE) {
             ticketRequestDetailHolder.setBackgroundColor(getResources().getColor(R.color.i_have));

@@ -158,7 +158,7 @@ public class ProfileFragment extends Fragment {
         numberEditText.setText(SharedPreferenceManager.getLoggedUserNumber(getActivity()));
 
         imageLoadingManager.loadImageToImageView(SharedPreferenceManager.getLoggedUserImageUrl(getActivity()),
-                userImageView, true);
+                userImageView, false);
     }
 
     private boolean isDirty() {

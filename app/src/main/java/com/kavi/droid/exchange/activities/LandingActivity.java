@@ -114,7 +114,7 @@ public class LandingActivity extends AppCompatActivity
 
         if(SharedPreferenceManager.isUserLogIn(context)) {
             imageLoadingManager.loadImageToImageView(SharedPreferenceManager.getLoggedUserImageUrl(context),
-                    profilePicImageView, true);
+                    profilePicImageView, false);
             if (SharedPreferenceManager.getLoggedUserName(context) != null)
                 userNameTextView.setText(SharedPreferenceManager.getLoggedUserName(context));
             if (SharedPreferenceManager.getLoggedUserEmail(context) != null)
