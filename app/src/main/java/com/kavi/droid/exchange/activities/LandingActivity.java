@@ -113,8 +113,8 @@ public class LandingActivity extends AppCompatActivity
         userEmailTextView = (TextView) hView.findViewById(R.id.userEmailTextView);
 
         if(SharedPreferenceManager.isUserLogIn(context)) {
-            imageLoadingManager.loadImageToImageView(SharedPreferenceManager.getLoggedUserImageUrl(context),
-                    profilePicImageView, false);
+            imageLoadingManager.loadRoundCornerImageToImageView(SharedPreferenceManager.getLoggedUserImageUrl(context),
+                    profilePicImageView);
             if (SharedPreferenceManager.getLoggedUserName(context) != null)
                 userNameTextView.setText(SharedPreferenceManager.getLoggedUserName(context));
             if (SharedPreferenceManager.getLoggedUserEmail(context) != null)

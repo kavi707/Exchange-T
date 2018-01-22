@@ -152,8 +152,8 @@ public class AddRequestActivity extends ExchangeBaseActivity {
         });
 
         if(SharedPreferenceManager.isUserLogIn(context)) {
-            imageLoadingManager.loadImageToImageView(SharedPreferenceManager.getLoggedUserImageUrl(context),
-                    profilePicImageView, true);
+            imageLoadingManager.loadRoundImageToImageView(SharedPreferenceManager.getLoggedUserImageUrl(context),
+                    profilePicImageView);
             if (SharedPreferenceManager.getLoggedUserName(context) != null)
                 nameTextView.setText(SharedPreferenceManager.getLoggedUserName(context));
             if (SharedPreferenceManager.getLoggedUserNumber(context) != null)

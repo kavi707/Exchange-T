@@ -157,8 +157,8 @@ public class ProfileFragment extends Fragment {
         emailEditText.setText(SharedPreferenceManager.getLoggedUserEmail(getActivity()));
         numberEditText.setText(SharedPreferenceManager.getLoggedUserNumber(getActivity()));
 
-        imageLoadingManager.loadImageToImageView(SharedPreferenceManager.getLoggedUserImageUrl(getActivity()),
-                userImageView, false);
+        imageLoadingManager.loadRoundCornerImageToImageView(SharedPreferenceManager.getLoggedUserImageUrl(getActivity()),
+                userImageView);
     }
 
     private boolean isDirty() {
