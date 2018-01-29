@@ -4,6 +4,8 @@ import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -112,33 +114,24 @@ public class ProfileFragment extends Fragment {
     }
 
     private void initEditTextFocusListeners() {
-        firstNameEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) isDirty();
-            }
-        });
 
-        lastNameEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        TextWatcher textWatcher = new TextWatcher() {
             @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) isDirty();
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
             }
-        });
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+            @Override
+            public void afterTextChanged(Editable editable) {
+                isDirty();
+            }
+        };
 
-        emailEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) isDirty();
-            }
-        });
-
-        numberEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) isDirty();
-            }
-        });
+        firstNameEditText.addTextChangedListener(textWatcher);
+        lastNameEditText.addTextChangedListener(textWatcher);
+        emailEditText.addTextChangedListener(textWatcher);
+        numberEditText.addTextChangedListener(textWatcher);
     }
 
     private void loadDataFromPreferences() {
