@@ -23,6 +23,7 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.net.ConnectException;
+import java.net.SocketTimeoutException;
 import java.util.Calendar;
 
 import cz.msebera.android.httpclient.Header;
@@ -61,13 +62,17 @@ public class ApiCalls {
 
             @Override
             public void onFailure(final int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                Log.d(TAG, "getJsonHttpResponseHandler: onFailure: errorResponseJsonString -> " + errorResponse.toString());
+
+                if (errorResponse != null) {
+                    Log.d(TAG, "getJsonHttpResponseHandler: onFailure: errorResponseJsonString -> " + errorResponse.toString());
+                }
 
                 Throwable connectionThrowable;
 
                 if (throwable instanceof ConnectTimeoutException ||
                         throwable instanceof NetworkErrorException ||
-                        throwable instanceof ConnectException) {
+                        throwable instanceof ConnectException ||
+                        throwable instanceof SocketTimeoutException) {
                     connectionThrowable = new ExNoInternetException(throwable);
                     apiCallResponseHandler.onNoInternet(connectionThrowable);
                 } else {
