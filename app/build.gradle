@@ -17,13 +17,13 @@ android {
         }
     }
     compileSdkVersion 27
-    buildToolsVersion "27.0.1"
+    buildToolsVersion "27.0.2"
     defaultConfig {
         applicationId "com.kavi.droid.exchange"
         minSdkVersion 20
         targetSdkVersion 27
-        versionCode 3
-        versionName "0.3-beta"
+        versionCode 4
+        versionName "0.4-beta"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -91,11 +91,11 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:27.0.1'
+    compile 'com.android.support:appcompat-v7:27.0.2'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.facebook.android:facebook-android-sdk:[4,5)'
     compile 'com.facebook.android:facebook-share:[4,5)'
-    compile 'com.android.support:design:27.0.1'
+    compile 'com.android.support:design:27.0.2'
     compile 'com.loopj.android:android-async-http:1.4.9'
     compile 'com.google.firebase:firebase-core:11.4.2'
     // this line must be included to integrate with Firebase
