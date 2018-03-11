@@ -373,6 +373,19 @@ public class CommonUtils {
         return userId;
     }
 
+    public String getUserIdFromArrayResponse(JSONObject userRes) {
+
+        String userId = null;
+
+        try {
+            userId = userRes.getJSONArray("res").getJSONObject(0).getString("_id");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return userId;
+    }
+
     public List<TicketRequest> getINeedTicketList(List<TicketRequest> fullTicketRequestList) {
         List<TicketRequest> ticketRequestList = new ArrayList<>();
 

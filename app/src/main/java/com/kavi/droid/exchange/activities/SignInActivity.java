@@ -196,6 +196,7 @@ public class SignInActivity extends ExchangeBaseActivity {
                     .getString("phoneNumber"));
             SharedPreferenceManager.setFBUserId(context, jsonUserObj.getJSONObject("additionalData")
                     .getString("fbUserId"));
+            SharedPreferenceManager.setUserId(context, commonUtils.getUserIdFromArrayResponse(jsonData));
 
             generateAuthToken(jsonUserObj.getString("username"), jsonUserObj.getJSONObject("additionalData")
                     .getString("fbUserId"));
