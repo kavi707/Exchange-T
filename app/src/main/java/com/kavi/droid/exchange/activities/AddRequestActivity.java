@@ -278,53 +278,57 @@ public class AddRequestActivity extends ExchangeBaseActivity {
                     ticketRequest.setReqType(commonUtils.getTypeFromName(type));
                     ticketRequest.setStartToEnd(commonUtils.getDestinationFromName(selectedDestination));
 
-                    if (commonUtils.isOnline(context)) {
-                        if (progress == null) {
-                            progress = LoadingProgressBarDialog.createProgressDialog(context);
-                        }
-                        progress.show();
-
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-
-                                new ApiCalls().createTicketRequest(context, Constants.SYNC_METHOD, ticketRequest, new ApiCallResponseHandler() {
-
-                                    @Override
-                                    public void onSuccess(int statusCode, JSONObject response) {
-
-                                        final int getStatusCode = statusCode;
-
-                                        runOnUiThread(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                progress.dismiss();
-
-                                                if (getStatusCode == 200) {
-                                                    Toast.makeText(context, getResources().getString(R.string.e_toast_request_submit_success),
-                                                            Toast.LENGTH_SHORT).show();
-                                                    finish();
-                                                }
-                                            }
-                                        });
-                                    }
-
-                                    @Override
-                                    public void onNonSuccess(int statusCode, JSONObject response, Throwable throwable) {
-                                        runOnUiThread(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                progress.dismiss();
-                                                Toast.makeText(context, getResources().getString(R.string.e_toast_request_submit_error),
-                                                        Toast.LENGTH_SHORT).show();
-                                            }
-                                        });
-                                    }
-                                });
+                    if (isValidDate(ticketDate, ticketTime)) {
+                        if (commonUtils.isOnline(context)) {
+                            if (progress == null) {
+                                progress = LoadingProgressBarDialog.createProgressDialog(context);
                             }
-                        }).start();
+                            progress.show();
+
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+
+                                    new ApiCalls().createTicketRequest(context, Constants.SYNC_METHOD, ticketRequest, new ApiCallResponseHandler() {
+
+                                        @Override
+                                        public void onSuccess(int statusCode, JSONObject response) {
+
+                                            final int getStatusCode = statusCode;
+
+                                            runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    progress.dismiss();
+
+                                                    if (getStatusCode == 200) {
+                                                        Toast.makeText(context, getResources().getString(R.string.e_toast_request_submit_success),
+                                                                Toast.LENGTH_SHORT).show();
+                                                        finish();
+                                                    }
+                                                }
+                                            });
+                                        }
+
+                                        @Override
+                                        public void onNonSuccess(int statusCode, JSONObject response, Throwable throwable) {
+                                            runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    progress.dismiss();
+                                                    Toast.makeText(context, getResources().getString(R.string.e_toast_request_submit_error),
+                                                            Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+                                        }
+                                    });
+                                }
+                            }).start();
+                        } else {
+                            Toast.makeText(context, getResources().getString(R.string.e_toast_device_internet_error), Toast.LENGTH_SHORT).show();
+                        }
                     } else {
-                        Toast.makeText(context, getResources().getString(R.string.e_toast_device_internet_error), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, getResources().getString(R.string.e_toast_invalid_ticket_date_time_error), Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     new CommonDialogBuilderUtil(context)
@@ -376,5 +380,31 @@ public class AddRequestActivity extends ExchangeBaseActivity {
         }
 
         return true;
+    }
+
+    private boolean isValidDate(String date, String time) {
+
+        boolean isValidDate = false;
+
+        try {
+            SimpleDateFormat simpleDateformat = new SimpleDateFormat("MMM-dd-yyyy HH:mm", Locale.ENGLISH);
+            time = time.split(" ")[0];
+            String newDateTime = date + " " + time;
+
+            Date getDate = simpleDateformat.parse(newDateTime);
+
+            long givenTime = (long) getDate.getTime()/1000;
+
+            long currentTime = (long) new Date().getTime()/1000;
+
+            if (givenTime > currentTime)
+                isValidDate = true;
+            else
+                isValidDate = false;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return isValidDate;
     }
 }

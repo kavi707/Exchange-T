@@ -71,6 +71,7 @@
     <string name="e_toast_delete_request_success">ඔබගේ ටිකට් පත සාර්ථකව මකා දැමුවා.</string>
     <string name="e_toast_user_update_success">පරිශීලක ගිණුම සාර්ථකව යාවත් කාලීන කර ඇත.</string>
     <string name="e_toast_user_update_error">පරිශීලක ගිණුම යාවත්කාලීන කිරීමෙහිදී දෝෂයක් ඇති විය. කරුණාකර නැවත වරක් උත්සාහ කරන්න.</string>
+    <string name="e_toast_invalid_ticket_date_time_error">ඔබගේ ටිකට්පත කල් ඉකුත්වී ඇත.</string>
 
     <string name="e_dialog_missing_info">තොරතුරු සම්පූර්ණ නොමැත</string>
     <string name="e_dialog_delete_req_heading">ඔබට විශ්වාසද?</string>

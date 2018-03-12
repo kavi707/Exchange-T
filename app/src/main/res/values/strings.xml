@@ -106,6 +106,7 @@
     <string name="e_toast_delete_request_success">Successfully deleted your ticket request.</string>
     <string name="e_toast_user_update_success">Successfully updated the user profile.</string>
     <string name="e_toast_user_update_error">Issue in user updating. Please try again from while.</string>
+    <string name="e_toast_invalid_ticket_date_time_error">Your ticket date &amp; time was already passed.</string>
 
     <string name="e_dialog_missing_info">Missing information</string>
     <string name="e_dialog_delete_req_heading">Are you sure?</string>
