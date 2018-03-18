@@ -22,8 +22,8 @@ android {
         applicationId "com.kavi.droid.exchange"
         minSdkVersion 20
         targetSdkVersion 27
-        versionCode 4
-        versionName "0.4-beta"
+        versionCode 5
+        versionName "0.5-beta"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
